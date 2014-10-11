@@ -1,0 +1,7 @@
+#Build directories
+build/*
+Debug
+Release
+testCmakeRelease
+#Hidden file copies
+*~
