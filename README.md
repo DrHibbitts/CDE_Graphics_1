@@ -8,5 +8,5 @@ Dependencies:
 * OpenGL https://www.opengl.org/
 * GLFW http://www.glfw.org/
 * GLEW http://glew.sourceforge.net/
-* GLM http://glm.g-truc.net/0.9.5/index.html
+* GLM http://glm.g-truc.net/
 * Boost http://www.boost.org/
