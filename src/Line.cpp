@@ -22,20 +22,6 @@ Line::~Line()
 {
 }
 
-void Line::draw(Renderer& renderer) const
-{
-	sendDataToShader();
-	glm::mat4 MVP = renderer.getViewProjectionMatrix() * modelMat;
-
-	glUniformMatrix4fv(renderer.getMvPlocation(), 1, GL_FALSE, &(MVP[0][0]));
-
-	// Draw count vertices in mode starting at first
-	//glDrawArrays(param.getMode(), param.getFirst(), param.getCount());
-	// Draw with indices: mode, count, type, index array buffer offset
-	glDrawElements(primitivePar.getMode(), primitivePar.getCount(),
-	GL_UNSIGNED_INT, (void*) 0);
-}
-
 void Line::setVertices(const glm::vec3& v0, const glm::vec3& v1)
 {
 	vertices[0] = v0;

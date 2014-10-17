@@ -7,6 +7,8 @@
 
 #include "Window.h"
 
+#include "Square.h"
+
 Window::Window()
 {
 	init();
@@ -100,6 +102,11 @@ void Window::runLoop()
 		{
 			(*it)->draw(*renderer);
 		}
+
+		//Move the square a bit every frame
+		DrawablePtr ob = toDrawObjects[0];
+		SquarePtr sq = boost::static_pointer_cast<Square>(ob);
+		sq->translate(glm::vec3(0.05, 0, 0));
 
 		// Swap buffers
 		glfwSwapBuffers(window);

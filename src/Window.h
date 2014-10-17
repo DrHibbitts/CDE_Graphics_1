@@ -17,6 +17,8 @@
 #include <string>
 #include <vector>
 
+#include <boost/pointer_cast.hpp>
+
 #include "Renderer.h"
 #include "Drawable.h"
 

@@ -55,6 +55,5 @@ int main(void)
 	return 0;
 }
 
-//TODO VBO, EBO, VAO buffers, efficiently
 //TODO Capture keyboard and mouse events
 //TODO MVP projections

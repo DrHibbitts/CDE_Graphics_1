@@ -15,8 +15,8 @@ Axis::Axis() :
 	zAxis->setVertices(glm::vec3(0, 0, 0), glm::vec3(0, 0, 1));
 
 	xAxis->setUniformColor(glm::vec3(1, 0, 0)); //Red
-	xAxis->setUniformColor(glm::vec3(0, 1, 0)); //Green
-	xAxis->setUniformColor(glm::vec3(0, 0, 1)); //Blue
+	yAxis->setUniformColor(glm::vec3(0, 1, 0)); //Green
+	zAxis->setUniformColor(glm::vec3(0, 0, 1)); //Blue
 }
 
 Axis::~Axis()

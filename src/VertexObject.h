@@ -25,6 +25,8 @@ public:
 	VertexObject();
 	virtual ~VertexObject() = 0;
 
+	void draw(Renderer& renderer) const;
+
 	void translate(const glm::vec3& translation);
 	void rotate(float angle, const glm::vec3& rotationAxis);
 
