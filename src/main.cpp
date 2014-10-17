@@ -27,7 +27,7 @@ int main(void)
 
 	triangle2->setUniformColor(glm::vec3(0, 1, 1));
 
-	triangle2->translate(glm::vec3(1, 0.8, 0));
+	triangle->translate(glm::vec3(1, 0.8, 0));
 
 	LinePtr line(new Line(glm::vec3(-2, 0, 0), glm::vec3(2, 0, 0)));
 	line->setUniformColor(glm::vec3(0, 1, 0));
@@ -40,10 +40,10 @@ int main(void)
 					glm::vec3(1.0f, -1.0f, 0.0f), glm::vec3(-1.0f, 1.0f, 0.0f),
 					glm::vec3(1.0f, 1.0f, 0.0f)));
 
-	square->setUniformColor(glm::vec3(1, 0, 0));
+	square->setUniformColor(glm::vec3(0, 0, 1));
 
-	//window.addDrawable(triangle2);
-	//window.addDrawable(line);
+	window.addDrawable(triangle);
+	window.addDrawable(line);
 
 	window.addDrawable(square);
 	window.addDrawable(triangle2);
