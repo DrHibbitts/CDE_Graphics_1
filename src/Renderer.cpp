@@ -12,19 +12,20 @@ Renderer::Renderer()
 	// Dark blue background
 	glClearColor(0.4f, 0.4f, 0.4f, 0.0f);
 
-	glGenVertexArrays(1, &VertexArrayID);
-	glBindVertexArray(VertexArrayID);
+//	glGenVertexArrays(1, &VertexArrayID);
+//	glBindVertexArray(VertexArrayID);
 
 	loadDefaultShaders();
 
 	// Get a handle for our "MVP" uniform
-	MatrixID = glGetUniformLocation(programID, "MVP");
+	MVPlocation = glGetUniformLocation(programID, "MVP");
 
 	// Projection matrix : 45º Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
 	//Projection = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f);
 
 	//Projection = glm::ortho(0.0f, 1024.0f, 768.0f, 0.0f, 0.0f, 100.0f);
 	// Or, for an ortho camera :
+
 	Projection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, 0.0f, 100.0f); // In world coordinates
 
 	// Camera matrix, position, look at vector, up vector
@@ -32,22 +33,22 @@ Renderer::Renderer()
 			glm::vec3(0, 1, 0));
 
 	// Model matrix : an identity matrix (model will be at the origin)
-	glm::mat4 Model = glm::mat4(1.0f);
-	// Our ModelViewProjection : multiplication of our 3 matrices
-
-	glGenBuffers(1, &vertexBuffer);
-
-	glGenBuffers(1, &colorBuffer);
-
-	glGenBuffers(1, &indexBuffer);
+//	glm::mat4 Model = glm::mat4(1.0f);
+//	// Our ModelViewProjection : multiplication of our 3 matrices
+//
+//	glGenBuffers(1, &vertexBuffer);
+//
+//	glGenBuffers(1, &colorBuffer);
+//
+//	glGenBuffers(1, &indexBuffer);
 }
 
 Renderer::~Renderer()
 {
 	// Cleanup VBO
-	glDeleteBuffers(1, &vertexBuffer);
-	glDeleteVertexArrays(1, &VertexArrayID);
-	glDeleteVertexArrays(1, &indexBuffer);
+//	glDeleteBuffers(1, &vertexBuffer);
+//	glDeleteVertexArrays(1, &VertexArrayID);
+//	glDeleteVertexArrays(1, &indexBuffer);
 	glDeleteProgram(programID);
 }
 
@@ -56,8 +57,11 @@ void Renderer::resetScreen()
 	// Clear the screen
 	glClear(GL_COLOR_BUFFER_BIT);
 
+	//TODO Check is current program is the same, then do not load
 	// Use our shader
 	glUseProgram(programID);
+
+	ViewProjection = Projection * View;
 }
 
 void Renderer::drawPrimitive(const std::vector<glm::vec3>& vertices,
@@ -69,7 +73,7 @@ void Renderer::drawPrimitive(const std::vector<glm::vec3>& vertices,
 	glm::mat4 MVP = Projection * View * Model;
 	// Send our transformation to the currently bound shader,
 	// in the "MVP" uniform
-	glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
+	glUniformMatrix4fv(MVPlocation, 1, GL_FALSE, &MVP[0][0]);
 
 	setUpBuffer(0, vertexBuffer, vertices);
 
@@ -85,6 +89,11 @@ void Renderer::drawPrimitive(const std::vector<glm::vec3>& vertices,
 
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
+}
+
+const glm::mat4& Renderer::getViewProjectionMatrix() const
+{
+	return ViewProjection;
 }
 
 void Renderer::loadDefaultShaders()
@@ -112,4 +121,9 @@ void Renderer::setUpIndexBuffer(GLuint bufferType,
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bufferType);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, bufferData.size() * sizeof(glm::vec3),
 			&bufferData[0], GL_STATIC_DRAW);
+}
+
+GLuint Renderer::getMvPlocation() const
+{
+	return MVPlocation;
 }

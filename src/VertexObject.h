@@ -25,8 +25,6 @@ public:
 	VertexObject();
 	virtual ~VertexObject() = 0;
 
-	//virtual void draw(Renderer& renderer) const = 0;
-
 	void translate(const glm::vec3& translation);
 	void rotate(float angle, const glm::vec3& rotationAxis);
 
@@ -39,11 +37,31 @@ public:
 	void setUniformColor(const glm::vec3& color);
 
 protected:
+	void generateBuffers();
+	void populateBuffers() const;
+	void initVAO() const;
+	void sendDataToShader() const;
+	void updateBuffers() const;
+
+protected:
 	glm::mat4 modelMat;
 	std::vector<glm::vec3> vertices;
 	std::vector<unsigned int> indices;
 	std::vector<glm::vec3> colors;
 	PrimitiveParameter primitivePar;
+
+	// VAO : Vertex Attributes Array.
+	GLuint vao;
+
+	// VBO : Vertex buffer object for transformed vertex data, first coordinate
+	// is vertex position second is vertex color
+	GLuint vbo;
+
+	// EBO : Elements-Buffer object.
+	GLuint ebo;
+
+	// CBO : Color buffer object
+	GLuint cbo;
 };
 
 typedef boost::shared_ptr<VertexObject> VertexObjectPtr;
