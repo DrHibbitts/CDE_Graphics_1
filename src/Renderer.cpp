@@ -55,9 +55,19 @@ const glm::mat4& Renderer::getViewProjectionMatrix() const
 void Renderer::loadDefaultShaders()
 {
 	// Create and compile our GLSL program from the shaders
-	programID = shaderLoader.loadShaderProgram(
-			"../CDE_Graphics_1/src/vertexShader.glsl",
-			"../CDE_Graphics_1/src/fragmentShader.glsl");
+	try
+	{
+		programID = shaderLoader.loadShaderProgram(
+				"../CDE_Graphics_1/src/vertexShader.glsl",
+				"../CDE_Graphics_1/src/fragmentShader.glsl");
+		return;
+	} catch (std::runtime_error& e)
+	{
+	}
+
+	//Try a different path for the Shaders
+	programID = shaderLoader.loadShaderProgram("../src/vertexShader.glsl",
+			"../src/fragmentShader.glsl");
 }
 
 GLuint Renderer::getMVPlocation() const
