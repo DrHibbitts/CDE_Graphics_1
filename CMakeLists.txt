@@ -31,6 +31,9 @@ INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
 SET(SOURCE
 src/main.cpp
 src/Axis.cpp
+src/Bone.cpp
+src/Chain.cpp
+src/Joint.cpp
 src/Line.cpp
 src/PrimitiveParameter.cpp
 src/Renderer.cpp
@@ -43,7 +46,10 @@ src/Window.cpp
 
 SET(HEADERS
 src/Axis.h
+src/Bone.h
+src/Chain.h
 src/Drawable.h
+src/Joint.h
 src/Line.h
 src/PrimitiveParameter.h
 src/Renderer.h
@@ -67,5 +73,6 @@ TARGET_LINK_LIBRARIES(${PROJECT_EXE} ${Boost_LIBRARIES})
 #TARGET_LINK_LIBRARIES(${PROJECT_EXE} ${ASSIMP_LIBRARIES})
 
 #Extra linking for x11 enviroments
-#TODO Check libraries flags on windows
-TARGET_LINK_LIBRARIES(${PROJECT_EXE} -lX11 -lXrandr -lXi -lXxf86vm -lpthread)
+IF(UNIX)
+    TARGET_LINK_LIBRARIES(${PROJECT_EXE} "-lX11 -lXrandr -lXi -lXxf86vm -lpthread")
+ENDIF()

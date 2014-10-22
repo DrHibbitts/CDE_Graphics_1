@@ -104,9 +104,9 @@ void Window::runLoop()
 		}
 
 		//Move the square a bit every frame
-		DrawablePtr ob = toDrawObjects[0];
-		SquarePtr sq = boost::static_pointer_cast<Square>(ob);
-		sq->translate(glm::vec3(0.05, 0, 0));
+//		DrawablePtr ob = toDrawObjects[0];
+//		SquarePtr sq = boost::static_pointer_cast<Square>(ob);
+//		sq->translate(glm::vec3(0.05, 0, 0));
 
 		// Swap buffers
 		glfwSwapBuffers(window);

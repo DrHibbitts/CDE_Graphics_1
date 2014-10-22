@@ -148,3 +148,8 @@ void VertexObject::updateBuffers() const
 	populateBuffers();
 	initVAO();
 }
+
+void VertexObject::setModelMat(const glm::mat4& modelMat)
+{
+	this->modelMat = modelMat;
+}
