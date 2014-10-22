@@ -146,7 +146,7 @@ void ShaderLoader::throwLinkingError() const
 
 	glGetProgramInfoLog(shaderProgram, MAX_LOG_SIZE, NULL, log);
 	const std::string errorMessage = std::string(
-			"Error linking shader program - log:\n") + std::string(log);
+			"Error linking shader program - log:\n");
 	throw std::runtime_error(errorMessage);
 }
 
@@ -157,7 +157,7 @@ void ShaderLoader::throwCompilingError(GLuint shaderObject) const
 
 	glGetShaderInfoLog(shaderObject, MAX_LOG_SIZE, NULL, log);
 	const std::string errorMessage = std::string(
-			"Error compiling shader object - log:\n") + std::string(log);
+			"Error compiling shader object - log:\n");
 	throw std::runtime_error(errorMessage);
 }
 

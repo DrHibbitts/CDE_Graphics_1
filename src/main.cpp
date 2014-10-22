@@ -1,3 +1,4 @@
+#define GLFW_DLL
 #include <GL/glew.h>
 #define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>

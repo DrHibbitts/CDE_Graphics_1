@@ -56,8 +56,8 @@ void Renderer::loadDefaultShaders()
 {
 	// Create and compile our GLSL program from the shaders
 	programID = shaderLoader.loadShaderProgram(
-			"../CDE_Graphics_1/src/vertexShader.glsl",
-			"../CDE_Graphics_1/src/fragmentShader.glsl");
+			"../src/vertexShader.glsl",
+			"../src/fragmentShader.glsl");
 }
 
 GLuint Renderer::getMVPlocation() const
