@@ -3,5 +3,6 @@ build/*
 Debug
 Release
 testCmakeRelease
+external/*
 #Hidden file copies
 *~
