@@ -12,8 +12,7 @@
 
 #include "Line.h"
 
-class Bone: public Line
-{
+class Bone: public Line {
 public:
 	Bone();
 	Bone(float length);

@@ -24,8 +24,7 @@
 #include "Renderer.h"
 #include "Drawable.h"
 
-class Window
-{
+class Window {
 public:
 	static Window& getInstance(); // Singleton is accessed via getInstance()
 
@@ -57,7 +56,9 @@ private:
 
 	Window(void); // private constructor necessary to allow only 1 instance
 	Window(Window const&); // prevent copies
-	void operator=(Window const&) {}; // prevent assignments
+	void operator=(Window const&) {
+	}
+	; // prevent assignments
 
 private:
 	GLFWwindow* window;

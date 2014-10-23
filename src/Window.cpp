@@ -9,14 +9,12 @@
 
 #include "Square.h"
 
-Window& Window::getInstance()
-{
+Window& Window::getInstance() {
 	static Window instance; // lazy singleton, instantiated on first use
 	return instance;
 }
 
-void Window::cleanUp()
-{
+void Window::cleanUp() {
 	// Close OpenGL window and terminate GLFW
 	glfwTerminate();
 	delete renderer;
@@ -24,16 +22,13 @@ void Window::cleanUp()
 }
 
 Window::Window() :
-		theTimeInterval(1.0)
-{
+		theTimeInterval(1.0) {
 	init();
 }
 
-void Window::init()
-{
+void Window::init() {
 	// Initialise GLFW
-	if (!glfwInit())
-	{
+	if (!glfwInit()) {
 		fprintf( stderr, "Failed to initialize GLFW\n");
 	}
 
@@ -50,22 +45,19 @@ void Window::init()
 	fps = 0.0;           // Set the initial FPS value to 0.0
 }
 
-Window::~Window()
-{
+Window::~Window() {
 	// Close OpenGL window and terminate GLFW
 	cleanUp();
 }
 
 void Window::createWindow(unsigned int height, unsigned int width,
-		const std::string& windowTitle)
-{
+		const std::string& windowTitle) {
 	cleanUp();
 	init();
 	this->windowTitle = windowTitle;
 	// Open a window and create its OpenGL context
 	window = glfwCreateWindow(height, width, windowTitle.c_str(), NULL, NULL);
-	if (window == NULL)
-	{
+	if (window == NULL) {
 		fprintf( stderr,
 				"Failed to open GLFW window. Try switching from Intel GPU to a Nvidia or AMD GPU.\n");
 		glfwTerminate();
@@ -75,8 +67,7 @@ void Window::createWindow(unsigned int height, unsigned int width,
 
 	// Initialize GLEW
 	glewExperimental = true; // Needed for core profile
-	if (glewInit() != GLEW_OK)
-	{
+	if (glewInit() != GLEW_OK) {
 		fprintf(stderr, "Failed to initialize GLEW\n");
 		exit(-1);
 	}
@@ -89,32 +80,25 @@ void Window::createWindow(unsigned int height, unsigned int width,
 	setCallbacks();
 }
 
-void Window::addDrawable(DrawablePtr drawable)
-{
+void Window::addDrawable(DrawablePtr drawable) {
 	toDrawObjects.push_back(drawable);
 }
 
-void Window::removeDrawable(DrawablePtr drawable)
-{
+void Window::removeDrawable(DrawablePtr drawable) {
 	DrawableIte it = toDrawObjects.begin();
-	for (it = toDrawObjects.begin(); it != toDrawObjects.end(); ++it)
-	{
-		if (it->get() == drawable.get())
-		{
+	for (it = toDrawObjects.begin(); it != toDrawObjects.end(); ++it) {
+		if (it->get() == drawable.get()) {
 			toDrawObjects.erase(it);
 			break;
 		}
 	}
 }
 
-void Window::runLoop()
-{
-	do
-	{
+void Window::runLoop() {
+	do {
 		renderer->resetScreen();
 		DrawableIte it;
-		for (it = toDrawObjects.begin(); it != toDrawObjects.end(); ++it)
-		{
+		for (it = toDrawObjects.begin(); it != toDrawObjects.end(); ++it) {
 			(*it)->draw(*renderer);
 		}
 
@@ -135,41 +119,31 @@ void Window::runLoop()
 			&& glfwWindowShouldClose(window) == 0);
 }
 
-void Window::setCallbacks()
-{
+void Window::setCallbacks() {
 	glfwSetMouseButtonCallback(window, &mouseCallback);
 }
 
 void Window::mouseCallback(GLFWwindow* window, int button, int actions,
-		int mods)
-{
-	if (button == GLFW_MOUSE_BUTTON_1)
-	{
-		if (actions == GLFW_PRESS)
-		{
+		int mods) {
+	if (button == GLFW_MOUSE_BUTTON_1) {
+		if (actions == GLFW_PRESS) {
 			std::cout << "Mouse press" << std::endl;
-		}
-		else
-		{
+		} else {
 			double xpos, ypos;
 			glfwGetCursorPos(window, &xpos, &ypos);
 			std::cout << "Mouse release " << xpos << "," << ypos << std::endl;
 		}
-	}
-	else
-	{
+	} else {
 		std::cout << "Other button" << std::endl;
 	}
 }
 
-void Window::setWindowFPS()
-{
+void Window::setWindowFPS() {
 	// Get the current time in seconds since the program started (non-static, so executed every time)
 	double currentTime = glfwGetTime();
 
 	// Calculate and display the FPS every specified time interval
-	if ((currentTime - t0Value) > theTimeInterval)
-	{
+	if ((currentTime - t0Value) > theTimeInterval) {
 		// Calculate the FPS as the number of frames divided by the interval in seconds
 		fps = (double) fpsFrameCount / (currentTime - t0Value);
 
@@ -184,26 +158,22 @@ void Window::setWindowFPS()
 		// Reset the FPS frame counter and set the initial time to be now
 		fpsFrameCount = 0;
 		t0Value = glfwGetTime();
-	}
-	else // FPS calculation time interval hasn't elapsed yet? Simply increment the FPS frame counter
+	} else // FPS calculation time interval hasn't elapsed yet? Simply increment the FPS frame counter
 	{
 		fpsFrameCount++;
 	}
 }
 
-GLFWwindow* Window::getWindow() const
-{
+GLFWwindow* Window::getWindow() const {
 	return window;
 }
 
-Renderer* Window::getRenderer() const
-{
+Renderer* Window::getRenderer() const {
 	return renderer;
 }
 
 Window::Window(const Window&) :
-		theTimeInterval(1.0)
-{
+		theTimeInterval(1.0) {
 	cleanUp();
 	init();
 }

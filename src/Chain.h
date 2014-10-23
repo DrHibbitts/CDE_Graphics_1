@@ -15,8 +15,7 @@
 #include "Bone.h"
 #include "Drawable.h"
 
-class Chain: public Drawable
-{
+class Chain: public Drawable {
 public:
 	Chain();
 	virtual ~Chain();

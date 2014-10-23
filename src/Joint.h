@@ -12,8 +12,7 @@
 
 #include "Triangle.h"
 
-class Joint: public Triangle
-{
+class Joint: public Triangle {
 public:
 	Joint();
 	virtual ~Joint();

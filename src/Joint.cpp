@@ -7,22 +7,18 @@
 
 #include "Joint.h"
 
-Joint::Joint()
-{
+Joint::Joint() {
 	setAngle(0);
 }
 
-Joint::~Joint()
-{
+Joint::~Joint() {
 }
 
-float Joint::getAngle() const
-{
+float Joint::getAngle() const {
 	return angle;
 }
 
-void Joint::setAngle(float angle)
-{
+void Joint::setAngle(float angle) {
 	this->angle = angle;
 
 	setVertices(glm::vec3(0.1, -0.1, 0), glm::vec3(-0.1, -0.1, 0),

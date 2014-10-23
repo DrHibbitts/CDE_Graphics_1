@@ -7,23 +7,19 @@
 
 #include "Chain.h"
 
-Chain::Chain()
-{
+Chain::Chain() {
 }
 
-Chain::~Chain()
-{
+Chain::~Chain() {
 }
 
-void Chain::draw(Renderer& renderer) const
-{
+void Chain::draw(Renderer& renderer) const {
 	glm::mat4 currentMat, rotMat;
 	glm::vec3 boneLength;
 	//Rotate along z axis
 	glm::vec3 axisVec(0, 0, 1);
 
-	for (unsigned int i = 0; i < bones.size(); i++)
-	{
+	for (unsigned int i = 0; i < bones.size(); i++) {
 		//Calculate rotation for the current joint
 		rotMat = glm::rotate(joints[i]->getAngle(), axisVec);
 
@@ -45,13 +41,11 @@ void Chain::draw(Renderer& renderer) const
 	}
 }
 
-void Chain::addBone(float size)
-{
+void Chain::addBone(float size) {
 	bones.push_back(BonePtr(new Bone(size)));
 	joints.push_back(JointPtr(new Joint()));
 }
 
-void Chain::setJointAngle(unsigned int index, float angle)
-{
+void Chain::setJointAngle(unsigned int index, float angle) {
 	joints.at(index)->setAngle(angle);
 }

@@ -8,8 +8,7 @@
 #include "Axis.h"
 #include "Chain.h"
 
-int main(void)
-{
+int main(void) {
 	//Only one Window is allowed in the application, singleton pattern
 	//Create a window of: width, height, title
 	Window& window = Window::getInstance();
@@ -79,5 +78,4 @@ int main(void)
 	return 0;
 }
 
-//TODO Capture keyboard and mouse events
 //TODO MVP projections

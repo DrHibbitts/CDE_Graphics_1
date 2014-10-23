@@ -7,24 +7,21 @@
 
 #include "VertexObject.h"
 
-VertexObject::VertexObject()
-{
+VertexObject::VertexObject() {
 	vao = 0;
 	vbo = 0;
 	ebo = 0;
 	cbo = 0;
 }
 
-VertexObject::~VertexObject()
-{
+VertexObject::~VertexObject() {
 	glDeleteBuffers(1, &vbo);
 	glDeleteBuffers(1, &ebo);
 	glDeleteBuffers(1, &cbo);
 	glDeleteVertexArrays(1, &vao);
 }
 
-void VertexObject::draw(Renderer& renderer) const
-{
+void VertexObject::draw(Renderer& renderer) const {
 	sendDataToShader();
 	glm::mat4 MVP = renderer.getViewProjectionMatrix() * modelMat;
 
@@ -37,50 +34,41 @@ void VertexObject::draw(Renderer& renderer) const
 	GL_UNSIGNED_INT, (void*) 0);
 }
 
-void VertexObject::translate(const glm::vec3& translation)
-{
+void VertexObject::translate(const glm::vec3& translation) {
 	modelMat = glm::translate(modelMat, translation);
 }
 
-void VertexObject::rotate(float angle, const glm::vec3& rotationAxis)
-{
+void VertexObject::rotate(float angle, const glm::vec3& rotationAxis) {
 	modelMat = glm::rotate(modelMat, angle, rotationAxis);
 }
 
-const glm::mat4& VertexObject::getModelMat() const
-{
+const glm::mat4& VertexObject::getModelMat() const {
 	return modelMat;
 }
 
-const std::vector<glm::vec3>& VertexObject::getVertices() const
-{
+const std::vector<glm::vec3>& VertexObject::getVertices() const {
 	return vertices;
 }
 
-const std::vector<unsigned int>& VertexObject::getIndices() const
-{
+const std::vector<unsigned int>& VertexObject::getIndices() const {
 	return indices;
 }
 
-const std::vector<glm::vec3>& VertexObject::getColors() const
-{
+const std::vector<glm::vec3>& VertexObject::getColors() const {
 	return colors;
 }
 
-const PrimitiveParameter& VertexObject::getPrimitivePar() const
-{
+const PrimitiveParameter& VertexObject::getPrimitivePar() const {
 	return primitivePar;
 }
 
-void VertexObject::setUniformColor(const glm::vec3& color)
-{
+void VertexObject::setUniformColor(const glm::vec3& color) {
 	colors.assign(colors.size(), color);
 
 	updateBuffers();
 }
 
-void VertexObject::generateBuffers()
-{
+void VertexObject::generateBuffers() {
 	// Generate a VAO for the Mesh and bind it as the active one.
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
@@ -97,8 +85,7 @@ void VertexObject::generateBuffers()
 	//glBindBuffer( GL_ARRAY_BUFFER, cbo);
 }
 
-void VertexObject::populateBuffers() const
-{
+void VertexObject::populateBuffers() const {
 	const unsigned int vboSize = vertices.size() * sizeof(glm::vec3);
 	const unsigned int eboSize = indices.size() * sizeof(glm::vec3);
 
@@ -115,15 +102,13 @@ void VertexObject::populateBuffers() const
 	GL_STATIC_DRAW);
 }
 
-void VertexObject::initVAO() const
-{
+void VertexObject::initVAO() const {
 	// Set the organisation of the vertex and normals data in the VBO.
 	glBindVertexArray(vao);
 	glBindBuffer( GL_ARRAY_BUFFER, vbo);
 }
 
-void VertexObject::sendDataToShader() const
-{
+void VertexObject::sendDataToShader() const {
 	// Bind VAO and Buffers as the active ones.
 	glBindVertexArray(vao);
 
@@ -143,13 +128,11 @@ void VertexObject::sendDataToShader() const
 	glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, ebo);
 }
 
-void VertexObject::updateBuffers() const
-{
+void VertexObject::updateBuffers() const {
 	populateBuffers();
 	initVAO();
 }
 
-void VertexObject::setModelMat(const glm::mat4& modelMat)
-{
+void VertexObject::setModelMat(const glm::mat4& modelMat) {
 	this->modelMat = modelMat;
 }

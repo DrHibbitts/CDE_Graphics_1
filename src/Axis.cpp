@@ -8,8 +8,7 @@
 #include "Axis.h"
 
 Axis::Axis() :
-		xAxis(new Line()), yAxis(new Line()), zAxis(new Line())
-{
+		xAxis(new Line()), yAxis(new Line()), zAxis(new Line()) {
 	xAxis->setVertices(glm::vec3(0, 0, 0), glm::vec3(1, 0, 0));
 	yAxis->setVertices(glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
 	zAxis->setVertices(glm::vec3(0, 0, 0), glm::vec3(0, 0, 1));
@@ -19,28 +18,23 @@ Axis::Axis() :
 	zAxis->setUniformColor(glm::vec3(0, 0, 1)); //Blue
 }
 
-Axis::~Axis()
-{
+Axis::~Axis() {
 }
 
-void Axis::draw(Renderer& renderer) const
-{
+void Axis::draw(Renderer& renderer) const {
 	xAxis->draw(renderer);
 	yAxis->draw(renderer);
 	zAxis->draw(renderer);
 }
 
-const LinePtr Axis::getXAxis() const
-{
+const LinePtr Axis::getXAxis() const {
 	return xAxis;
 }
 
-const LinePtr Axis::getYAxis() const
-{
+const LinePtr Axis::getYAxis() const {
 	return yAxis;
 }
 
-const LinePtr Axis::getZAxis() const
-{
+const LinePtr Axis::getZAxis() const {
 	return zAxis;
 }

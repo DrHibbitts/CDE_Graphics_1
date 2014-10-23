@@ -11,8 +11,7 @@
 #include "Drawable.h"
 #include "Line.h"
 
-class Axis: public Drawable
-{
+class Axis: public Drawable {
 public:
 	Axis();
 	virtual ~Axis();

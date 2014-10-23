@@ -10,8 +10,7 @@
 
 #include <GL/glew.h>
 
-class PrimitiveParameter
-{
+class PrimitiveParameter {
 public:
 	PrimitiveParameter();
 	PrimitiveParameter(GLenum mode, GLint first, GLsizei count);

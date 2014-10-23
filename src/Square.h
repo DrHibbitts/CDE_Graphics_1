@@ -10,8 +10,7 @@
 
 #include "VertexObject.h"
 
-class Square: public VertexObject
-{
+class Square: public VertexObject {
 public:
 	Square();
 	virtual ~Square();

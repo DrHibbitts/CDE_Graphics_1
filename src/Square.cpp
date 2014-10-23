@@ -7,25 +7,21 @@
 
 #include "Square.h"
 
-Square::Square()
-{
+Square::Square() {
 	init();
 }
 
-Square::~Square()
-{
+Square::~Square() {
 }
 
 Square::Square(const glm::vec3& v0, const glm::vec3& v1, const glm::vec3& v2,
-		const glm::vec3& v3)
-{
+		const glm::vec3& v3) {
 	init();
 	setVertices(v0, v1, v2, v3);
 }
 
 void Square::setVertices(const glm::vec3& v0, const glm::vec3& v1,
-		const glm::vec3& v2, const glm::vec3& v3)
-{
+		const glm::vec3& v2, const glm::vec3& v3) {
 	vertices[0] = v0;
 	vertices[1] = v1;
 	vertices[2] = v2;
@@ -35,8 +31,7 @@ void Square::setVertices(const glm::vec3& v0, const glm::vec3& v1,
 }
 
 void Square::setColors(const glm::vec3& c0, const glm::vec3& c1,
-		const glm::vec3& c2, const glm::vec3& c3)
-{
+		const glm::vec3& c2, const glm::vec3& c3) {
 	colors[0] = c0;
 	colors[1] = c1;
 	colors[2] = c2;
@@ -45,8 +40,7 @@ void Square::setColors(const glm::vec3& c0, const glm::vec3& c1,
 	updateBuffers();
 }
 
-void Square::init()
-{
+void Square::init() {
 	generateBuffers();
 
 	vertices.resize(4);

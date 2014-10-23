@@ -7,8 +7,7 @@
 
 #include "Renderer.h"
 
-Renderer::Renderer()
-{
+Renderer::Renderer() {
 	// Grey background
 	glClearColor(0.4f, 0.4f, 0.4f, 0.0f);
 
@@ -30,13 +29,11 @@ Renderer::Renderer()
 			glm::vec3(0, 1, 0));
 }
 
-Renderer::~Renderer()
-{
+Renderer::~Renderer() {
 	glDeleteProgram(programID);
 }
 
-void Renderer::resetScreen()
-{
+void Renderer::resetScreen() {
 	// Clear the screen
 	glClear(GL_COLOR_BUFFER_BIT);
 
@@ -47,22 +44,18 @@ void Renderer::resetScreen()
 	ViewProjection = Projection * View;
 }
 
-const glm::mat4& Renderer::getViewProjectionMatrix() const
-{
+const glm::mat4& Renderer::getViewProjectionMatrix() const {
 	return ViewProjection;
 }
 
-void Renderer::loadDefaultShaders()
-{
+void Renderer::loadDefaultShaders() {
 	// Create and compile our GLSL program from the shaders
-	try
-	{
+	try {
 		programID = shaderLoader.loadShaderProgram(
 				"../CDE_Graphics_1/src/vertexShader.glsl",
 				"../CDE_Graphics_1/src/fragmentShader.glsl");
 		return;
-	} catch (std::runtime_error& e)
-	{
+	} catch (std::runtime_error& e) {
 	}
 
 	//Try a different path for the Shaders
@@ -70,7 +63,6 @@ void Renderer::loadDefaultShaders()
 			"../src/fragmentShader.glsl");
 }
 
-GLuint Renderer::getMVPlocation() const
-{
+GLuint Renderer::getMVPlocation() const {
 	return MVPlocation;
 }

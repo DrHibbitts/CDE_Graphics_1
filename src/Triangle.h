@@ -10,8 +10,7 @@
 
 #include "VertexObject.h"
 
-class Triangle: public VertexObject
-{
+class Triangle: public VertexObject {
 public:
 	Triangle();
 	Triangle(const glm::vec3& v0, const glm::vec3& v1, const glm::vec3& v2);

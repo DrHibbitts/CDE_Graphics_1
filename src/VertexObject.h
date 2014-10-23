@@ -18,8 +18,7 @@
 #include "Drawable.h"
 #include "PrimitiveParameter.h"
 
-class VertexObject: public Drawable
-{
+class VertexObject: public Drawable {
 public:
 	VertexObject();
 	virtual ~VertexObject() = 0;

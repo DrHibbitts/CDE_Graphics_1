@@ -12,10 +12,11 @@
 
 #include "Renderer.h"
 
-class Drawable
-{
+class Drawable {
 public:
-	inline virtual ~Drawable() {};
+	inline virtual ~Drawable() {
+	}
+	;
 	virtual void draw(Renderer& renderer) const = 0;
 };
 

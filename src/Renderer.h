@@ -18,8 +18,7 @@
 
 #include "ShaderLoader.h"
 
-class Renderer
-{
+class Renderer {
 public:
 	Renderer();
 	virtual ~Renderer();

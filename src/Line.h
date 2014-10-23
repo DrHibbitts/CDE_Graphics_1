@@ -10,8 +10,7 @@
 
 #include "VertexObject.h"
 
-class Line: public VertexObject
-{
+class Line: public VertexObject {
 public:
 	Line();
 	Line(const glm::vec3& v0, const glm::vec3& v1);

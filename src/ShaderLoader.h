@@ -26,8 +26,7 @@
 #include <GL/glew.h>
 // OpenGL
 // http://www.opengl.org/discussion_boards/showthread.php/172481-glGenBuffer-was-not-declared
-extern "C"
-{
+extern "C" {
 #define GL_GLEXT_PROTOTYPES
 #include <GL/gl.h>
 }
@@ -45,8 +44,7 @@ extern "C"
  * it's your responsibility to call glUseProgram() for using the program
  * and / or glDeleteProgram() for destroying it.
  */
-class ShaderLoader
-{
+class ShaderLoader {
 public:
 	/***
 	 * 1. Construction

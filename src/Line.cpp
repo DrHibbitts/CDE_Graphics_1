@@ -7,39 +7,33 @@
 
 #include "Line.h"
 
-Line::Line()
-{
+Line::Line() {
 	init();
 }
 
-Line::Line(const glm::vec3& v0, const glm::vec3& v1)
-{
+Line::Line(const glm::vec3& v0, const glm::vec3& v1) {
 	init();
 	setVertices(v0, v1);
 }
 
-Line::~Line()
-{
+Line::~Line() {
 }
 
-void Line::setVertices(const glm::vec3& v0, const glm::vec3& v1)
-{
+void Line::setVertices(const glm::vec3& v0, const glm::vec3& v1) {
 	vertices[0] = v0;
 	vertices[1] = v1;
 
 	updateBuffers();
 }
 
-void Line::setColors(const glm::vec3& c0, const glm::vec3& c1)
-{
+void Line::setColors(const glm::vec3& c0, const glm::vec3& c1) {
 	colors[0] = c0;
 	colors[1] = c1;
 
 	updateBuffers();
 }
 
-void Line::init()
-{
+void Line::init() {
 	generateBuffers();
 
 	vertices.resize(2);

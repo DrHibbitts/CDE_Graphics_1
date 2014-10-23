@@ -7,27 +7,22 @@
 
 #include "Bone.h"
 
-Bone::Bone()
-{
+Bone::Bone() {
 	setLength(1);
 }
 
-Bone::Bone(float length)
-{
+Bone::Bone(float length) {
 	setLength(length);
 }
 
-Bone::~Bone()
-{
+Bone::~Bone() {
 }
 
-float Bone::getLength() const
-{
+float Bone::getLength() const {
 	return length;
 }
 
-void Bone::setLength(float length)
-{
+void Bone::setLength(float length) {
 	this->length = length;
 	setVertices(glm::vec3(0, 0, 0), glm::vec3(length, 0, 0));
 	setUniformColor(glm::vec3(0, 0, 1));

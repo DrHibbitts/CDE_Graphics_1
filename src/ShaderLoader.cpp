@@ -22,23 +22,19 @@
  * 3. Shader loading
  ***/
 
-ShaderLoader::ShaderLoader()
-{
+ShaderLoader::ShaderLoader() {
 	shaderProgram = 0;
 }
 
-ShaderLoader::~ShaderLoader()
-{
+ShaderLoader::~ShaderLoader() {
 }
 
 GLuint ShaderLoader::loadShaderProgram(const char* vertexShaderFilePath,
-		const char* fragmentShaderFilePath)
-{
+		const char* fragmentShaderFilePath) {
 	GLint linkingResult;
 
 	shaderProgram = glCreateProgram();
-	if (shaderProgram == 0)
-	{
+	if (shaderProgram == 0) {
 		throw std::runtime_error(
 				"Error at ShaderLoader::loadShaderProgram() - glCreateProgram() returned 0");
 	}
@@ -51,8 +47,7 @@ GLuint ShaderLoader::loadShaderProgram(const char* vertexShaderFilePath,
 	glLinkProgram(shaderProgram);
 	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &linkingResult);
 
-	if (linkingResult == GL_FALSE)
-	{
+	if (linkingResult == GL_FALSE) {
 		throwLinkingError();
 	}
 
@@ -60,13 +55,12 @@ GLuint ShaderLoader::loadShaderProgram(const char* vertexShaderFilePath,
 }
 
 GLuint ShaderLoader::loadShaderProgram(const char* vertexShaderFilePath,
-		const char* geometryShaderFilePath, const char* fragmentShaderFilePath)
-{
+		const char* geometryShaderFilePath,
+		const char* fragmentShaderFilePath) {
 	GLint linkingResult;
 
 	shaderProgram = glCreateProgram();
-	if (shaderProgram == 0)
-	{
+	if (shaderProgram == 0) {
 		throw std::runtime_error(
 				"Error at ShaderLoader::loadShaderProgram() - glCreateProgram() returned 0");
 	}
@@ -80,8 +74,7 @@ GLuint ShaderLoader::loadShaderProgram(const char* vertexShaderFilePath,
 	glLinkProgram(shaderProgram);
 	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &linkingResult);
 
-	if (linkingResult == GL_FALSE)
-	{
+	if (linkingResult == GL_FALSE) {
 		throwLinkingError();
 	}
 
@@ -92,8 +85,7 @@ GLuint ShaderLoader::loadShaderProgram(const char* vertexShaderFilePath,
  * 5. Auxiliar methods
  ***/
 
-void ShaderLoader::loadShaderObject(GLenum shaderType, const char* shaderFile)
-{
+void ShaderLoader::loadShaderObject(GLenum shaderType, const char* shaderFile) {
 	const GLint STR_SIZE = 5112;
 	GLchar* shaderCode = new GLchar[STR_SIZE]();
 	GLuint shaderObject;
@@ -110,8 +102,7 @@ void ShaderLoader::loadShaderObject(GLenum shaderType, const char* shaderFile)
 	glCompileShader(shaderObject);
 	glGetShaderiv(shaderObject, GL_COMPILE_STATUS, &compilationResult);
 
-	if (compilationResult == GL_FALSE)
-	{
+	if (compilationResult == GL_FALSE) {
 		throwCompilingError(shaderObject);
 	}
 
@@ -122,12 +113,10 @@ void ShaderLoader::loadShaderObject(GLenum shaderType, const char* shaderFile)
 }
 
 void ShaderLoader::readFile(const char* filePath, GLchar* buffer,
-		const unsigned int n)
-{
+		const unsigned int n) {
 	// Open given file.
 	std::ifstream file(filePath);
-	if (!file.is_open())
-	{
+	if (!file.is_open()) {
 		return;
 	}
 
@@ -139,8 +128,7 @@ void ShaderLoader::readFile(const char* filePath, GLchar* buffer,
 	file.close();
 }
 
-void ShaderLoader::throwLinkingError() const
-{
+void ShaderLoader::throwLinkingError() const {
 	const GLint MAX_LOG_SIZE = 1024;
 	GLchar log[MAX_LOG_SIZE];
 
@@ -150,8 +138,7 @@ void ShaderLoader::throwLinkingError() const
 	throw std::runtime_error(errorMessage);
 }
 
-void ShaderLoader::throwCompilingError(GLuint shaderObject) const
-{
+void ShaderLoader::throwCompilingError(GLuint shaderObject) const {
 	const GLint MAX_LOG_SIZE = 1024;
 	GLchar log[MAX_LOG_SIZE];
 
@@ -161,14 +148,12 @@ void ShaderLoader::throwCompilingError(GLuint shaderObject) const
 	throw std::runtime_error(errorMessage);
 }
 
-ShaderLoader& ShaderLoader::operator =(const ShaderLoader& otherShaderLoader)
-{
+ShaderLoader& ShaderLoader::operator =(const ShaderLoader& otherShaderLoader) {
 	shaderProgram = otherShaderLoader.shaderProgram;
 	return *this;
 }
 
-ShaderLoader& ShaderLoader::operator =(ShaderLoader& otherShaderLoader)
-{
+ShaderLoader& ShaderLoader::operator =(ShaderLoader& otherShaderLoader) {
 	shaderProgram = otherShaderLoader.shaderProgram;
 	return *this;
 }
