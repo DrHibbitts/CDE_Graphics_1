@@ -9,13 +9,15 @@
 
 #include "Square.h"
 
-Window::Window()
+Window::Window() :
+		theTimeInterval(1.0)
 {
 	init();
 }
 
 Window::Window(unsigned int height, unsigned int width,
-		const std::string& windowTitle)
+		const std::string& windowTitle) :
+		theTimeInterval(1.0)
 {
 	init();
 	createWindow(height, width, windowTitle);
@@ -36,6 +38,10 @@ void Window::init()
 
 	window = NULL;
 	renderer = NULL;
+
+	t0Value = glfwGetTime(); // Set the initial time to now
+	fpsFrameCount = 0;        // Set the initial FPS frame count to 0
+	fps = 0.0;           // Set the initial FPS value to 0.0
 }
 
 Window::~Window()
@@ -48,6 +54,7 @@ Window::~Window()
 bool Window::createWindow(unsigned int height, unsigned int width,
 		const std::string& windowTitle)
 {
+	this->windowTitle = windowTitle;
 	// Open a window and create its OpenGL context
 	window = glfwCreateWindow(height, width, windowTitle.c_str(), NULL, NULL);
 	if (window == NULL)
@@ -110,11 +117,43 @@ void Window::runLoop()
 
 		// Swap buffers
 		glfwSwapBuffers(window);
+
+		setWindowFPS();
+
 		glfwPollEvents();
 
 	} // Check if the ESC key was pressed or the window was closed
 	while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS
 			&& glfwWindowShouldClose(window) == 0);
+}
+
+void Window::setWindowFPS()
+{
+	// Get the current time in seconds since the program started (non-static, so executed every time)
+	double currentTime = glfwGetTime();
+
+	// Calculate and display the FPS every specified time interval
+	if ((currentTime - t0Value) > theTimeInterval)
+	{
+		// Calculate the FPS as the number of frames divided by the interval in seconds
+		fps = (double) fpsFrameCount / (currentTime - t0Value);
+
+		// Convert the fps value into a string using an output stringstream
+		std::ostringstream stream;
+		stream << fps;
+		std::string fpsString = stream.str();
+
+		glfwSetWindowTitle(window,
+				(windowTitle + " | FPS: " + fpsString).c_str());
+
+		// Reset the FPS frame counter and set the initial time to be now
+		fpsFrameCount = 0;
+		t0Value = glfwGetTime();
+	}
+	else // FPS calculation time interval hasn't elapsed yet? Simply increment the FPS frame counter
+	{
+		fpsFrameCount++;
+	}
 }
 
 GLFWwindow* Window::getWindow() const

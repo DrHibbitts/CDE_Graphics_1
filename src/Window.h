@@ -16,6 +16,8 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
+#include <sstream>
 
 #include <boost/pointer_cast.hpp>
 
@@ -44,10 +46,18 @@ public:
 private:
 	void init();
 
+	void setWindowFPS();
+
 private:
 	GLFWwindow* window;
 	Renderer* renderer;
 	std::vector<DrawablePtr> toDrawObjects;
+	std::string windowTitle;
+
+	double t0Value; // Set the initial time to now
+	int fpsFrameCount;        // Set the initial FPS frame count to 0
+	double fps;           // Set the initial FPS value to 0.0
+	const double theTimeInterval;
 
 	typedef std::vector<DrawablePtr>::iterator DrawableIte;
 };
