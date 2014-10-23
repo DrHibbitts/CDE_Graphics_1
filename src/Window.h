@@ -27,13 +27,13 @@
 class Window
 {
 public:
-	Window();
-	Window(unsigned int height, unsigned int width,
-			const std::string& windowTitle);
+	static Window& getInstance(); // Singleton is accessed via getInstance()
+
 	virtual ~Window();
 
-	bool createWindow(unsigned int height, unsigned int width,
+	void createWindow(unsigned int height, unsigned int width,
 			const std::string& windowTitle);
+
 	void addDrawable(DrawablePtr drawable);
 	void removeDrawable(DrawablePtr drawable);
 
@@ -46,7 +46,18 @@ public:
 private:
 	void init();
 
+	void cleanUp();
+
+	void setCallbacks();
+
+	static void mouseCallback(GLFWwindow *window, int button, int actions,
+			int mods);
+
 	void setWindowFPS();
+
+	Window(void); // private constructor necessary to allow only 1 instance
+	Window(Window const&); // prevent copies
+	void operator=(Window const&) {}; // prevent assignments
 
 private:
 	GLFWwindow* window;

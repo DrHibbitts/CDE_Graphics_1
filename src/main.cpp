@@ -10,8 +10,11 @@
 
 int main(void)
 {
+	//Only one Window is allowed in the application, singleton pattern
 	//Create a window of: width, height, title
-	Window window(1024, 768, std::string("Inverse kinematics course work"));
+	Window& window = Window::getInstance();
+	window.createWindow(1024, 768,
+			std::string("Inverse kinematics course work"));
 
 	//Create 3D axis object
 	AxisPtr axis(new Axis());

@@ -9,18 +9,24 @@
 
 #include "Square.h"
 
+Window& Window::getInstance()
+{
+	static Window instance; // lazy singleton, instantiated on first use
+	return instance;
+}
+
+void Window::cleanUp()
+{
+	// Close OpenGL window and terminate GLFW
+	glfwTerminate();
+	delete renderer;
+	renderer = NULL;
+}
+
 Window::Window() :
 		theTimeInterval(1.0)
 {
 	init();
-}
-
-Window::Window(unsigned int height, unsigned int width,
-		const std::string& windowTitle) :
-		theTimeInterval(1.0)
-{
-	init();
-	createWindow(height, width, windowTitle);
 }
 
 void Window::init()
@@ -47,22 +53,23 @@ void Window::init()
 Window::~Window()
 {
 	// Close OpenGL window and terminate GLFW
-	glfwTerminate();
-	delete renderer;
+	cleanUp();
 }
 
-bool Window::createWindow(unsigned int height, unsigned int width,
+void Window::createWindow(unsigned int height, unsigned int width,
 		const std::string& windowTitle)
 {
+	cleanUp();
+	init();
 	this->windowTitle = windowTitle;
 	// Open a window and create its OpenGL context
 	window = glfwCreateWindow(height, width, windowTitle.c_str(), NULL, NULL);
 	if (window == NULL)
 	{
 		fprintf( stderr,
-				"Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n");
+				"Failed to open GLFW window. Try switching from Intel GPU to a Nvidia or AMD GPU.\n");
 		glfwTerminate();
-		return false;
+		exit(-1);
 	}
 	glfwMakeContextCurrent(window);
 
@@ -71,14 +78,15 @@ bool Window::createWindow(unsigned int height, unsigned int width,
 	if (glewInit() != GLEW_OK)
 	{
 		fprintf(stderr, "Failed to initialize GLEW\n");
-		return false;
+		exit(-1);
 	}
 
 	// Ensure we can capture the escape key being pressed below
 	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
 
 	renderer = new Renderer();
-	return true;
+
+	setCallbacks();
 }
 
 void Window::addDrawable(DrawablePtr drawable)
@@ -127,6 +135,33 @@ void Window::runLoop()
 			&& glfwWindowShouldClose(window) == 0);
 }
 
+void Window::setCallbacks()
+{
+	glfwSetMouseButtonCallback(window, &mouseCallback);
+}
+
+void Window::mouseCallback(GLFWwindow* window, int button, int actions,
+		int mods)
+{
+	if (button == GLFW_MOUSE_BUTTON_1)
+	{
+		if (actions == GLFW_PRESS)
+		{
+			std::cout << "Mouse press" << std::endl;
+		}
+		else
+		{
+			double xpos, ypos;
+			glfwGetCursorPos(window, &xpos, &ypos);
+			std::cout << "Mouse release " << xpos << "," << ypos << std::endl;
+		}
+	}
+	else
+	{
+		std::cout << "Other button" << std::endl;
+	}
+}
+
 void Window::setWindowFPS()
 {
 	// Get the current time in seconds since the program started (non-static, so executed every time)
@@ -164,4 +199,11 @@ GLFWwindow* Window::getWindow() const
 Renderer* Window::getRenderer() const
 {
 	return renderer;
+}
+
+Window::Window(const Window&) :
+		theTimeInterval(1.0)
+{
+	cleanUp();
+	init();
 }
