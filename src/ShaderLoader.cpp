@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with COMO.  If not, see <http://www.gnu.org/licenses/>.
+ * along with MSL.  If not, see <http://www.gnu.org/licenses/>.
  ***/
 
 #include "ShaderLoader.h"
@@ -75,6 +75,7 @@ GLuint ShaderLoader::loadShaderProgram(const char* vertexShaderFilePath,
 	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &linkingResult);
 
 	if (linkingResult == GL_FALSE) {
+		glDeleteProgram(shaderProgram);
 		throwLinkingError();
 	}
 

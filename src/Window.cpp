@@ -53,6 +53,7 @@ void Window::init() {
 
 Window::~Window() {
 	// Close OpenGL window and terminate GLFW
+	glDeleteProgram(renderer->getProgramId());
 	cleanUp();
 }
 

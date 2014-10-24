@@ -30,7 +30,6 @@ Renderer::Renderer() {
 }
 
 Renderer::~Renderer() {
-	glDeleteProgram(programID);
 }
 
 void Renderer::resetScreen() {
