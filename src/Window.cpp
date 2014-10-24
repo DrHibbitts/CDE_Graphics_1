@@ -32,6 +32,7 @@ void Window::init() {
 		fprintf( stderr, "Failed to initialize GLFW\n");
 	}
 
+	//Set OpenGL version
 	glfwWindowHint(GLFW_SAMPLES, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -52,8 +53,10 @@ Window::~Window() {
 
 void Window::createWindow(unsigned int height, unsigned int width,
 		const std::string& windowTitle) {
+	//If this is not a first call close the previous windows and free the memory
 	cleanUp();
 	init();
+
 	this->windowTitle = windowTitle;
 	// Open a window and create its OpenGL context
 	window = glfwCreateWindow(height, width, windowTitle.c_str(), NULL, NULL);
@@ -94,9 +97,11 @@ void Window::removeDrawable(DrawablePtr drawable) {
 	}
 }
 
-void Window::runLoop() {
+void Window::executeMainLoop() {
 	do {
 		renderer->resetScreen();
+
+		//Render all objects
 		DrawableIte it;
 		for (it = toDrawObjects.begin(); it != toDrawObjects.end(); ++it) {
 			(*it)->draw(*renderer);
@@ -110,8 +115,10 @@ void Window::runLoop() {
 		// Swap buffers
 		glfwSwapBuffers(window);
 
+		//Display FPS
 		setWindowFPS();
 
+		//Get user input
 		glfwPollEvents();
 
 	} // Check if the ESC key was pressed or the window was closed
@@ -162,14 +169,6 @@ void Window::setWindowFPS() {
 	{
 		fpsFrameCount++;
 	}
-}
-
-GLFWwindow* Window::getWindow() const {
-	return window;
-}
-
-Renderer* Window::getRenderer() const {
-	return renderer;
 }
 
 Window::Window(const Window&) :

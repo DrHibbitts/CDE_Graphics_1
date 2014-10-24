@@ -24,9 +24,13 @@
 #include "Renderer.h"
 #include "Drawable.h"
 
+//Window class is a wrapper around GLFWwindow, it controls what objects
+//are rendered and handles the user input. It is a singleton, solo only one
+//instance is allowed to exist
 class Window {
 public:
-	static Window& getInstance(); // Singleton is accessed via getInstance()
+	// Class is accessed and created via getInstance()
+	static Window& getInstance();
 
 	virtual ~Window();
 
@@ -36,11 +40,7 @@ public:
 	void addDrawable(DrawablePtr drawable);
 	void removeDrawable(DrawablePtr drawable);
 
-	void runLoop();
-
-	//May return null pointer
-	GLFWwindow* getWindow() const;
-	Renderer* getRenderer() const;
+	void executeMainLoop();
 
 private:
 	void init();
@@ -54,7 +54,7 @@ private:
 
 	void setWindowFPS();
 
-	Window(void); // private constructor necessary to allow only 1 instance
+	Window(void); // private constructor necessary to allow only one instance
 	Window(Window const&); // prevent copies
 	void operator=(Window const&) {
 	}
@@ -66,9 +66,10 @@ private:
 	std::vector<DrawablePtr> toDrawObjects;
 	std::string windowTitle;
 
-	double t0Value; // Set the initial time to now
-	int fpsFrameCount;        // Set the initial FPS frame count to 0
-	double fps;           // Set the initial FPS value to 0.0
+	//Variables for a FPS counter
+	double t0Value;
+	int fpsFrameCount;
+	double fps;
 	const double theTimeInterval;
 
 	typedef std::vector<DrawablePtr>::iterator DrawableIte;

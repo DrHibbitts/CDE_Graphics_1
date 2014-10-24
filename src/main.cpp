@@ -15,10 +15,11 @@ int main(void) {
 	window.createWindow(1024, 768,
 			std::string("Inverse kinematics course work"));
 
+	//All objects to be drawn have to be created with their pointers
 	//Create 3D axis object
 	AxisPtr axis(new Axis());
 
-	//Draw it
+	//Once an object is added to the window, it will be rendered
 	window.addDrawable(axis);
 
 //	TrianglePtr triangle(
@@ -56,11 +57,13 @@ int main(void) {
 //	window.addDrawable(square);
 //	window.addDrawable(triangle2);
 
-//Create a chain object
+	//Create a chain object
 	ChainPtr chain(new Chain());
 
 	//Add several bones with different lengths and joints rotations
+	//Bone of length 1
 	chain->addBone(1);
+	//Change the angle of joint 0 to 45 degrees
 	chain->setJointAngle(0, 45);
 	chain->addBone(0.5);
 	chain->setJointAngle(1, 45);
@@ -72,8 +75,8 @@ int main(void) {
 	//Draw chain
 	window.addDrawable(chain);
 
-	//Execute main loop
-	window.runLoop();
+	//Start the input handling and rendering loop
+	window.executeMainLoop();
 
 	return 0;
 }
