@@ -13,6 +13,7 @@
 class Line: public VertexObject {
 public:
 	Line();
+	//Create a line from v0 to v1
 	Line(const glm::vec3& v0, const glm::vec3& v1);
 	virtual ~Line();
 

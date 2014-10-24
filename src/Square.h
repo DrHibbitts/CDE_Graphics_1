@@ -15,6 +15,9 @@ public:
 	Square();
 	virtual ~Square();
 
+	// v2 - v3
+	// v0 - v1
+	//Create a square using the vertices in the above order
 	Square(const glm::vec3& v0, const glm::vec3& v1, const glm::vec3& v2,
 			const glm::vec3& v3);
 

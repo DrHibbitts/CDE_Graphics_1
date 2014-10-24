@@ -36,6 +36,7 @@ void Line::setColors(const glm::vec3& c0, const glm::vec3& c1) {
 void Line::init() {
 	generateBuffers();
 
+	//A line has two vertices and is drawn with GL_LINES
 	vertices.resize(2);
 	colors.resize(2);
 	indices.push_back(0);

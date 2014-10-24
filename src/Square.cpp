@@ -49,5 +49,8 @@ void Square::init() {
 	indices.push_back(1);
 	indices.push_back(2);
 	indices.push_back(3);
+	//Squares are drawn using two triangles
+	//GL_TRIANGLE_STRIP uses the first three vertices for the first triangle and
+	//then uses a new one and the two previous for consequent triangles
 	primitivePar.setValues(GL_TRIANGLE_STRIP, 0, 4);
 }

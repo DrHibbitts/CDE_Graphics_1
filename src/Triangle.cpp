@@ -43,5 +43,6 @@ void Triangle::init() {
 	indices.push_back(0);
 	indices.push_back(1);
 	indices.push_back(2);
+	//GL_TRIANGLES takes each consecutive three vertices and draws a triangle
 	primitivePar.setValues(GL_TRIANGLES, 0, 3);
 }

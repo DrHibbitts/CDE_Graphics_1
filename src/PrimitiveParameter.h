@@ -10,6 +10,7 @@
 
 #include <GL/glew.h>
 
+//Container class for OpenGL draw calls
 class PrimitiveParameter {
 public:
 	PrimitiveParameter();
@@ -22,8 +23,13 @@ public:
 
 	void setValues(GLenum mode, GLint first, GLsizei count);
 private:
+	//Draw mode: GL_POINTS, GL_LINE, GL_TRIANGLE, etc
 	GLenum mode;
+
+	//Index of the first element in the buffer, no need to start in the first
 	GLint first;
+
+	//Number of vertices to be used
 	GLsizei count;
 
 };
