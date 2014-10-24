@@ -8,6 +8,7 @@
 #ifndef SRC_CHAIN_H_
 #define SRC_CHAIN_H_
 
+#define GLM_FORCE_RADIANS
 #include <glm/gtx/transform.hpp>
 
 #include "Renderer.h"

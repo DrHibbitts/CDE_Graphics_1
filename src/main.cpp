@@ -1,4 +1,7 @@
 #include <GL/glew.h>
+
+//Force radians to avoid pragma deprecated warnings
+#define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
 
 #include "Window.h"
