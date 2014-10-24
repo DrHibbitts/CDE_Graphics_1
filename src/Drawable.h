@@ -12,6 +12,8 @@
 
 #include "Renderer.h"
 
+//Abstract class that defines a common interface to be rendered
+//Any subclass of Drawable can be rendered by Window
 class Drawable {
 public:
 	inline virtual ~Drawable() {

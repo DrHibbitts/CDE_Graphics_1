@@ -18,6 +18,8 @@
 #include "Drawable.h"
 #include "PrimitiveParameter.h"
 
+//Abstract class that agglutinates all the common methods and attributes of
+//simple objects: Line, Triangle, Square
 class VertexObject: public Drawable {
 public:
 	VertexObject();
@@ -34,6 +36,7 @@ public:
 	const std::vector<glm::vec3>& getColors() const;
 	const PrimitiveParameter& getPrimitivePar() const;
 
+	//Set a color for all the vertices
 	void setUniformColor(const glm::vec3& color);
 	void setModelMat(const glm::mat4& modelMat);
 
@@ -45,17 +48,20 @@ protected:
 	void updateBuffers() const;
 
 protected:
+	//Model matrix defines the object transformation
 	glm::mat4 modelMat;
 	std::vector<glm::vec3> vertices;
 	std::vector<unsigned int> indices;
 	std::vector<glm::vec3> colors;
+
+	//OpenGL parameters holder object
 	PrimitiveParameter primitivePar;
 
+	//Common object and buffers needed for OpenGL rendering
 	// VAO : Vertex Attributes Array.
 	GLuint vao;
 
-	// VBO : Vertex buffer object for transformed vertex data, first coordinate
-	// is vertex position second is vertex color
+	// VBO : Vertex buffer object
 	GLuint vbo;
 
 	// EBO : Elements-Buffer object.

@@ -23,15 +23,20 @@ VertexObject::~VertexObject() {
 
 void VertexObject::draw(Renderer& renderer) const {
 	sendDataToShader();
+
+	//Calculate Model View Projection matrix
 	glm::mat4 MVP = renderer.getViewProjectionMatrix() * modelMat;
 
+	//Send matrix to shader
 	glUniformMatrix4fv(renderer.getMVPlocation(), 1, GL_FALSE, &(MVP[0][0]));
 
-	// Draw count vertices in mode starting at first
-	//glDrawArrays(param.getMode(), param.getFirst(), param.getCount());
-	// Draw with indices: mode, count, type, index array buffer offset
+	//Draw count objects of mode type
 	glDrawElements(primitivePar.getMode(), primitivePar.getCount(),
 	GL_UNSIGNED_INT, (void*) 0);
+
+	//Left here for reference, ca be used for efficient rendering several
+	//of the same primitive object
+	//glDrawArrays(param.getMode(), param.getFirst(), param.getCount());
 }
 
 void VertexObject::translate(const glm::vec3& translation) {
@@ -74,7 +79,6 @@ void VertexObject::generateBuffers() {
 	glBindVertexArray(vao);
 	// Generate a VBO and bind it for holding vertex data.
 	glGenBuffers(1, &vbo);
-	//glBindBuffer( GL_ARRAY_BUFFER, vbo);
 
 	// Generate an EBO and bind it for holding vertex indices.
 	glGenBuffers(1, &ebo);
@@ -82,13 +86,15 @@ void VertexObject::generateBuffers() {
 
 	// Generate an CBO and bind it for holding vertex indices.
 	glGenBuffers(1, &cbo);
-	//glBindBuffer( GL_ARRAY_BUFFER, cbo);
 }
 
 void VertexObject::populateBuffers() const {
 	const unsigned int vboSize = vertices.size() * sizeof(glm::vec3);
 	const unsigned int eboSize = indices.size() * sizeof(glm::vec3);
+	//Writes vertex, color and index data in the buffers, should only be called
+	//once at object creation for efficiency purposes
 
+	//Activate vbo
 	glBindBuffer( GL_ARRAY_BUFFER, vbo);
 	// Populate the VBO.
 	glBufferData( GL_ARRAY_BUFFER, vboSize, &(vertices[0]), GL_STATIC_DRAW);
