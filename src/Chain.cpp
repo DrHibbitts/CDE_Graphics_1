@@ -8,6 +8,7 @@
 #include "Chain.h"
 
 #define TO_RAD  M_PI / 180.0
+#define TO_DEG  180.0 / M_PI
 
 Chain::Chain() {
 }
@@ -53,4 +54,8 @@ void Chain::addBone(float size) {
 
 void Chain::setJointAngle(unsigned int index, float angle) {
 	joints.at(index)->setAngle(angle * TO_RAD);
+}
+
+float Chain::getJointAngle(unsigned int index) {
+	return joints.at(index)->getAngle() * TO_DEG;
 }

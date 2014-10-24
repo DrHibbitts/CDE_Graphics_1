@@ -7,6 +7,8 @@
 
 #include "Window.h"
 
+//TODO Delete when no object modification is done here
+#include "Chain.h"
 #include "Square.h"
 
 Window& Window::getInstance() {
@@ -38,7 +40,10 @@ void Window::init() {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
+	//Window is required to be a pointer by GLFW
 	window = NULL;
+	//Renderer can only be initialised after calling glewInit, so instead of
+	//creating an init() method in Renderer is easier to have it as a pointer
 	renderer = NULL;
 
 	t0Value = glfwGetTime(); // Set the initial time to now
@@ -68,10 +73,10 @@ void Window::createWindow(unsigned int height, unsigned int width,
 	}
 	glfwMakeContextCurrent(window);
 
-	// Initialize GLEW
+	// Initialise GLEW
 	glewExperimental = true; // Needed for core profile
 	if (glewInit() != GLEW_OK) {
-		fprintf(stderr, "Failed to initialize GLEW\n");
+		fprintf(stderr, "Failed to initialise GLEW\n");
 		exit(-1);
 	}
 
@@ -123,6 +128,14 @@ void Window::executeMainLoop() {
 		//Get user input
 		glfwPollEvents();
 
+		//Mouse polling example
+		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS) {
+			//Change angle on mouse click
+			DrawablePtr ob = toDrawObjects[1];
+			ChainPtr ch = boost::static_pointer_cast<Chain>(ob);
+			ch->setJointAngle(1, ch->getJointAngle(1) + 2);
+		}
+
 	} // Check if the ESC key was pressed or the window was closed
 	while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS
 			&& glfwWindowShouldClose(window) == 0);
@@ -134,6 +147,7 @@ void Window::setCallbacks() {
 
 void Window::mouseCallback(GLFWwindow* window, int button, int actions,
 		int mods) {
+	//Mouse callback example
 	if (button == GLFW_MOUSE_BUTTON_1) {
 		if (actions == GLFW_PRESS) {
 			std::cout << "Mouse press" << std::endl;

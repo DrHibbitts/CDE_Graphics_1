@@ -49,6 +49,7 @@ private:
 
 	void setCallbacks();
 
+	//TODO Make callbacks not static
 	static void mouseCallback(GLFWwindow *window, int button, int actions,
 			int mods);
 

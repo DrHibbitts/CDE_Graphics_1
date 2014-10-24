@@ -29,6 +29,7 @@ public:
 	const glm::mat4& getViewProjectionMatrix() const;
 
 	GLuint getMVPlocation() const;
+	GLuint getProgramId() const;
 
 private:
 	void loadDefaultShaders();

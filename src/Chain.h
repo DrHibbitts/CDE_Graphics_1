@@ -28,6 +28,8 @@ public:
 	//last bone
 	void addBone(float size);
 	void setJointAngle(unsigned int index, float angle);
+
+	float getJointAngle(unsigned int index);
 private:
 	std::vector<JointPtr> joints;
 	std::vector<BonePtr> bones;
