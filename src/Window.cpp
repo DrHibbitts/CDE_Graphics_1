@@ -98,6 +98,8 @@ void Window::removeDrawable(DrawablePtr drawable) {
 }
 
 void Window::executeMainLoop() {
+	glUseProgram(renderer->getProgramId());
+
 	do {
 		renderer->resetScreen();
 

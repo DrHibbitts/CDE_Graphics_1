@@ -39,7 +39,7 @@ void Renderer::resetScreen() {
 
 	//TODO Check is current program is the same, then do not load the shader again
 	// Use our shader
-	glUseProgram(programID);
+	//glUseProgram(programID);
 
 	ViewProjection = Projection * View;
 }
@@ -65,4 +65,8 @@ void Renderer::loadDefaultShaders() {
 
 GLuint Renderer::getMVPlocation() const {
 	return MVPlocation;
+}
+
+GLuint Renderer::getProgramId() const {
+	return programID;
 }
