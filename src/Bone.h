@@ -12,6 +12,7 @@
 
 #include "Line.h"
 
+//Bone class defines a bone of size length on the x axis
 class Bone: public Line {
 public:
 	Bone();

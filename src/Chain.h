@@ -16,6 +16,7 @@
 #include "Bone.h"
 #include "Drawable.h"
 
+//Chain of bones and joints
 class Chain: public Drawable {
 public:
 	Chain();
@@ -23,6 +24,8 @@ public:
 
 	void draw(Renderer& renderer) const;
 
+	//When a bone is added a new joint is created in the end of the previous
+	//last bone
 	void addBone(float size);
 	void setJointAngle(unsigned int index, float angle);
 private:

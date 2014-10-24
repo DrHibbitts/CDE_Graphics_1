@@ -17,29 +17,32 @@ Chain::~Chain() {
 
 void Chain::draw(Renderer& renderer) const {
 	glm::mat4 currentMat, rotMat;
-	glm::vec3 boneLength;
+	glm::vec3 boneTranslation;
 	//Rotate along z axis
 	glm::vec3 axisVec(0, 0, 1);
 
+	//Main loop consists of applying joint rotation and then bone translation
+	//For next bone do the same using the previous transformed coordinate system
 	for (unsigned int i = 0; i < bones.size(); i++) {
-		//Calculate rotation for the current joint
+		//Calculate rotation by the current joint
 		rotMat = glm::rotate(joints[i]->getAngle(), axisVec);
 
-		//Set joint position at the beginning of the bone
+		//Set joint position at the beginning of the current bone
 		joints[i]->setModelMat(currentMat);
 
 		joints[i]->draw(renderer);
 
-		//Apply joint rotation
+		//Update total transformation with current joint rotation
 		currentMat = currentMat * rotMat;
 
+		//Bone total transformation is current transformation
 		bones[i]->setModelMat(currentMat);
 
 		bones[i]->draw(renderer);
 
-		//Apply bone translation
-		boneLength.x = bones[i]->getLength();
-		currentMat = currentMat * glm::translate(boneLength);
+		//Update total transformation with current bone translation
+		boneTranslation.x = bones[i]->getLength();
+		currentMat = currentMat * glm::translate(boneTranslation);
 	}
 }
 
