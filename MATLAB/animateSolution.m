@@ -77,16 +77,20 @@ P = evalin('base','P');
 h=figure('visible','off');
 loops = size(xT,2);
 F(loops) = struct('cdata',[],'colormap',[]);
+eFX = [];
 for j = 1:loops
     FX = forwardKin(xT(:,j));
+    eFX(j,:) = FX(end,:);
     plot(FX(:,1),FX(:,2),'-');
     hold on;
     plot(P(1),P(2),'xr');
+    plot(eFX(:,1),eFX(:,2),'g')
     axis(aSize);
     drawnow
     hold off;
     F(j) = getframe;
 end
+assignin('base','eFX',eFX);
 close(h);
 movOut = F;
 end
