@@ -83,5 +83,3 @@ int main(void) {
 
 	return 0;
 }
-
-//TODO MVP projections
