@@ -22,13 +22,14 @@
 /***
  * Includes
  ***/
-
 #include <GL/glew.h>
+
 // OpenGL
 // http://www.opengl.org/discussion_boards/showthread.php/172481-glGenBuffer-was-not-declared
-extern "C" {
 #define GL_GLEXT_PROTOTYPES
+extern "C" {
 #include <GL/gl.h>
+#include <GL/glext.h>
 }
 
 #include <fstream>      // File management
@@ -41,7 +42,7 @@ extern "C" {
  * program... or a runtime_error exception.
  *
  * NOTE: This class only loads shader programs. Once you get your program ID,
- * it's your responsibility to call glUseProgram() for using the program
+ * it's your responsability to call glUseProgram() for using the program
  * and / or glDeleteProgram() for destroying it.
  */
 class ShaderLoader {
@@ -49,12 +50,14 @@ public:
 	/***
 	 * 1. Construction
 	 ***/
-	ShaderLoader();
+	ShaderLoader() = default;
+	ShaderLoader(const ShaderLoader&) = delete;
+	ShaderLoader(ShaderLoader&&) = delete;
 
 	/***
 	 * 2. Destruction
 	 ***/
-	~ShaderLoader();
+	~ShaderLoader() = default;
 
 	/***
 	 * 3. Shader loading
@@ -71,8 +74,8 @@ public:
 	/***
 	 * 4. Operators
 	 ***/
-	ShaderLoader& operator=(const ShaderLoader& otherShaderLoader);
-	ShaderLoader& operator=(ShaderLoader& otherShaderLoader);
+	ShaderLoader& operator=(const ShaderLoader&) = delete;
+	ShaderLoader& operator=(ShaderLoader&&) = delete;
 
 private:
 	/***
@@ -92,4 +95,3 @@ private:
 };
 
 #endif // SHADER_LOADER_HPP
-

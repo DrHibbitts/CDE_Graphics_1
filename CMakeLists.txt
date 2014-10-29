@@ -6,6 +6,14 @@ SET(PROJECT_NAME CDE_Graphics_1)
 PROJECT(${PROJECT_NAME})
 SET(PROJECT_EXE "${PROJECT_NAME}")
 
+#C++11 support
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+
+#All warnings and thread compiling on linux
+IF(UNIX)
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pthread")
+ENDIF()
+
 #Add custom .cmake files located in this folder
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmakeModules")
 
@@ -72,7 +80,10 @@ TARGET_LINK_LIBRARIES(${PROJECT_EXE} ${Boost_LIBRARIES})
 #TARGET_LINK_LIBRARIES(${PROJECT_EXE} ${FREEIMAGEPLUS_LIBRARIES})
 #TARGET_LINK_LIBRARIES(${PROJECT_EXE} ${ASSIMP_LIBRARIES})
 
-#Extra linking for x11 enviroments
+#Threads library, Could be needed for windows
+#TARGET_LINK_LIBRARIES(${PROJECT_EXE} "-lpthread")
+
+#Extra linking for linux running X11 enviroments
 IF(UNIX)
-    TARGET_LINK_LIBRARIES(${PROJECT_EXE} "-lX11 -lXrandr -lXi -lXxf86vm -lpthread")
+    TARGET_LINK_LIBRARIES(${PROJECT_EXE} "-lX11 -lXrandr -lXi -lXxf86vm")
 ENDIF()
