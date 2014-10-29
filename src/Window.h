@@ -8,21 +8,28 @@
 #ifndef WINDOW_H_
 #define WINDOW_H_
 
+#include <string>
+#include <vector>
+#include <iostream>
+#include <sstream>
+#include <thread>
+#include <mutex>
+#include <chrono>
+
 // Include GLEW
 #include <GL/glew.h>
 
 // Include GLFW
 #include <GLFW/glfw3.h>
 
-#include <string>
-#include <vector>
-#include <iostream>
-#include <sstream>
-
 #include <boost/pointer_cast.hpp>
 
 #include "Renderer.h"
 #include "Drawable.h"
+
+//TODO Delete when no object modification is done here
+#include "Chain.h"
+#include "Square.h"
 
 //Window class is a wrapper around GLFWwindow, it controls what objects
 //are rendered and handles the user input. It is a singleton, solo only one
@@ -53,6 +60,10 @@ private:
 	static void mouseCallback(GLFWwindow *window, int button, int actions,
 			int mods);
 
+	void executeSimulationLoop();
+
+	void killSimulation();
+
 	void setWindowFPS();
 
 	Window(void); // private constructor necessary to allow only one instance
@@ -66,6 +77,12 @@ private:
 	Renderer* renderer;
 	std::vector<DrawablePtr> toDrawObjects;
 	std::string windowTitle;
+
+	ChainPtr chain;
+	std::thread simulationThread;
+	std::mutex lock;
+	bool continueSimulation;
+	bool rotate;
 
 	//Variables for a FPS counter
 	double t0Value;

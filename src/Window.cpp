@@ -7,10 +7,6 @@
 
 #include "Window.h"
 
-//TODO Delete when no object modification is done here
-#include "Chain.h"
-#include "Square.h"
-
 Window& Window::getInstance() {
 	static Window instance; // lazy singleton, instantiated on first use
 	return instance;
@@ -46,6 +42,9 @@ void Window::init() {
 	//creating an init() method in Renderer is easier to have it as a pointer
 	renderer = NULL;
 
+	continueSimulation = false;
+	rotate = false;
+
 	t0Value = glfwGetTime(); // Set the initial time to now
 	fpsFrameCount = 0;        // Set the initial FPS frame count to 0
 	fps = 0.0;           // Set the initial FPS value to 0.0
@@ -54,7 +53,9 @@ void Window::init() {
 Window::~Window() {
 	// Close OpenGL window and terminate GLFW
 	glDeleteProgram(renderer->getProgramId());
+	killSimulation();
 	cleanUp();
+	std::cout << "MAIN THREAD MEMORY FREED AND EXIT" << std::endl;
 }
 
 void Window::createWindow(unsigned int height, unsigned int width,
@@ -91,6 +92,20 @@ void Window::createWindow(unsigned int height, unsigned int width,
 
 void Window::addDrawable(DrawablePtr drawable) {
 	toDrawObjects.push_back(drawable);
+
+	//Check if the object is a chain
+	ChainPtr newChain = boost::dynamic_pointer_cast<Chain>(drawable);
+	//If it is a chain create a new thread that will run the simulation
+	if (newChain) {
+		chain = newChain;
+
+		//If thread was running stop it
+		killSimulation();
+
+		//Run new thread with simulation loop
+		continueSimulation = true;
+		simulationThread = std::thread(&Window::executeSimulationLoop, this);
+	}
 }
 
 void Window::removeDrawable(DrawablePtr drawable) {
@@ -101,6 +116,12 @@ void Window::removeDrawable(DrawablePtr drawable) {
 			break;
 		}
 	}
+
+	//Check if the object is a chain
+	if (drawable == chain) {
+		killSimulation();
+		chain.reset();
+	}
 }
 
 void Window::executeMainLoop() {
@@ -109,11 +130,16 @@ void Window::executeMainLoop() {
 	do {
 		renderer->resetScreen();
 
+		//Probably not needed but don't allow changes in the model while
+		//calculating the final points, since a change in the middle of the
+		//rendering could give funny results
+		lock.lock();
 		//Render all objects
 		DrawableIte it;
 		for (it = toDrawObjects.begin(); it != toDrawObjects.end(); ++it) {
 			(*it)->draw(*renderer);
 		}
+		lock.unlock();
 
 		//Move the square a bit every frame
 //		DrawablePtr ob = toDrawObjects[0];
@@ -130,12 +156,14 @@ void Window::executeMainLoop() {
 		glfwPollEvents();
 
 		//Mouse polling example
-		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS) {
-			//Change angle on mouse click
-			DrawablePtr ob = toDrawObjects[1];
-			ChainPtr ch = boost::static_pointer_cast<Chain>(ob);
-			ch->setJointAngle(1, ch->getJointAngle(1) + 2);
-		}
+		//if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS) {
+		//Change angle on mouse click
+		//lock.lock();
+		//DrawablePtr ob = toDrawObjects[1];
+		//ChainPtr ch = boost::static_pointer_cast<Chain>(ob);
+		//chain->setJointAngle(2, chain->getJointAngle(2) + 1);
+		//lock.unlock();
+		//}
 
 	} // Check if the ESC key was pressed or the window was closed
 	while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS
@@ -151,7 +179,9 @@ void Window::mouseCallback(GLFWwindow* window, int button, int actions,
 	//Mouse callback example
 	if (button == GLFW_MOUSE_BUTTON_1) {
 		if (actions == GLFW_PRESS) {
-			std::cout << "Mouse press" << std::endl;
+			std::cout << "Mouse press rotate " << getInstance().rotate
+					<< std::endl;
+			getInstance().rotate = !getInstance().rotate;
 		} else {
 			double xpos, ypos;
 			glfwGetCursorPos(window, &xpos, &ypos);
@@ -185,6 +215,46 @@ void Window::setWindowFPS() {
 	} else // FPS calculation time interval hasn't elapsed yet? Simply increment the FPS frame counter
 	{
 		fpsFrameCount++;
+	}
+}
+
+void Window::executeSimulationLoop() {
+
+	while (continueSimulation) {
+
+		if (rotate) {
+			//Make sure the chain data is not modified until we are
+			//finished simulating for this time step
+			lock.lock();
+
+			//Make sure the chain object is valid
+			if (chain) {
+				try {
+					//Dummy example, rotate a joint
+					chain->setJointAngle(1, chain->getJointAngle(1) + 5);
+				} catch (std::exception& e) {
+					//If something nasty happens make sure the mutex gets
+					//unlocked so Window can exit cleanly
+					lock.unlock();
+					throw e;
+				}
+			}
+			lock.unlock();
+		}
+		//Sleep the thread a bit, since is way too fast
+		std::chrono::milliseconds dura(20);
+		std::this_thread::sleep_for(dura);
+	}
+
+	std::cout << "SIMULATION THREAD EXIT" << std::endl;
+}
+
+void Window::killSimulation() {
+	//Tell simulation thread to finish
+	continueSimulation = false;
+	if (simulationThread.joinable()) {
+		//Wait for the simulation thread to finish
+		simulationThread.join();
 	}
 }
 

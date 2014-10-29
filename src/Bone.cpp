@@ -25,5 +25,5 @@ float Bone::getLength() const {
 void Bone::setLength(float length) {
 	this->length = length;
 	setVertices(glm::vec3(0, 0, 0), glm::vec3(length, 0, 0));
-	setUniformColor(glm::vec3(0, 0, 1));
+	setUniformColor(glm::vec3(1, 1, 0));
 }
