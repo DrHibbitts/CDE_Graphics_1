@@ -10,6 +10,6 @@ for i = 1:length(x)
     F(1) = F(1) + cos(theta);
     F(2) = F(2) + sin(theta);
 end
-F = norm(F - P);
+F = F - P;
 end
 
