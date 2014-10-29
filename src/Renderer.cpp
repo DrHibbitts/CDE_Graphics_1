@@ -19,12 +19,10 @@ Renderer::Renderer() {
 	// Projection matrix : 45º Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
 	//Projection = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f);
 
-	//Projection = glm::ortho(0.0f, 1024.0f, 768.0f, 0.0f, 0.0f, 100.0f);
-	// Or, for an ortho camera :
+	//Orthographic projection, left, right, bottom, top, zNear, zFar
+	Projection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, 0.0f, 100.0f);
 
-	Projection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, 0.0f, 100.0f); // In world coordinates
-
-	// Camera matrix, position, look at vector, up vector
+	// Camera matrix, camera position, look at position, normalised up vector
 	View = glm::lookAt(glm::vec3(0, 0, -3), glm::vec3(0, 0, 0),
 			glm::vec3(0, 1, 0));
 }
@@ -36,10 +34,7 @@ void Renderer::resetScreen() {
 	// Clear the screen
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	//TODO Check is current program is the same, then do not load the shader again
-	// Use our shader
-	//glUseProgram(programID);
-
+	//Update ViewProjection matrix
 	ViewProjection = Projection * View;
 }
 
