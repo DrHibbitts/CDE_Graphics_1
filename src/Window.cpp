@@ -194,11 +194,7 @@ void Window::executeSimulationLoop() {
 	while (continueSimulation) {
 
 		if (rotate) {
-			//Make sure the chain object is valid
-			if (chain) {
-				//Dummy example, rotate a joint
-				chain->setJointAngle(2, chain->getJointAngle(2) + 5);
-			}
+			simSolver.solveForStep(chain, glm::vec3(0, 0, 0));
 		}
 		//Sleep the thread a bit, since is way too fast
 		std::chrono::milliseconds dura(20);

@@ -25,10 +25,9 @@
 
 #include "Renderer.h"
 #include "Drawable.h"
+#include "SimulationSolver.h"
 
-//TODO Delete when no object modification is done here
 #include "Chain.h"
-#include "Square.h"
 
 //Window class is a wrapper around GLFWwindow, it controls what objects
 //are rendered and handles the user input. It is a singleton, solo only one
@@ -81,6 +80,7 @@ private:
 	std::string windowTitle;
 
 	ChainPtr chain;
+	SimulationSolver simSolver;
 	std::thread simulationThread;
 	bool continueSimulation;
 	bool rotate;
