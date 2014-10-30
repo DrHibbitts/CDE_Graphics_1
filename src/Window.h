@@ -83,7 +83,7 @@ private:
 	SimulationSolver simSolver;
 	std::thread simulationThread;
 	bool continueSimulation;
-	bool rotate;
+	glm::vec3 goal;
 
 	//Variables for a FPS counter
 	double t0Value;

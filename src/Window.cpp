@@ -43,7 +43,6 @@ void Window::init() {
 	renderer = NULL;
 
 	continueSimulation = false;
-	rotate = false;
 
 	t0Value = glfwGetTime(); // Set the initial time to now
 	fpsFrameCount = 0;        // Set the initial FPS frame count to 0
@@ -88,6 +87,19 @@ void Window::createWindow(unsigned int height, unsigned int width,
 	renderer = new Renderer();
 
 	setCallbacks();
+
+	glm::vec3 in, out;
+	std::cout << "transformation " << in.x << "," << in.y << "," << in.z
+			<< " is ";
+	out = renderer->getWorldCoordFromScreen(in);
+	std::cout << out.x << "," << out.y << "," << out.z << std::endl;
+
+	in = glm::vec3(100, 100, 0);
+	std::cout << "transformation " << in.x << "," << in.y << "," << in.z
+			<< " is ";
+	out = renderer->getWorldCoordFromScreen(in);
+	std::cout << out.x << "," << out.y << "," << out.z << std::endl;
+
 }
 
 void Window::addDrawable(DrawablePtr drawable) {
@@ -176,13 +188,12 @@ void Window::mouseCallbackImpl(GLFWwindow* window, int button, int actions,
 		int mods) {
 	//Mouse callback example
 	if (button == GLFW_MOUSE_BUTTON_1) {
-		if (actions == GLFW_PRESS) {
-			std::cout << "Mouse press rotate " << rotate << std::endl;
-			rotate = !rotate;
-		} else {
+		if (actions == GLFW_RELEASE) {
 			double xpos, ypos;
 			glfwGetCursorPos(window, &xpos, &ypos);
-			std::cout << "Mouse release " << xpos << "," << ypos << std::endl;
+			goal = renderer->getWorldCoordFromScreen(glm::vec3(xpos, ypos, 0));
+			std::cout << "Goal " << goal.x << "," << goal.y << "," << goal.z
+					<< std::endl;
 		}
 	} else {
 		std::cout << "Other button" << std::endl;
@@ -193,9 +204,8 @@ void Window::executeSimulationLoop() {
 
 	while (continueSimulation) {
 
-		if (rotate) {
-			simSolver.solveForStep(chain, glm::vec3(0, 0, 0));
-		}
+		simSolver.solveForStep(chain, goal);
+
 		//Sleep the thread a bit, since is way too fast
 		std::chrono::milliseconds dura(20);
 		std::this_thread::sleep_for(dura);

@@ -64,3 +64,13 @@ GLuint Renderer::getMVPlocation() const {
 GLuint Renderer::getProgramId() const {
 	return programID;
 }
+
+glm::vec3 Renderer::getWorldCoordFromScreen(const glm::vec3& screenCoord) {
+	//TODO Viewport should be given by Window
+	glm::vec3 aux = glm::unProject(screenCoord, View, Projection,
+			glm::vec4(0, 0, 1024, 768));
+	//TODO REALLY IMPORTANT This will not work on 3D
+	aux.y = -aux.y;
+	aux.z = 0;
+	return aux;
+}
