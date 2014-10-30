@@ -7,15 +7,21 @@
 
 #include "Bone.h"
 
-Bone::Bone() {
+Bone::Bone() :
+		line(new Line()) {
 	setLength(1);
 }
 
-Bone::Bone(float length) {
+Bone::Bone(float length) :
+		line(new Line()) {
 	setLength(length);
 }
 
 Bone::~Bone() {
+}
+
+void Bone::draw(Renderer& renderer) const {
+	line->draw(renderer);
 }
 
 float Bone::getLength() const {
@@ -24,6 +30,10 @@ float Bone::getLength() const {
 
 void Bone::setLength(float length) {
 	this->length = length;
-	setVertices(glm::vec3(0, 0, 0), glm::vec3(length, 0, 0));
-	setUniformColor(glm::vec3(1, 1, 0));
+	line->setVertices(glm::vec3(0, 0, 0), glm::vec3(length, 0, 0));
+	line->setUniformColor(glm::vec3(1, 1, 0));
+}
+
+LinePtr Bone::getDrawable() {
+	return line;
 }

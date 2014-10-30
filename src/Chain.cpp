@@ -29,7 +29,7 @@ void Chain::draw(Renderer& renderer) const {
 		rotMat = glm::rotate(joints[i]->getAngle(), axisVec);
 
 		//Set joint position at the beginning of the current bone
-		joints[i]->setModelMat(currentMat);
+		joints[i]->getDrawable()->setModelMat(currentMat);
 
 		joints[i]->draw(renderer);
 
@@ -37,7 +37,7 @@ void Chain::draw(Renderer& renderer) const {
 		currentMat = currentMat * rotMat;
 
 		//Bone total transformation is current transformation
-		bones[i]->setModelMat(currentMat);
+		bones[i]->getDrawable()->setModelMat(currentMat);
 
 		bones[i]->draw(renderer);
 

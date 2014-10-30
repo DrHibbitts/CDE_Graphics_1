@@ -177,8 +177,7 @@ void Window::mouseCallbackImpl(GLFWwindow* window, int button, int actions,
 	//Mouse callback example
 	if (button == GLFW_MOUSE_BUTTON_1) {
 		if (actions == GLFW_PRESS) {
-			std::cout << "Mouse press rotate " << rotate
-					<< std::endl;
+			std::cout << "Mouse press rotate " << rotate << std::endl;
 			rotate = !rotate;
 		} else {
 			double xpos, ypos;

@@ -12,16 +12,21 @@
 
 #include "Triangle.h"
 
-class Joint: public Triangle {
+class Joint: public Drawable {
 public:
 	Joint();
 	virtual ~Joint();
 
+	void draw(Renderer& renderer) const;
+
 	float getAngle() const;
 	void setAngle(float angle);
 
+	TrianglePtr getDrawable();
+
 private:
 	float angle;
+	TrianglePtr triangle;
 };
 
 typedef boost::shared_ptr<Joint> JointPtr;
