@@ -8,12 +8,14 @@
 #include "Bone.h"
 
 Bone::Bone() :
-		line(new Line()) {
+		square(new Square()) {
+	width = 0.05;
 	setLength(1);
 }
 
 Bone::Bone(float length) :
-		line(new Line()) {
+		square(new Square()) {
+	width = 0.05;
 	setLength(length);
 }
 
@@ -21,7 +23,7 @@ Bone::~Bone() {
 }
 
 void Bone::draw(Renderer& renderer) const {
-	line->draw(renderer);
+	square->draw(renderer);
 }
 
 float Bone::getLength() const {
@@ -30,10 +32,15 @@ float Bone::getLength() const {
 
 void Bone::setLength(float length) {
 	this->length = length;
-	line->setVertices(glm::vec3(0, 0, 0), glm::vec3(length, 0, 0));
-	line->setUniformColor(glm::vec3(1, 1, 0));
+	// 3 - 4
+	// 1 - 2
+	//width = length * 0.1;
+	square->setVertices(glm::vec3(0, -width, 0), glm::vec3(length, -width, 0),
+			glm::vec3(0, width, 0), glm::vec3(length, width, 0));
+
+	square->setUniformColor(glm::vec3(1, 1, 0));
 }
 
-LinePtr Bone::getDrawable() {
-	return line;
+SquarePtr Bone::getDrawable() {
+	return square;
 }

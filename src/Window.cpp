@@ -155,7 +155,7 @@ void Window::executeMainLoop() {
 		//Change angle on mouse click
 		//DrawablePtr ob = toDrawObjects[1];
 		//ChainPtr ch = boost::static_pointer_cast<Chain>(ob);
-		chain->setJointAngle(2, chain->getJointAngle(2) + 1);
+		//chain->setJointAngle(2, chain->getJointAngle(2) + 1);
 		//}
 
 	} // Check if the ESC key was pressed or the window was closed
@@ -197,7 +197,7 @@ void Window::executeSimulationLoop() {
 			//Make sure the chain object is valid
 			if (chain) {
 				//Dummy example, rotate a joint
-				chain->setJointAngle(1, chain->getJointAngle(1) + 5);
+				chain->setJointAngle(2, chain->getJointAngle(2) + 5);
 			}
 		}
 		//Sleep the thread a bit, since is way too fast

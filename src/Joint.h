@@ -10,7 +10,7 @@
 
 #include <boost/shared_ptr.hpp>
 
-#include "Triangle.h"
+#include "Square.h"
 
 class Joint: public Drawable {
 public:
@@ -22,11 +22,11 @@ public:
 	float getAngle() const;
 	void setAngle(float angle);
 
-	TrianglePtr getDrawable();
+	SquarePtr getDrawable();
 
 private:
 	float angle;
-	TrianglePtr triangle;
+	SquarePtr square;
 };
 
 typedef boost::shared_ptr<Joint> JointPtr;

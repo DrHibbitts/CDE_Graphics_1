@@ -31,15 +31,16 @@ void Chain::draw(Renderer& renderer) const {
 		//Set joint position at the beginning of the current bone
 		joints[i]->getDrawable()->setModelMat(currentMat);
 
-		joints[i]->draw(renderer);
-
 		//Update total transformation with current joint rotation
 		currentMat = currentMat * rotMat;
 
 		//Bone total transformation is current transformation
 		bones[i]->getDrawable()->setModelMat(currentMat);
 
+		//Render the joints later so the bones appear on the background
 		bones[i]->draw(renderer);
+
+		joints[i]->draw(renderer);
 
 		//Update total transformation with current bone translation
 		boneTranslation.x = bones[i]->getLength();
