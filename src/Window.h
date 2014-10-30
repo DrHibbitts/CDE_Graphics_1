@@ -55,8 +55,11 @@ private:
 
 	void setCallbacks();
 
-	//TODO Make callbacks not static
+	//The callback has to be a static function according to GLFW
 	static void mouseCallback(GLFWwindow *window, int button, int actions,
+			int mods);
+
+	void mouseCallbackImpl(GLFWwindow *window, int button, int actions,
 			int mods);
 
 	void executeSimulationLoop();

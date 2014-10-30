@@ -169,12 +169,17 @@ void Window::setCallbacks() {
 
 void Window::mouseCallback(GLFWwindow* window, int button, int actions,
 		int mods) {
+	getInstance().mouseCallbackImpl(window, button, actions, mods);
+}
+
+void Window::mouseCallbackImpl(GLFWwindow* window, int button, int actions,
+		int mods) {
 	//Mouse callback example
 	if (button == GLFW_MOUSE_BUTTON_1) {
 		if (actions == GLFW_PRESS) {
-			std::cout << "Mouse press rotate " << getInstance().rotate
+			std::cout << "Mouse press rotate " << rotate
 					<< std::endl;
-			getInstance().rotate = !getInstance().rotate;
+			rotate = !rotate;
 		} else {
 			double xpos, ypos;
 			glfwGetCursorPos(window, &xpos, &ypos);
