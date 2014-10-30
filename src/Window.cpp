@@ -130,16 +130,11 @@ void Window::executeMainLoop() {
 	do {
 		renderer->resetScreen();
 
-		//Probably not needed but don't allow changes in the model while
-		//calculating the final points, since a change in the middle of the
-		//rendering could give funny results
-		lock.lock();
 		//Render all objects
 		DrawableIte it;
 		for (it = toDrawObjects.begin(); it != toDrawObjects.end(); ++it) {
 			(*it)->draw(*renderer);
 		}
-		lock.unlock();
 
 		//Move the square a bit every frame
 //		DrawablePtr ob = toDrawObjects[0];
@@ -158,11 +153,9 @@ void Window::executeMainLoop() {
 		//Mouse polling example
 		//if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS) {
 		//Change angle on mouse click
-		//lock.lock();
 		//DrawablePtr ob = toDrawObjects[1];
 		//ChainPtr ch = boost::static_pointer_cast<Chain>(ob);
-		//chain->setJointAngle(2, chain->getJointAngle(2) + 1);
-		//lock.unlock();
+		chain->setJointAngle(2, chain->getJointAngle(2) + 1);
 		//}
 
 	} // Check if the ESC key was pressed or the window was closed
@@ -192,6 +185,34 @@ void Window::mouseCallback(GLFWwindow* window, int button, int actions,
 	}
 }
 
+void Window::executeSimulationLoop() {
+
+	while (continueSimulation) {
+
+		if (rotate) {
+			//Make sure the chain object is valid
+			if (chain) {
+				//Dummy example, rotate a joint
+				chain->setJointAngle(1, chain->getJointAngle(1) + 5);
+			}
+		}
+		//Sleep the thread a bit, since is way too fast
+		std::chrono::milliseconds dura(20);
+		std::this_thread::sleep_for(dura);
+	}
+
+	std::cout << "SIMULATION THREAD EXIT" << std::endl;
+}
+
+void Window::killSimulation() {
+	//Tell simulation thread to finish
+	continueSimulation = false;
+	if (simulationThread.joinable()) {
+		//Wait for the simulation thread to finish
+		simulationThread.join();
+	}
+}
+
 void Window::setWindowFPS() {
 	// Get the current time in seconds since the program started (non-static, so executed every time)
 	double currentTime = glfwGetTime();
@@ -215,46 +236,6 @@ void Window::setWindowFPS() {
 	} else // FPS calculation time interval hasn't elapsed yet? Simply increment the FPS frame counter
 	{
 		fpsFrameCount++;
-	}
-}
-
-void Window::executeSimulationLoop() {
-
-	while (continueSimulation) {
-
-		if (rotate) {
-			//Make sure the chain data is not modified until we are
-			//finished simulating for this time step
-			lock.lock();
-
-			//Make sure the chain object is valid
-			if (chain) {
-				try {
-					//Dummy example, rotate a joint
-					chain->setJointAngle(1, chain->getJointAngle(1) + 5);
-				} catch (std::exception& e) {
-					//If something nasty happens make sure the mutex gets
-					//unlocked so Window can exit cleanly
-					lock.unlock();
-					throw e;
-				}
-			}
-			lock.unlock();
-		}
-		//Sleep the thread a bit, since is way too fast
-		std::chrono::milliseconds dura(20);
-		std::this_thread::sleep_for(dura);
-	}
-
-	std::cout << "SIMULATION THREAD EXIT" << std::endl;
-}
-
-void Window::killSimulation() {
-	//Tell simulation thread to finish
-	continueSimulation = false;
-	if (simulationThread.joinable()) {
-		//Wait for the simulation thread to finish
-		simulationThread.join();
 	}
 }
 

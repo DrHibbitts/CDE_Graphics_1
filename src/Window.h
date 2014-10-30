@@ -13,7 +13,6 @@
 #include <iostream>
 #include <sstream>
 #include <thread>
-#include <mutex>
 #include <chrono>
 
 // Include GLEW
@@ -80,7 +79,6 @@ private:
 
 	ChainPtr chain;
 	std::thread simulationThread;
-	std::mutex lock;
 	bool continueSimulation;
 	bool rotate;
 
