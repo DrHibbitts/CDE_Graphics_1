@@ -47,6 +47,7 @@ src/Line.cpp
 src/PrimitiveParameter.cpp
 src/Renderer.cpp
 src/ShaderLoader.cpp
+src/SimulationController.cpp
 src/SimulationSolver.cpp
 src/Square.cpp
 src/Triangle.cpp
@@ -65,6 +66,7 @@ src/Line.h
 src/PrimitiveParameter.h
 src/Renderer.h
 src/ShaderLoader.h
+src/SimulationController.h
 src/SimulationSolver.h
 src/Square.h
 src/Triangle.h

@@ -13,14 +13,17 @@ Window& Window::getInstance() {
 }
 
 void Window::cleanUp() {
+	//Terminate simulation thread
+	simController.killSimulation();
+
 	// Close OpenGL window and terminate GLFW
 	glfwTerminate();
+
 	delete renderer;
 	renderer = NULL;
 }
 
-Window::Window() :
-		simSleepTime(20) {
+Window::Window() {
 	init();
 }
 
@@ -41,15 +44,13 @@ void Window::init() {
 	//Renderer can only be initialised after calling glewInit, so instead of
 	//creating an init() method in Renderer is easier to have it as a pointer
 	renderer = NULL;
-
-	continueSimulation = false;
 }
 
 Window::~Window() {
 	// Close OpenGL window and terminate GLFW
 	glDeleteProgram(renderer->getProgramId());
-	killSimulation();
 	cleanUp();
+
 	std::cout << "MAIN THREAD MEMORY FREED AND EXIT" << std::endl;
 }
 
@@ -93,14 +94,7 @@ void Window::addDrawable(DrawablePtr drawable) {
 	ChainPtr newChain = boost::dynamic_pointer_cast<Chain>(drawable);
 	//If it is a chain create a new thread that will run the simulation
 	if (newChain) {
-		chain = newChain;
-
-		//If thread was running stop it
-		killSimulation();
-
-		//Run new thread with simulation loop
-		continueSimulation = true;
-		simulationThread = std::thread(&Window::executeSimulationLoop, this);
+		simController.startSimulation(newChain);
 	}
 }
 
@@ -114,9 +108,8 @@ void Window::removeDrawable(DrawablePtr drawable) {
 	}
 
 	//Check if the object is a chain
-	if (drawable == chain) {
-		killSimulation();
-		chain.reset();
+	if (drawable == simController.getChain()) {
+		simController.killSimulation();
 	}
 }
 
@@ -175,30 +168,12 @@ void Window::mouseCallbackImpl(GLFWwindow* window, int button, int actions,
 		if (actions == GLFW_RELEASE) {
 			double xpos, ypos;
 			glfwGetCursorPos(window, &xpos, &ypos);
-			goal = renderer->getWorldCoordFromScreen(glm::vec3(xpos, ypos, 0));
+			glm::vec3 goal = renderer->getWorldCoordFromScreen(
+					glm::vec3(xpos, ypos, 0));
+			simController.setGoal(goal);
+			std::cout << "Goal is " << goal.x << ", " << goal.y << ", "
+					<< goal.z << std::endl;
 		}
-	}
-}
-
-void Window::executeSimulationLoop() {
-
-	while (continueSimulation) {
-
-		simSolver.solveForStep(chain, goal);
-
-		//Sleep the thread a bit, since is way too fast
-		std::this_thread::sleep_for(simSleepTime);
-	}
-
-	std::cout << "SIMULATION THREAD EXIT" << std::endl;
-}
-
-void Window::killSimulation() {
-	//Tell simulation thread to finish
-	continueSimulation = false;
-	if (simulationThread.joinable()) {
-		//Wait for the simulation thread to finish
-		simulationThread.join();
 	}
 }
 

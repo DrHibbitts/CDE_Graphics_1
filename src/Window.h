@@ -11,8 +11,6 @@
 #include <string>
 #include <vector>
 #include <iostream>
-#include <thread>
-#include <chrono>
 
 // Include GLEW
 #include <GL/glew.h>
@@ -24,7 +22,7 @@
 
 #include "Renderer.h"
 #include "Drawable.h"
-#include "SimulationSolver.h"
+#include "SimulationController.h"
 #include "FPSCounter.h"
 
 #include "Chain.h"
@@ -61,12 +59,6 @@ private:
 	void mouseCallbackImpl(GLFWwindow *window, int button, int actions,
 			int mods);
 
-	void executeSimulationLoop();
-
-	void killSimulation();
-
-	void setWindowFPS();
-
 	Window(void); // private constructor necessary to allow only one instance
 	Window(Window const&); // prevent copies
 	void operator=(Window const&) {
@@ -76,15 +68,11 @@ private:
 private:
 	GLFWwindow* window;
 	Renderer* renderer;
-	FPSCounter fpsCounter;
+	SimulationController simController;
+
 	std::vector<DrawablePtr> toDrawObjects;
 
-	ChainPtr chain;
-	SimulationSolver simSolver;
-	std::thread simulationThread;
-	bool continueSimulation;
-	glm::vec3 goal;
-	std::chrono::milliseconds simSleepTime;
+	FPSCounter fpsCounter;
 
 	typedef std::vector<DrawablePtr>::iterator DrawableIte;
 };
