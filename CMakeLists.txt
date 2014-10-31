@@ -43,6 +43,7 @@ src/models/Bone.cpp
 src/models/Chain.cpp
 src/models/Joint.cpp
 src/models/Line.cpp
+src/models/Point.cpp
 src/models/PrimitiveParameter.cpp
 src/models/Square.cpp
 src/models/Triangle.cpp
@@ -62,6 +63,7 @@ src/models/Chain.h
 src/models/Drawable.h
 src/models/Joint.h
 src/models/Line.h
+src/models/Point.h
 src/models/PrimitiveParameter.h
 src/models/Square.h
 src/models/Triangle.h
