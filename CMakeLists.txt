@@ -41,6 +41,7 @@ src/main.cpp
 src/Axis.cpp
 src/Bone.cpp
 src/Chain.cpp
+src/FPSCounter.cpp
 src/Joint.cpp
 src/Line.cpp
 src/PrimitiveParameter.cpp
@@ -58,6 +59,7 @@ src/Axis.h
 src/Bone.h
 src/Chain.h
 src/Drawable.h
+src/FPSCounter.h
 src/Joint.h
 src/Line.h
 src/PrimitiveParameter.h

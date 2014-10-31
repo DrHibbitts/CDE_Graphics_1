@@ -20,7 +20,7 @@ void Window::cleanUp() {
 }
 
 Window::Window() :
-		simSleepTime(20), theTimeInterval(1.0) {
+		simSleepTime(20) {
 	init();
 }
 
@@ -43,10 +43,6 @@ void Window::init() {
 	renderer = NULL;
 
 	continueSimulation = false;
-
-	t0Value = glfwGetTime(); // Set the initial time to now
-	fpsFrameCount = 0;        // Set the initial FPS frame count to 0
-	fps = 0.0;           // Set the initial FPS value to 0.0
 }
 
 Window::~Window() {
@@ -63,7 +59,6 @@ void Window::createWindow(unsigned int height, unsigned int width,
 	cleanUp();
 	init();
 
-	this->windowTitle = windowTitle;
 	// Open a window and create its OpenGL context
 	window = glfwCreateWindow(height, width, windowTitle.c_str(), NULL, NULL);
 	if (window == NULL) {
@@ -85,6 +80,8 @@ void Window::createWindow(unsigned int height, unsigned int width,
 	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
 
 	renderer = new Renderer();
+
+	fpsCounter.setWindow(window, windowTitle);
 
 	setCallbacks();
 }
@@ -144,7 +141,7 @@ void Window::executeMainLoop() {
 		glfwSwapBuffers(window);
 
 		//Display FPS
-		setWindowFPS();
+		fpsCounter.setWindowFPS();
 
 		//Get user input
 		glfwPollEvents();
@@ -205,34 +202,7 @@ void Window::killSimulation() {
 	}
 }
 
-void Window::setWindowFPS() {
-	// Get the current time in seconds since the program started (non-static, so executed every time)
-	double currentTime = glfwGetTime();
-
-	// Calculate and display the FPS every specified time interval
-	if ((currentTime - t0Value) > theTimeInterval) {
-		// Calculate the FPS as the number of frames divided by the interval in seconds
-		fps = (double) fpsFrameCount / (currentTime - t0Value);
-
-		// Convert the fps value into a string using an output stringstream
-		std::ostringstream stream;
-		stream << fps;
-		std::string fpsString = stream.str();
-
-		glfwSetWindowTitle(window,
-				(windowTitle + " | FPS: " + fpsString).c_str());
-
-		// Reset the FPS frame counter and set the initial time to be now
-		fpsFrameCount = 0;
-		t0Value = glfwGetTime();
-	} else // FPS calculation time interval hasn't elapsed yet? Simply increment the FPS frame counter
-	{
-		fpsFrameCount++;
-	}
-}
-
-Window::Window(const Window&) :
-		theTimeInterval(1.0) {
+Window::Window(const Window&) {
 	cleanUp();
 	init();
 }

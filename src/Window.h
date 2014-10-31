@@ -11,7 +11,6 @@
 #include <string>
 #include <vector>
 #include <iostream>
-#include <sstream>
 #include <thread>
 #include <chrono>
 
@@ -26,6 +25,7 @@
 #include "Renderer.h"
 #include "Drawable.h"
 #include "SimulationSolver.h"
+#include "FPSCounter.h"
 
 #include "Chain.h"
 
@@ -76,8 +76,8 @@ private:
 private:
 	GLFWwindow* window;
 	Renderer* renderer;
+	FPSCounter fpsCounter;
 	std::vector<DrawablePtr> toDrawObjects;
-	std::string windowTitle;
 
 	ChainPtr chain;
 	SimulationSolver simSolver;
@@ -85,12 +85,6 @@ private:
 	bool continueSimulation;
 	glm::vec3 goal;
 	std::chrono::milliseconds simSleepTime;
-
-	//Variables for a FPS counter
-	double t0Value;
-	int fpsFrameCount;
-	double fps;
-	const double theTimeInterval;
 
 	typedef std::vector<DrawablePtr>::iterator DrawableIte;
 };
