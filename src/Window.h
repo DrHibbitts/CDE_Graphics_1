@@ -84,6 +84,7 @@ private:
 	std::thread simulationThread;
 	bool continueSimulation;
 	glm::vec3 goal;
+	std::chrono::milliseconds simSleepTime;
 
 	//Variables for a FPS counter
 	double t0Value;

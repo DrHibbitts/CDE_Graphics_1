@@ -20,7 +20,7 @@ void Window::cleanUp() {
 }
 
 Window::Window() :
-		theTimeInterval(1.0) {
+		simSleepTime(20), theTimeInterval(1.0) {
 	init();
 }
 
@@ -87,19 +87,6 @@ void Window::createWindow(unsigned int height, unsigned int width,
 	renderer = new Renderer();
 
 	setCallbacks();
-
-	glm::vec3 in, out;
-	std::cout << "transformation " << in.x << "," << in.y << "," << in.z
-			<< " is ";
-	out = renderer->getWorldCoordFromScreen(in);
-	std::cout << out.x << "," << out.y << "," << out.z << std::endl;
-
-	in = glm::vec3(100, 100, 0);
-	std::cout << "transformation " << in.x << "," << in.y << "," << in.z
-			<< " is ";
-	out = renderer->getWorldCoordFromScreen(in);
-	std::cout << out.x << "," << out.y << "," << out.z << std::endl;
-
 }
 
 void Window::addDrawable(DrawablePtr drawable) {
@@ -192,11 +179,7 @@ void Window::mouseCallbackImpl(GLFWwindow* window, int button, int actions,
 			double xpos, ypos;
 			glfwGetCursorPos(window, &xpos, &ypos);
 			goal = renderer->getWorldCoordFromScreen(glm::vec3(xpos, ypos, 0));
-			std::cout << "Goal " << goal.x << "," << goal.y << "," << goal.z
-					<< std::endl;
 		}
-	} else {
-		std::cout << "Other button" << std::endl;
 	}
 }
 
@@ -207,8 +190,7 @@ void Window::executeSimulationLoop() {
 		simSolver.solveForStep(chain, goal);
 
 		//Sleep the thread a bit, since is way too fast
-		std::chrono::milliseconds dura(20);
-		std::this_thread::sleep_for(dura);
+		std::this_thread::sleep_for(simSleepTime);
 	}
 
 	std::cout << "SIMULATION THREAD EXIT" << std::endl;
