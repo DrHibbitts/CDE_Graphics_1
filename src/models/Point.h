@@ -16,7 +16,6 @@ public:
 	Point(const glm::vec3& v);
 	virtual ~Point();
 
-	void setColor(const glm::vec3& c);
 	void setVertex(const glm::vec3& v);
 private:
 	void init();

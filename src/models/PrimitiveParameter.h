@@ -18,10 +18,14 @@ public:
 	virtual ~PrimitiveParameter();
 
 	GLenum getMode() const;
+
 	GLint getFirst() const;
+
 	GLsizei getCount() const;
+	void setCount(GLsizei count);
 
 	void setValues(GLenum mode, GLint first, GLsizei count);
+
 private:
 	//Draw mode: GL_POINTS, GL_LINE, GL_TRIANGLE, etc
 	GLenum mode;

@@ -31,6 +31,10 @@ GLsizei PrimitiveParameter::getCount() const {
 	return count;
 }
 
+void PrimitiveParameter::setCount(GLsizei count) {
+	this->count = count;
+}
+
 void PrimitiveParameter::setValues(GLenum mode, GLint first, GLsizei count) {
 	this->mode = mode;
 	this->count = count;

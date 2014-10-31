@@ -19,12 +19,6 @@ Point::Point(const glm::vec3& v) {
 Point::~Point() {
 }
 
-void Point::setColor(const glm::vec3& c) {
-	colors[0] = c;
-
-	updateBuffers();
-}
-
 void Point::setVertex(const glm::vec3& v) {
 	vertices[0] = v;
 
@@ -34,7 +28,7 @@ void Point::setVertex(const glm::vec3& v) {
 void Point::init() {
 	generateBuffers();
 
-	//A line has two vertices and is drawn with GL_LINES
+	//A line has one vertex and is drawn with GL_POINTS
 	vertices.resize(1);
 	colors.resize(1);
 	indices.push_back(0);
