@@ -8,7 +8,7 @@
 #ifndef SRC_SIMULATIONSOLVER_H_
 #define SRC_SIMULATIONSOLVER_H_
 
-#include "Chain.h"
+#include "../models/Chain.h"
 
 class SimulationSolver {
 public:

@@ -46,15 +46,16 @@ void Renderer::loadDefaultShaders() {
 	// Create and compile our GLSL program from the shaders
 	try {
 		programID = shaderLoader.loadShaderProgram(
-				"../CDE_Graphics_1/src/vertexShader.glsl",
-				"../CDE_Graphics_1/src/fragmentShader.glsl");
+				"../CDE_Graphics_1/src/rendering/vertexShader.glsl",
+				"../CDE_Graphics_1/src/rendering/fragmentShader.glsl");
 		return;
 	} catch (std::runtime_error& e) {
 	}
 
 	//Try a different path for the Shaders
-	programID = shaderLoader.loadShaderProgram("../src/vertexShader.glsl",
-			"../src/fragmentShader.glsl");
+	programID = shaderLoader.loadShaderProgram(
+			"../src/rendering/vertexShader.glsl",
+			"../src/rendering/fragmentShader.glsl");
 }
 
 GLuint Renderer::getMVPlocation() const {
