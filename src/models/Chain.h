@@ -35,6 +35,7 @@ private:
 	std::vector<BonePtr> bones;
 	PointSetPtr pointSet;
 	bool drawTrail;
+	unsigned int trailSize;
 };
 
 typedef boost::shared_ptr<Chain> ChainPtr;
