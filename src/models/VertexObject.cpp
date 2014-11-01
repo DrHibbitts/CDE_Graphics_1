@@ -16,10 +16,7 @@ VertexObject::VertexObject() {
 }
 
 VertexObject::~VertexObject() {
-	glDeleteBuffers(1, &vbo);
-	glDeleteBuffers(1, &ebo);
-	glDeleteBuffers(1, &cbo);
-	glDeleteVertexArrays(1, &vao);
+	destroyBuffers();
 }
 
 void VertexObject::draw(Renderer& renderer) const {
@@ -38,40 +35,9 @@ void VertexObject::draw(Renderer& renderer) const {
 	//Left here for reference, ca be used for efficient rendering several
 	//of the same primitive object
 	//glDrawArrays(param.getMode(), param.getFirst(), param.getCount());
-}
 
-void VertexObject::translate(const glm::vec3& translation) {
-	modelMat = glm::translate(modelMat, translation);
-}
-
-void VertexObject::rotate(float angle, const glm::vec3& rotationAxis) {
-	modelMat = glm::rotate(modelMat, angle, rotationAxis);
-}
-
-const glm::mat4& VertexObject::getModelMat() const {
-	return modelMat;
-}
-
-const std::vector<glm::vec3>& VertexObject::getVertices() const {
-	return vertices;
-}
-
-const std::vector<unsigned int>& VertexObject::getIndices() const {
-	return indices;
-}
-
-const std::vector<glm::vec3>& VertexObject::getColors() const {
-	return colors;
-}
-
-const PrimitiveParameter& VertexObject::getPrimitivePar() const {
-	return primitivePar;
-}
-
-void VertexObject::setUniformColor(const glm::vec3& color) {
-	colors.assign(colors.size(), color);
-
-	updateBuffers();
+	//Clean up the binding
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 void VertexObject::generateBuffers() {
@@ -106,12 +72,17 @@ void VertexObject::populateBuffers() const {
 
 	// Populate the EBO.
 	glBufferData( GL_ELEMENT_ARRAY_BUFFER, eboSize, &(indices[0]), bufferType);
+
+	//Clean up the binding
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 void VertexObject::initVAO() const {
 	// Set the organisation of the vertex and normals data in the VBO.
 	glBindVertexArray(vao);
 	glBindBuffer( GL_ARRAY_BUFFER, vbo);
+	//Clean up the binding
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 void VertexObject::sendDataToShader() const {
@@ -139,6 +110,47 @@ void VertexObject::updateBuffers() const {
 	initVAO();
 }
 
+void VertexObject::destroyBuffers() const {
+	glDeleteBuffers(1, &vbo);
+	glDeleteBuffers(1, &ebo);
+	glDeleteBuffers(1, &cbo);
+	glDeleteVertexArrays(1, &vao);
+}
+
 void VertexObject::setModelMat(const glm::mat4& modelMat) {
 	this->modelMat = modelMat;
+}
+
+void VertexObject::translate(const glm::vec3& translation) {
+	modelMat = glm::translate(modelMat, translation);
+}
+
+void VertexObject::rotate(float angle, const glm::vec3& rotationAxis) {
+	modelMat = glm::rotate(modelMat, angle, rotationAxis);
+}
+
+const glm::mat4& VertexObject::getModelMat() const {
+	return modelMat;
+}
+
+const std::vector<glm::vec3>& VertexObject::getVertices() const {
+	return vertices;
+}
+
+const std::vector<unsigned int>& VertexObject::getIndices() const {
+	return indices;
+}
+
+const std::vector<glm::vec3>& VertexObject::getColors() const {
+	return colors;
+}
+
+const PrimitiveParameter& VertexObject::getPrimitivePar() const {
+	return primitivePar;
+}
+
+void VertexObject::setUniformColor(const glm::vec3& color) {
+	colors.assign(colors.size(), color);
+
+	updateBuffers();
 }

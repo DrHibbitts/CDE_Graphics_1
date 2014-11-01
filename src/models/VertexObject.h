@@ -47,6 +47,7 @@ protected:
 	void initVAO() const;
 	void sendDataToShader() const;
 	void updateBuffers() const;
+	void destroyBuffers() const;
 
 protected:
 	//Model matrix defines the object transformation
