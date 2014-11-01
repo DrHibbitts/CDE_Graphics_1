@@ -8,20 +8,28 @@
 #ifndef SRC_MODELS_POINTSET_H_
 #define SRC_MODELS_POINTSET_H_
 
-#include "VertexObject.h"
+#include "Drawable.h"
+#include "Point.h"
+#include <vector>
 
-class PointSet: public VertexObject {
+class PointSet: public Drawable {
 public:
-	PointSet(const unsigned int capacity = 500);
+	PointSet(const unsigned int capacity = 100);
 	virtual ~PointSet();
+
+	void draw(Renderer& renderer) const;
 
 	void addPoint(const glm::vec3& p);
 
 	void removeAllPoints();
-private:
-	void resizeDataVectors();
 
-	unsigned int originalCapacity;
+	const glm::vec3& getLastVertex() const;
+
+	unsigned int getTotalSize() const;
+
+private:
+	std::vector<PointPtr> pointVec;
+	static glm::vec3 empty;
 };
 
 typedef boost::shared_ptr<PointSet> PointSetPtr;
