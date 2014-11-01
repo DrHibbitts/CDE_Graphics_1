@@ -12,6 +12,7 @@ VertexObject::VertexObject() {
 	vbo = 0;
 	ebo = 0;
 	cbo = 0;
+	bufferType = GL_STATIC_DRAW;
 }
 
 VertexObject::~VertexObject() {
@@ -97,15 +98,14 @@ void VertexObject::populateBuffers() const {
 	//Activate vbo
 	glBindBuffer( GL_ARRAY_BUFFER, vbo);
 	// Populate the VBO.
-	glBufferData( GL_ARRAY_BUFFER, vboSize, &(vertices[0]), GL_STATIC_DRAW);
+	glBufferData( GL_ARRAY_BUFFER, vboSize, &(vertices[0]), bufferType);
 
 	glBindBuffer( GL_ARRAY_BUFFER, cbo);
 	// Populate the VBO.
-	glBufferData( GL_ARRAY_BUFFER, vboSize, &(colors[0]), GL_STATIC_DRAW);
+	glBufferData( GL_ARRAY_BUFFER, vboSize, &(colors[0]), bufferType);
 
 	// Populate the EBO.
-	glBufferData( GL_ELEMENT_ARRAY_BUFFER, eboSize, &(indices[0]),
-	GL_STATIC_DRAW);
+	glBufferData( GL_ELEMENT_ARRAY_BUFFER, eboSize, &(indices[0]), bufferType);
 }
 
 void VertexObject::initVAO() const {

@@ -14,6 +14,7 @@
 #include "Drawable.h"
 #include "Bone.h"
 #include "Joint.h"
+#include "PointSet.h"
 
 //Chain of bones and joints
 class Chain: public Drawable {
@@ -32,6 +33,8 @@ public:
 private:
 	std::vector<JointPtr> joints;
 	std::vector<BonePtr> bones;
+	PointSetPtr pointSet;
+	bool drawTrail;
 };
 
 typedef boost::shared_ptr<Chain> ChainPtr;

@@ -40,7 +40,7 @@ void SimulationController::killSimulation() {
 	chain.reset();
 }
 
-const ChainPtr& SimulationController::getChain() const {
+const ChainPtr SimulationController::getChain() const {
 	return chain;
 }
 

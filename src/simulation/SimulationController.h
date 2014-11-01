@@ -24,7 +24,7 @@ public:
 
 	void killSimulation();
 
-	const ChainPtr& getChain() const;
+	const ChainPtr getChain() const;
 
 	const glm::vec3& getGoal() const;
 	void setGoal(const glm::vec3& goal);

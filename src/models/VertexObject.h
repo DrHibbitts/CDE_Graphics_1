@@ -70,6 +70,8 @@ protected:
 
 	// CBO : Color buffer object
 	GLuint cbo;
+
+	GLenum bufferType;
 };
 
 typedef boost::shared_ptr<VertexObject> VertexObjectPtr;

@@ -10,7 +10,9 @@
 #define TO_RAD  M_PI / 180.0
 #define TO_DEG  180.0 / M_PI
 
-Chain::Chain() {
+Chain::Chain() :
+		pointSet(new PointSet()) {
+	drawTrail = true;
 }
 
 Chain::~Chain() {
@@ -46,6 +48,21 @@ void Chain::draw(Renderer& renderer) const {
 		boneTranslation.x = bones[i]->getLength();
 		currentMat = currentMat * glm::translate(boneTranslation);
 	}
+
+	if (!drawTrail) {
+		return;
+	}
+
+	glm::vec3 currentEnd = glm::vec3(currentMat * glm::vec4(0, 0, 0, 1));
+	if (pointSet->getLastVertex() != currentEnd) {
+		//glm::vec3 endPoint = currentMat * glm::vec3();
+		if (pointSet->getTotalSize() > 100) {
+			pointSet->removeAllPoints();
+		}
+
+		pointSet->addPoint(currentEnd);
+	}
+	pointSet->draw(renderer);
 }
 
 void Chain::addBone(float size) {
