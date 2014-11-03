@@ -14,7 +14,6 @@ Chain::Chain() :
 		pointSet(new PointSet()) {
 	drawTrail = true;
 	pointSet->setUniformColor(glm::vec3(0.5, 0.9, 0.1));
-	trailSize = 250;
 }
 
 Chain::~Chain() {
@@ -55,14 +54,15 @@ void Chain::draw(Renderer& renderer) const {
 		return;
 	}
 
+	//Get chain end position
 	glm::vec3 currentEnd = glm::vec3(currentMat * glm::vec4(0, 0, 0, 1));
-	if (pointSet->getLastVertex() != currentEnd) {
-		if (pointSet->getSize() > trailSize) {
-			pointSet->removeAllPoints();
-		}
 
+	//If end position is different than last point in the trail then
+	//add new end position to trail
+	if (pointSet->getLastVertex() != currentEnd) {
 		pointSet->addPoint(currentEnd);
 	}
+
 	pointSet->draw(renderer);
 }
 

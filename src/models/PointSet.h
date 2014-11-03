@@ -27,8 +27,8 @@ private:
 	void resizeDataVectors();
 	void updateDynamicBuffer();
 
-	unsigned int size;
-	unsigned int halfCapacity;
+	unsigned int currentIndex;
+	unsigned int totalSize;
 };
 
 typedef boost::shared_ptr<PointSet> PointSetPtr;

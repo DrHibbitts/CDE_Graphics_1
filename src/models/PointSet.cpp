@@ -8,8 +8,6 @@
 #include "PointSet.h"
 
 PointSet::PointSet(const unsigned int capacity) {
-	halfCapacity = capacity * 0.5;
-
 	generateBuffers();
 
 	//Point set is going to preallocate capacity size in buffer data
@@ -30,7 +28,8 @@ PointSet::PointSet(const unsigned int capacity) {
 	//to dynamic
 	bufferType = GL_DYNAMIC_DRAW;
 
-	size = 0;
+	currentIndex = 0;
+	totalSize = 0;
 
 	updateBuffers();
 }
@@ -43,66 +42,71 @@ void PointSet::updateDynamicBuffer() {
 	glBindBuffer( GL_ARRAY_BUFFER, vbo);
 
 	//Calculate next free position in the buffer
-	unsigned int byteOffset = size * sizeof(glm::vec3);
+	unsigned int byteOffset = currentIndex * sizeof(glm::vec3);
 
 	//Insert the new vertex at byteOffset position
 	glBufferSubData(GL_ARRAY_BUFFER, byteOffset, sizeof(glm::vec3),
-			&(vertices[size]));
+			&(vertices[currentIndex]));
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 void PointSet::addPoint(const glm::vec3& p) {
 
-	if (size == vertices.size()) {
-		resizeDataVectors();
+	//If we reach the end, insert points at the beginning of the buffer
+	if (currentIndex == vertices.size()) {
+		currentIndex = 0;
 	}
 
-	vertices.at(size) = p;
+	//Increment the number of points being drawn if possible
+	if (totalSize < vertices.size()) {
+		totalSize++;
+	}
+
+	vertices.at(currentIndex) = p;
 
 	//Faster dynamic way to update buffer information on OpenGL
 	updateDynamicBuffer();
 
-	size++;
-	primitivePar.setCount(size);
+	currentIndex++;
+	primitivePar.setCount(totalSize);
 }
 
 void PointSet::removeAllPoints() {
-	size = 0;
-	primitivePar.setCount(size);
+	currentIndex = 0;
+	totalSize = 0;
+	primitivePar.setCount(totalSize);
 }
 
 unsigned int PointSet::getSize() const {
-	return size;
+	return totalSize;
 }
 
 void PointSet::resizeDataVectors() {
 	//We ran out of buffer space, resize everything and allocate bigger buffers
-	unsigned int currentSize, newSize;
-	currentSize = vertices.size();
-	newSize = currentSize + halfCapacity;
+	unsigned int currentSize = vertices.size();
+	totalSize = 2 * currentSize;
 
-	vertices.resize(newSize);
-	colors.resize(newSize);
-	indices.resize(newSize);
+	vertices.resize(totalSize);
+	colors.resize(totalSize);
+	indices.resize(totalSize);
 
-	for (unsigned int i = currentSize; i < newSize; i++) {
+	for (unsigned int i = currentSize; i < totalSize; i++) {
 		colors[i] = colors[currentSize - 1];
 		indices[i] = i;
 	}
 
-	//Do a full buffer update, I believe this can be done more efficiently
-	//with glBufferSubData, but lets count on this method not get called
-	//too often
+	//Do a full buffer update, this is slow, better preallocate enough space
 	destroyBuffers();
 	generateBuffers();
 	updateBuffers();
 }
 
 const glm::vec3& PointSet::getLastVertex() const {
-	if (size == 0) {
-		return vertices.at(size);
+	//If the vector is empty return an empty vertex
+	if (currentIndex == 0) {
+		return vertices.at(currentIndex);
 	}
 
-	return vertices.at(size - 1);
+	return vertices.at(currentIndex - 1);
 }
