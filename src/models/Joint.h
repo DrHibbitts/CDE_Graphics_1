@@ -10,18 +10,23 @@
 
 #include <boost/shared_ptr.hpp>
 
-#include "Triangle.h"
+#include "Square.h"
 
-class Joint: public Triangle {
+class Joint: public Drawable {
 public:
 	Joint();
 	virtual ~Joint();
 
+	void draw(Renderer& renderer) const;
+
 	float getAngle() const;
 	void setAngle(float angle);
 
+	SquarePtr getDrawable();
+
 private:
 	float angle;
+	SquarePtr square;
 };
 
 typedef boost::shared_ptr<Joint> JointPtr;

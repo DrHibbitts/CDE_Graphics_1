@@ -10,7 +10,7 @@
 
 #include "boost/shared_ptr.hpp"
 
-#include "Renderer.h"
+#include "../rendering/Renderer.h"
 
 //Abstract class that defines a common interface to be rendered
 //Any subclass of Drawable can be rendered by Window
@@ -23,5 +23,7 @@ public:
 };
 
 typedef boost::shared_ptr<Drawable> DrawablePtr;
+
+//TODO Add model matrix and getter and setters????
 
 #endif /* SRC_DRAWABLE_H_ */

@@ -8,21 +8,23 @@
 #ifndef WINDOW_H_
 #define WINDOW_H_
 
+#include <string>
+#include <vector>
+#include <iostream>
+
 // Include GLEW
 #include <GL/glew.h>
 
 // Include GLFW
 #include <GLFW/glfw3.h>
 
-#include <string>
-#include <vector>
-#include <iostream>
-#include <sstream>
-
 #include <boost/pointer_cast.hpp>
 
-#include "Renderer.h"
-#include "Drawable.h"
+#include "models/Chain.h"
+#include "models/Drawable.h"
+#include "rendering/FPSCounter.h"
+#include "rendering/Renderer.h"
+#include "simulation/SimulationController.h"
 
 //Window class is a wrapper around GLFWwindow, it controls what objects
 //are rendered and handles the user input. It is a singleton, solo only one
@@ -49,11 +51,12 @@ private:
 
 	void setCallbacks();
 
-	//TODO Make callbacks not static
+	//The callback has to be a static function according to GLFW
 	static void mouseCallback(GLFWwindow *window, int button, int actions,
 			int mods);
 
-	void setWindowFPS();
+	void mouseCallbackImpl(GLFWwindow *window, int button, int actions,
+			int mods);
 
 	Window(void); // private constructor necessary to allow only one instance
 	Window(Window const&); // prevent copies
@@ -64,14 +67,11 @@ private:
 private:
 	GLFWwindow* window;
 	Renderer* renderer;
-	std::vector<DrawablePtr> toDrawObjects;
-	std::string windowTitle;
+	SimulationController simController;
 
-	//Variables for a FPS counter
-	double t0Value;
-	int fpsFrameCount;
-	double fps;
-	const double theTimeInterval;
+	std::vector<DrawablePtr> toDrawObjects;
+
+	FPSCounter fpsCounter;
 
 	typedef std::vector<DrawablePtr>::iterator DrawableIte;
 };

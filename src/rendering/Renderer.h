@@ -28,6 +28,8 @@ public:
 
 	const glm::mat4& getViewProjectionMatrix() const;
 
+	glm::vec3 getWorldCoordFromScreen(const glm::vec3& screenCoord);
+
 	GLuint getMVPlocation() const;
 	GLuint getProgramId() const;
 

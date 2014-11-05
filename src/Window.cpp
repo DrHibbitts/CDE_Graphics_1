@@ -7,24 +7,23 @@
 
 #include "Window.h"
 
-//TODO Delete when no object modification is done here
-#include "Chain.h"
-#include "Square.h"
-
 Window& Window::getInstance() {
 	static Window instance; // lazy singleton, instantiated on first use
 	return instance;
 }
 
 void Window::cleanUp() {
+	//Terminate simulation thread
+	simController.killSimulation();
+
 	// Close OpenGL window and terminate GLFW
 	glfwTerminate();
+
 	delete renderer;
 	renderer = NULL;
 }
 
-Window::Window() :
-		theTimeInterval(1.0) {
+Window::Window() {
 	init();
 }
 
@@ -45,16 +44,14 @@ void Window::init() {
 	//Renderer can only be initialised after calling glewInit, so instead of
 	//creating an init() method in Renderer is easier to have it as a pointer
 	renderer = NULL;
-
-	t0Value = glfwGetTime(); // Set the initial time to now
-	fpsFrameCount = 0;        // Set the initial FPS frame count to 0
-	fps = 0.0;           // Set the initial FPS value to 0.0
 }
 
 Window::~Window() {
 	// Close OpenGL window and terminate GLFW
 	glDeleteProgram(renderer->getProgramId());
 	cleanUp();
+
+	std::cout << "MAIN THREAD MEMORY FREED AND EXIT" << std::endl;
 }
 
 void Window::createWindow(unsigned int height, unsigned int width,
@@ -63,7 +60,6 @@ void Window::createWindow(unsigned int height, unsigned int width,
 	cleanUp();
 	init();
 
-	this->windowTitle = windowTitle;
 	// Open a window and create its OpenGL context
 	window = glfwCreateWindow(height, width, windowTitle.c_str(), NULL, NULL);
 	if (window == NULL) {
@@ -86,11 +82,20 @@ void Window::createWindow(unsigned int height, unsigned int width,
 
 	renderer = new Renderer();
 
+	fpsCounter.setWindow(window, windowTitle);
+
 	setCallbacks();
 }
 
 void Window::addDrawable(DrawablePtr drawable) {
 	toDrawObjects.push_back(drawable);
+
+	//Check if the object is a chain
+	ChainPtr newChain = boost::dynamic_pointer_cast<Chain>(drawable);
+	//If it is a chain create a new thread that will run the simulation
+	if (newChain) {
+		simController.startSimulation(newChain);
+	}
 }
 
 void Window::removeDrawable(DrawablePtr drawable) {
@@ -100,6 +105,11 @@ void Window::removeDrawable(DrawablePtr drawable) {
 			toDrawObjects.erase(it);
 			break;
 		}
+	}
+
+	//Check if the object is a chain
+	if (drawable == simController.getChain()) {
+		simController.killSimulation();
 	}
 }
 
@@ -124,18 +134,18 @@ void Window::executeMainLoop() {
 		glfwSwapBuffers(window);
 
 		//Display FPS
-		setWindowFPS();
+		fpsCounter.setWindowFPS();
 
 		//Get user input
 		glfwPollEvents();
 
 		//Mouse polling example
-		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS) {
-			//Change angle on mouse click
-			DrawablePtr ob = toDrawObjects[1];
-			ChainPtr ch = boost::static_pointer_cast<Chain>(ob);
-			ch->setJointAngle(1, ch->getJointAngle(1) + 2);
-		}
+		//if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS) {
+		//Change angle on mouse click
+		//DrawablePtr ob = toDrawObjects[1];
+		//ChainPtr ch = boost::static_pointer_cast<Chain>(ob);
+		//chain->setJointAngle(2, chain->getJointAngle(2) + 1);
+		//}
 
 	} // Check if the ESC key was pressed or the window was closed
 	while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS
@@ -148,48 +158,26 @@ void Window::setCallbacks() {
 
 void Window::mouseCallback(GLFWwindow* window, int button, int actions,
 		int mods) {
+	getInstance().mouseCallbackImpl(window, button, actions, mods);
+}
+
+void Window::mouseCallbackImpl(GLFWwindow* window, int button, int actions,
+		int mods) {
 	//Mouse callback example
 	if (button == GLFW_MOUSE_BUTTON_1) {
-		if (actions == GLFW_PRESS) {
-			std::cout << "Mouse press" << std::endl;
-		} else {
+		if (actions == GLFW_RELEASE) {
 			double xpos, ypos;
 			glfwGetCursorPos(window, &xpos, &ypos);
-			std::cout << "Mouse release " << xpos << "," << ypos << std::endl;
+			glm::vec3 goal = renderer->getWorldCoordFromScreen(
+					glm::vec3(xpos, ypos, 0));
+			simController.setGoal(goal);
+			std::cout << "Goal is " << goal.x << ", " << goal.y << ", "
+					<< goal.z << std::endl;
 		}
-	} else {
-		std::cout << "Other button" << std::endl;
 	}
 }
 
-void Window::setWindowFPS() {
-	// Get the current time in seconds since the program started (non-static, so executed every time)
-	double currentTime = glfwGetTime();
-
-	// Calculate and display the FPS every specified time interval
-	if ((currentTime - t0Value) > theTimeInterval) {
-		// Calculate the FPS as the number of frames divided by the interval in seconds
-		fps = (double) fpsFrameCount / (currentTime - t0Value);
-
-		// Convert the fps value into a string using an output stringstream
-		std::ostringstream stream;
-		stream << fps;
-		std::string fpsString = stream.str();
-
-		glfwSetWindowTitle(window,
-				(windowTitle + " | FPS: " + fpsString).c_str());
-
-		// Reset the FPS frame counter and set the initial time to be now
-		fpsFrameCount = 0;
-		t0Value = glfwGetTime();
-	} else // FPS calculation time interval hasn't elapsed yet? Simply increment the FPS frame counter
-	{
-		fpsFrameCount++;
-	}
-}
-
-Window::Window(const Window&) :
-		theTimeInterval(1.0) {
+Window::Window(const Window&) {
 	cleanUp();
 	init();
 }

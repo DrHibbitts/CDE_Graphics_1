@@ -22,13 +22,6 @@
  * 3. Shader loading
  ***/
 
-ShaderLoader::ShaderLoader() {
-	shaderProgram = 0;
-}
-
-ShaderLoader::~ShaderLoader() {
-}
-
 GLuint ShaderLoader::loadShaderProgram(const char* vertexShaderFilePath,
 		const char* fragmentShaderFilePath) {
 	GLint linkingResult;
@@ -147,14 +140,4 @@ void ShaderLoader::throwCompilingError(GLuint shaderObject) const {
 	const std::string errorMessage = std::string(
 			"Error compiling shader object, make sure the path is correct\n");
 	throw std::runtime_error(errorMessage);
-}
-
-ShaderLoader& ShaderLoader::operator =(const ShaderLoader& otherShaderLoader) {
-	shaderProgram = otherShaderLoader.shaderProgram;
-	return *this;
-}
-
-ShaderLoader& ShaderLoader::operator =(ShaderLoader& otherShaderLoader) {
-	shaderProgram = otherShaderLoader.shaderProgram;
-	return *this;
 }

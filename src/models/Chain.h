@@ -11,10 +11,9 @@
 #define GLM_FORCE_RADIANS
 #include <glm/gtx/transform.hpp>
 
-#include "Renderer.h"
-#include "Joint.h"
-#include "Bone.h"
 #include "Drawable.h"
+#include "Bone.h"
+#include "Joint.h"
 
 //Chain of bones and joints
 class Chain: public Drawable {

@@ -6,6 +6,14 @@ SET(PROJECT_NAME CDE_Graphics_1)
 PROJECT(${PROJECT_NAME})
 SET(PROJECT_EXE "${PROJECT_NAME}")
 
+#C++11 support
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+
+#All warnings and thread compiling on linux
+IF(UNIX)
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pthread")
+ENDIF()
+
 #Add custom .cmake files located in this folder
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmakeModules")
 
@@ -30,33 +38,39 @@ INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
 
 SET(SOURCE
 src/main.cpp
-src/Axis.cpp
-src/Bone.cpp
-src/Chain.cpp
-src/Joint.cpp
-src/Line.cpp
-src/PrimitiveParameter.cpp
-src/Renderer.cpp
-src/ShaderLoader.cpp
-src/Square.cpp
-src/Triangle.cpp
-src/VertexObject.cpp
+src/models/Axis.cpp
+src/models/Bone.cpp
+src/models/Chain.cpp
+src/models/Joint.cpp
+src/models/Line.cpp
+src/models/PrimitiveParameter.cpp
+src/models/Square.cpp
+src/models/Triangle.cpp
+src/models/VertexObject.cpp
+src/rendering/Renderer.cpp
+src/rendering/ShaderLoader.cpp
+src/rendering/FPSCounter.cpp
+src/simulation/SimulationController.cpp
+src/simulation/SimulationSolver.cpp
 src/Window.cpp
 )
 
 SET(HEADERS
-src/Axis.h
-src/Bone.h
-src/Chain.h
-src/Drawable.h
-src/Joint.h
-src/Line.h
-src/PrimitiveParameter.h
-src/Renderer.h
-src/ShaderLoader.h
-src/Square.h
-src/Triangle.h
-src/VertexObject.h
+src/models/Axis.h
+src/models/Bone.h
+src/models/Chain.h
+src/models/Drawable.h
+src/models/Joint.h
+src/models/Line.h
+src/models/PrimitiveParameter.h
+src/models/Square.h
+src/models/Triangle.h
+src/models/VertexObject.h
+src/rendering/Renderer.h
+src/rendering/ShaderLoader.h
+src/rendering/FPSCounter.h
+src/simulation/SimulationController.h
+src/simulation/SimulationSolver.h
 src/Window.h
 )
 
@@ -72,7 +86,10 @@ TARGET_LINK_LIBRARIES(${PROJECT_EXE} ${Boost_LIBRARIES})
 #TARGET_LINK_LIBRARIES(${PROJECT_EXE} ${FREEIMAGEPLUS_LIBRARIES})
 #TARGET_LINK_LIBRARIES(${PROJECT_EXE} ${ASSIMP_LIBRARIES})
 
-#Extra linking for x11 enviroments
+#Threads library, Could be needed for windows
+#TARGET_LINK_LIBRARIES(${PROJECT_EXE} "-lpthread")
+
+#Extra linking for linux running X11 enviroments
 IF(UNIX)
-    TARGET_LINK_LIBRARIES(${PROJECT_EXE} "-lX11 -lXrandr -lXi -lXxf86vm -lpthread")
+    TARGET_LINK_LIBRARIES(${PROJECT_EXE} "-lX11 -lXrandr -lXi -lXxf86vm")
 ENDIF()
