@@ -29,6 +29,7 @@ private:
 	void updateAngles();
 
 	ChainPtr chain;
+	//TODO Fix to not used pointers on wChain
 	Chain *wChain;
 	std::vector<glm::vec3> jacobian;
 	float h;

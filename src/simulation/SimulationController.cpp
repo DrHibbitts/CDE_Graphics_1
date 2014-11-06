@@ -19,7 +19,7 @@ SimulationController::~SimulationController() {
 void SimulationController::executeSimulationLoop() {
 
 	while (simulating) {
-
+		//TODO If it didn't move much during a set of iterations stop simulating
 		if (glm::length(chain->getEndEfectorPos() - goal) > epsilon) {
 			simSolver.solveForStep(goal);
 		}

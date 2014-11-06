@@ -80,6 +80,7 @@ float Chain::getJointAngle(unsigned int index) {
 }
 
 glm::vec3 Chain::getEndEfectorPos() const {
+	//TODO Condensate same code on rendering and here
 	glm::mat4 currentMat, rotMat;
 	glm::vec3 boneTranslation;
 	//Rotate along z axis
@@ -114,6 +115,7 @@ unsigned int Chain::getNumJoints() const {
 }
 
 Chain::Chain(const Chain& otherChain) {
+	//TODO Do a real copy constructor, move PointSet outside of Chain??
 	drawTrail = false;
 	pointSet = PointSetPtr(new PointSet());
 
