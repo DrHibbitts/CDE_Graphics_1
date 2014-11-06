@@ -25,11 +25,11 @@ int main(void) {
 	//Once an object is added to the window, it will be rendered
 	window.addDrawable(axis);
 
-//	TrianglePtr triangle(
-//			new Triangle(glm::vec3(-1.0f, -1.0f, 0.0f),
-//					glm::vec3(1.0f, -1.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
-//	triangle->setColors(glm::vec3(1, 1, 0), glm::vec3(1, 0, 0),
-//			glm::vec3(1, 0, 0));
+	TrianglePtr triangle(
+			new Triangle(glm::vec3(-0.2f, -0.2f, 0.0f),
+					glm::vec3(0.2f, -0.2f, 0.0f), glm::vec3(0.0f, 0.2f, 0.0f)));
+	triangle->setColors(glm::vec3(1, 1, 0), glm::vec3(1, 0, 0),
+			glm::vec3(1, 0, 0));
 //
 //	TrianglePtr triangle2(
 //			new Triangle(glm::vec3(-2.0f, -2.0f, 0.0f),
@@ -54,7 +54,7 @@ int main(void) {
 //
 //	square->setUniformColor(glm::vec3(0, 0, 1));
 //
-//	window.addDrawable(triangle);
+	window.addDrawable(triangle);
 //	window.addDrawable(line);
 //
 //	window.addDrawable(square);

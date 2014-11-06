@@ -171,6 +171,11 @@ void Window::mouseCallbackImpl(GLFWwindow* window, int button, int actions,
 			glm::vec3 goal = renderer->getWorldCoordFromScreen(
 					glm::vec3(xpos, ypos, 0));
 			simController.setGoal(goal);
+
+			DrawablePtr ob = toDrawObjects[1];
+			TrianglePtr tr = boost::static_pointer_cast<Triangle>(ob);
+			tr->translate(goal - tr->getCurrentPosition());
+
 			std::cout << "Goal is " << goal.x << ", " << goal.y << ", "
 					<< goal.z << std::endl;
 		}

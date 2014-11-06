@@ -110,6 +110,10 @@ void VertexObject::updateBuffers() const {
 	initVAO();
 }
 
+glm::vec3 VertexObject::getCurrentPosition() const {
+	return glm::vec3();
+}
+
 void VertexObject::destroyBuffers() const {
 	glDeleteBuffers(1, &vbo);
 	glDeleteBuffers(1, &ebo);

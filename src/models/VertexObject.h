@@ -36,6 +36,7 @@ public:
 	const std::vector<unsigned int>& getIndices() const;
 	const std::vector<glm::vec3>& getColors() const;
 	const PrimitiveParameter& getPrimitivePar() const;
+	virtual glm::vec3 getCurrentPosition() const;
 
 	//Set a color for all the vertices
 	void setUniformColor(const glm::vec3& color);
