@@ -78,3 +78,33 @@ void Chain::setJointAngle(unsigned int index, float angle) {
 float Chain::getJointAngle(unsigned int index) {
 	return joints.at(index)->getAngle() * TO_DEG;
 }
+
+glm::vec3 Chain::getEndEfectorPos() const {
+	glm::mat4 currentMat, rotMat;
+	glm::vec3 boneTranslation;
+	//Rotate along z axis
+	glm::vec3 axisVec(0, 0, 1);
+
+	//Main loop consists of applying joint rotation and then bone translation
+	//For next bone do the same using the previous transformed coordinate system
+	for (unsigned int i = 0; i < bones.size(); i++) {
+		//Calculate rotation by the current joint
+		rotMat = glm::rotate(joints[i]->getAngle(), axisVec);
+
+		//Set joint position at the beginning of the current bone
+		//joints[i]->getDrawable()->setModelMat(currentMat);
+
+		//Update total transformation with current joint rotation
+		currentMat = currentMat * rotMat;
+
+		//Bone total transformation is current transformation
+		//bones[i]->getDrawable()->setModelMat(currentMat);
+
+		//Update total transformation with current bone translation
+		boneTranslation.x = bones[i]->getLength();
+		currentMat = currentMat * glm::translate(boneTranslation);
+	}
+
+	//Get chain end position
+	return glm::vec3(currentMat * glm::vec4(0, 0, 0, 1));
+}

@@ -30,6 +30,8 @@ public:
 	void setJointAngle(unsigned int index, float angle);
 
 	float getJointAngle(unsigned int index);
+
+	glm::vec3 getEndEfectorPos() const;
 private:
 	std::vector<JointPtr> joints;
 	std::vector<BonePtr> bones;
