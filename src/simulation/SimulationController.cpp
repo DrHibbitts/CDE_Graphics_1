@@ -19,7 +19,7 @@ void SimulationController::executeSimulationLoop() {
 
 	while (simulating) {
 
-		simSolver.solveForStep(chain, goal);
+		simSolver.solveForStep(goal);
 
 		//Sleep the thread a bit, since is way too fast
 		std::this_thread::sleep_for(simSleepTime);
@@ -59,6 +59,8 @@ void SimulationController::startSimulation(ChainPtr chain) {
 
 	//Save chain pointer
 	this->chain = chain;
+
+	simSolver.intialize(chain);
 
 	//Run new thread with simulation loop
 	simulating = true;

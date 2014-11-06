@@ -112,6 +112,20 @@ glm::vec3 Chain::getEndEfectorPos() const {
 unsigned int Chain::getNumJoints() const {
 	return joints.size();
 }
+
+Chain::Chain(const Chain& otherChain) {
+	drawTrail = false;
+	pointSet = PointSetPtr(new PointSet());
+
+	joints.resize(otherChain.joints.size());
+	bones.resize(otherChain.bones.size());
+
+	for (unsigned int i = 0; i < joints.size(); i++) {
+		joints[i] = JointPtr(new Joint(otherChain.joints[i]->getAngle()));
+		bones[i] = BonePtr(new Bone(otherChain.bones[i]->getLength()));
+	}
+}
+
 glm::vec3 Chain::costFun(const glm::vec3& goal) const {
 	return goal - getEndEfectorPos();
 }

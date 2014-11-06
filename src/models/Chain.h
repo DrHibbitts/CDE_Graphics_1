@@ -21,6 +21,7 @@ class Chain: public Drawable {
 public:
 	Chain();
 	virtual ~Chain();
+	Chain(const Chain& otherChain);
 
 	void draw(Renderer& renderer) const;
 
