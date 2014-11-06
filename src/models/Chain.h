@@ -32,6 +32,8 @@ public:
 	float getJointAngle(unsigned int index);
 
 	glm::vec3 getEndEfectorPos() const;
+
+	glm::vec3 costFun(const glm::vec3& goal) const;
 private:
 	std::vector<JointPtr> joints;
 	std::vector<BonePtr> bones;

@@ -108,3 +108,7 @@ glm::vec3 Chain::getEndEfectorPos() const {
 	//Get chain end position
 	return glm::vec3(currentMat * glm::vec4(0, 0, 0, 1));
 }
+
+glm::vec3 Chain::costFun(const glm::vec3& goal) const {
+	return goal - getEndEfectorPos();
+}
