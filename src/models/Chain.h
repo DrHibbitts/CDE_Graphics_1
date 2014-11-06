@@ -31,6 +31,8 @@ public:
 
 	float getJointAngle(unsigned int index);
 
+	unsigned int getNumJoints() const;
+
 	glm::vec3 getEndEfectorPos() const;
 
 	glm::vec3 costFun(const glm::vec3& goal) const;

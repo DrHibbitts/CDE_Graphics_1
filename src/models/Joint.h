@@ -15,6 +15,7 @@
 class Joint: public Drawable {
 public:
 	Joint();
+	Joint(float angle);
 	virtual ~Joint();
 
 	void draw(Renderer& renderer) const;

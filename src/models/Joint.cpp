@@ -35,3 +35,8 @@ void Joint::setAngle(float angle) {
 SquarePtr Joint::getDrawable() {
 	return square;
 }
+
+Joint::Joint(float angle) :
+		square(new Square()) {
+	setAngle(angle);
+}
