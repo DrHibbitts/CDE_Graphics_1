@@ -7,9 +7,10 @@
 
 #include "SimulationController.h"
 
-SimulationController::SimulationController() :
+SimulationController::SimulationController(double epsilon) :
 		simSleepTime(20) {
 	simulating = false;
+	this->epsilon = epsilon;
 }
 
 SimulationController::~SimulationController() {
@@ -19,7 +20,9 @@ void SimulationController::executeSimulationLoop() {
 
 	while (simulating) {
 
-		simSolver.solveForStep(goal);
+		if (glm::length(chain->getEndEfectorPos() - goal) > epsilon) {
+			simSolver.solveForStep(goal);
+		}
 
 		//Sleep the thread a bit, since is way too fast
 		std::this_thread::sleep_for(simSleepTime);

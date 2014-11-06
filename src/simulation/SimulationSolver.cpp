@@ -46,6 +46,7 @@ void SimulationSolver::finiteDiffJacobian(const glm::vec3& goal) {
 	for (unsigned int i = 0; i < jacobian.size(); i++) {
 		wChain->setJointAngle(i, wChain->getJointAngle(i) + h);
 		jacobian[i] = (1 / h) * (wChain->costFun(goal) - costVal);
+		jacobian[i] = (1 / glm::length(jacobian[i])) * jacobian[i];
 		wChain->setJointAngle(i, wChain->getJointAngle(i) - h);
 	}
 }

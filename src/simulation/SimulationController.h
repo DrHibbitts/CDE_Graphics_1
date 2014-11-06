@@ -15,7 +15,7 @@
 
 class SimulationController {
 public:
-	SimulationController();
+	SimulationController(double epsilon = 0.01);
 	virtual ~SimulationController();
 
 	void startSimulation(ChainPtr chain);
@@ -36,6 +36,7 @@ private:
 	bool simulating;
 	glm::vec3 goal;
 	std::chrono::milliseconds simSleepTime;
+	double epsilon;
 };
 
 #endif /* SRC_SIMULATIONCONTROLLER_H_ */

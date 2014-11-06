@@ -28,8 +28,7 @@ int main(void) {
 	TrianglePtr triangle(
 			new Triangle(glm::vec3(-0.2f, -0.2f, 0.0f),
 					glm::vec3(0.2f, -0.2f, 0.0f), glm::vec3(0.0f, 0.2f, 0.0f)));
-	triangle->setColors(glm::vec3(1, 1, 0), glm::vec3(1, 0, 0),
-			glm::vec3(1, 0, 0));
+	triangle->setUniformColor(glm::vec3(0, 1, 1));
 //
 //	TrianglePtr triangle2(
 //			new Triangle(glm::vec3(-2.0f, -2.0f, 0.0f),

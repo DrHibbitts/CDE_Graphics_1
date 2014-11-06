@@ -12,7 +12,7 @@
 
 class SimulationSolver {
 public:
-	SimulationSolver(float h = 0.01, double stepSize = 0.1);
+	SimulationSolver(float h = 0.01, double stepSize = 0.01);
 
 	virtual ~SimulationSolver();
 

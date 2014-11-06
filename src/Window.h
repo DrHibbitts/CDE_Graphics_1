@@ -64,6 +64,9 @@ private:
 	Window(Window const&); // prevent copies
 	void operator=(Window const&) {
 	}
+
+	void updateGoalMarker(const glm::vec3& goal);
+
 	; // prevent assignments
 
 private:
