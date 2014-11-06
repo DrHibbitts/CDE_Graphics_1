@@ -16,7 +16,9 @@ public:
 	virtual ~SimulationSolver();
 
 	//TODO Include here the Jacobian Solver
-	void solveForStep(ChainPtr chain, const glm::vec3 goal);
+	void solveForStep(ChainPtr chain, const glm::vec3& goal);
+private:
+	Chain *wChain;
 };
 
 #endif /* SRC_SIMULATIONSOLVER_H_ */
