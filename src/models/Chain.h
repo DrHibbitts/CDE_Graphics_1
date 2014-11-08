@@ -41,7 +41,10 @@ private:
 	std::vector<JointPtr> joints;
 	std::vector<BonePtr> bones;
 	PointSetPtr pointSet;
-	bool drawTrail;
+	bool drawingTrail;
+
+	void drawBonesJoints(Renderer& renderer, glm::mat4& currentMat) const;
+	void drawTrail(const glm::mat4& currentMat, Renderer& renderer) const;
 };
 
 typedef boost::shared_ptr<Chain> ChainPtr;

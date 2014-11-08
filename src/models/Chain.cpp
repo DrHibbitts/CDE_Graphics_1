@@ -12,15 +12,15 @@
 
 Chain::Chain() :
 		pointSet(new PointSet()) {
-	drawTrail = true;
+	drawingTrail = true;
 	pointSet->setUniformColor(glm::vec3(0.5, 0.9, 0.1));
 }
 
 Chain::~Chain() {
 }
 
-void Chain::draw(Renderer& renderer) const {
-	glm::mat4 currentMat, rotMat;
+void Chain::drawBonesJoints(Renderer& renderer, glm::mat4& currentMat) const {
+	glm::mat4 rotMat;
 	glm::vec3 boneTranslation;
 	//Rotate along z axis
 	glm::vec3 axisVec(0, 0, 1);
@@ -46,14 +46,11 @@ void Chain::draw(Renderer& renderer) const {
 
 		//Render the joints later so the bones appear on the background
 		bones[i]->draw(renderer);
-
 		joints[i]->draw(renderer);
 	}
+}
 
-	if (!drawTrail) {
-		return;
-	}
-
+void Chain::drawTrail(const glm::mat4& currentMat, Renderer& renderer) const {
 	//Get chain end position
 	glm::vec3 currentEnd = glm::vec3(currentMat * glm::vec4(0, 0, 0, 1));
 
@@ -62,8 +59,19 @@ void Chain::draw(Renderer& renderer) const {
 	if (pointSet->getLastVertex() != currentEnd) {
 		pointSet->addPoint(currentEnd);
 	}
-
 	pointSet->draw(renderer);
+}
+
+void Chain::draw(Renderer& renderer) const {
+	glm::mat4 currentMat;
+
+	drawBonesJoints(renderer, currentMat);
+
+	if (!drawingTrail) {
+		return;
+	}
+
+	drawTrail(currentMat, renderer);
 }
 
 void Chain::addBone(float size) {
@@ -110,7 +118,7 @@ unsigned int Chain::getNumJoints() const {
 
 Chain::Chain(const Chain& otherChain) {
 	//TODO Do a real copy constructor, move PointSet outside of Chain??
-	drawTrail = false;
+	drawingTrail = false;
 	pointSet = PointSetPtr(new PointSet());
 
 	joints.resize(otherChain.joints.size());
