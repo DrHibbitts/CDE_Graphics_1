@@ -83,5 +83,4 @@ int main(void) {
 	return 0;
 }
 
-//TODO In Window move simulation code to new class
 //TODO Make introduce simulation and/or rendering controlled step size

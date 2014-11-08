@@ -67,6 +67,7 @@ unsigned int Chain::getNumJoints() const {
 Chain::Chain(const Chain& otherChain) {
 	//TODO Do a real copy constructor, move PointSet outside of Chain??
 	drawingTrail = false;
+	trailEpsilon = otherChain.trailEpsilon;
 	pointSet = PointSetPtr(new PointSet());
 
 	joints.resize(otherChain.joints.size());
