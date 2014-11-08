@@ -16,9 +16,9 @@ public:
 
 	virtual ~SimulationSolver();
 
-	void intialize(ChainPtr chain);
-
 	void solveForStep(const glm::vec3 goal);
+
+	void setChain(ChainPtr chain);
 
 	float getH() const;
 	void setH(float h);
@@ -29,8 +29,8 @@ private:
 	void updateAngles();
 
 	ChainPtr chain;
-	//TODO Fix to not used pointers on wChain
-	Chain *wChain;
+	ChainPtr wChain;
+
 	std::vector<glm::vec3> jacobian;
 	float h;
 	glm::vec3 costVal;

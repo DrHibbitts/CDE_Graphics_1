@@ -63,7 +63,7 @@ void SimulationController::startSimulation(ChainPtr chain) {
 	//Save chain pointer
 	this->chain = chain;
 
-	simSolver.intialize(chain);
+	simSolver.setChain(chain);
 
 	//Run new thread with simulation loop
 	simulating = true;

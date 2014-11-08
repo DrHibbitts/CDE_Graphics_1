@@ -12,11 +12,9 @@
 SimulationSolver::SimulationSolver(float h, double stepSize) {
 	this->h = h;
 	this->stepSize = stepSize;
-	wChain = NULL;
 }
 
 SimulationSolver::~SimulationSolver() {
-	delete wChain;
 }
 
 void SimulationSolver::solveForStep(const glm::vec3 goal) {
@@ -26,10 +24,16 @@ void SimulationSolver::solveForStep(const glm::vec3 goal) {
 	}
 }
 
-void SimulationSolver::intialize(ChainPtr chain) {
+void SimulationSolver::setChain(ChainPtr chain) {
 	this->chain = chain;
-	wChain = new Chain((*chain.get()));
-	jacobian.resize(chain->getNumJoints());
+
+	if (chain) {
+		//wChain is a real copy of chain, not just another pointer to it
+		wChain = ChainPtr(new Chain((*chain.get())));
+		jacobian.resize(chain->getNumJoints());
+	} else {
+		wChain.reset();
+	}
 }
 
 void SimulationSolver::resetWorkingChain() {
