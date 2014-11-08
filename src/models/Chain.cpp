@@ -28,11 +28,11 @@ void Chain::draw(Renderer& renderer) const {
 	//Main loop consists of applying joint rotation and then bone translation
 	//For next bone do the same using the previous transformed coordinate system
 	for (unsigned int i = 0; i < bones.size(); i++) {
-		//Calculate rotation by the current joint
-		rotMat = glm::rotate(joints[i]->getAngle(), axisVec);
-
 		//Set joint position at the beginning of the current bone
 		joints[i]->getDrawable()->setModelMat(currentMat);
+
+		//Calculate rotation by the current joint
+		rotMat = glm::rotate(joints[i]->getAngle(), axisVec);
 
 		//Update total transformation with current joint rotation
 		currentMat = currentMat * rotMat;
@@ -40,14 +40,14 @@ void Chain::draw(Renderer& renderer) const {
 		//Bone total transformation is current transformation
 		bones[i]->getDrawable()->setModelMat(currentMat);
 
+		//Update total transformation with current bone translation
+		boneTranslation.x = bones[i]->getLength();
+		currentMat = currentMat * glm::translate(boneTranslation);
+
 		//Render the joints later so the bones appear on the background
 		bones[i]->draw(renderer);
 
 		joints[i]->draw(renderer);
-
-		//Update total transformation with current bone translation
-		boneTranslation.x = bones[i]->getLength();
-		currentMat = currentMat * glm::translate(boneTranslation);
 	}
 
 	if (!drawTrail) {
@@ -92,14 +92,8 @@ glm::vec3 Chain::getEndEfectorPos() const {
 		//Calculate rotation by the current joint
 		rotMat = glm::rotate(joints[i]->getAngle(), axisVec);
 
-		//Set joint position at the beginning of the current bone
-		//joints[i]->getDrawable()->setModelMat(currentMat);
-
 		//Update total transformation with current joint rotation
 		currentMat = currentMat * rotMat;
-
-		//Bone total transformation is current transformation
-		//bones[i]->getDrawable()->setModelMat(currentMat);
 
 		//Update total transformation with current bone translation
 		boneTranslation.x = bones[i]->getLength();
