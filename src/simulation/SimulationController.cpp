@@ -17,11 +17,12 @@ SimulationController::~SimulationController() {
 }
 
 void SimulationController::executeSimulationLoop() {
+	double stepSize = 0.01;
 
 	while (simulating) {
-		//TODO If it didn't move much during a set of iterations stop simulating
+		//If it didn't move much during a set of iterations stop simulating
 		if (glm::length(chain->getEndEfectorPos() - goal) > epsilon) {
-			simSolver.solveForStep(goal);
+			simSolver.solveForStep(goal, stepSize);
 		}
 
 		//Sleep the thread a bit, since is way too fast

@@ -9,18 +9,17 @@
 
 #define TO_DEG  180.0 / M_PI
 
-SimulationSolver::SimulationSolver(float h, double stepSize) {
+SimulationSolver::SimulationSolver(float h) {
 	this->h = h;
-	this->stepSize = stepSize;
 }
 
 SimulationSolver::~SimulationSolver() {
 }
 
-void SimulationSolver::solveForStep(const glm::vec3 goal) {
+void SimulationSolver::solveForStep(const glm::vec3 goal, double stepSize) {
 	if (chain) {
 		finiteDiffJacobian(goal);
-		updateAngles();
+		updateAngles(stepSize);
 	}
 }
 
@@ -63,7 +62,7 @@ void SimulationSolver::setH(float h) {
 	this->h = h;
 }
 
-void SimulationSolver::updateAngles() {
+void SimulationSolver::updateAngles(double stepSize) {
 
 	double angleUpdate;
 	for (unsigned int i = 0; i < jacobian.size(); i++) {
