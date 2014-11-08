@@ -14,6 +14,7 @@ Chain::Chain() :
 		pointSet(new PointSet()) {
 	drawingTrail = true;
 	pointSet->setUniformColor(glm::vec3(0.5, 0.9, 0.1));
+	trailEpsilon = 0.01;
 }
 
 Chain::~Chain() {
@@ -123,7 +124,7 @@ void Chain::drawTrail(const glm::mat4& currentMat, Renderer& renderer) const {
 
 	//If end position is different than last point in the trail then
 	//add new end position to trail
-	if (pointSet->getLastVertex() != currentEnd) {
+	if (glm::length(pointSet->getLastVertex() - currentEnd) > trailEpsilon) {
 		pointSet->addPoint(currentEnd);
 	}
 	pointSet->draw(renderer);
