@@ -45,6 +45,8 @@ private:
 
 	void drawBonesJoints(Renderer& renderer, glm::mat4& currentMat) const;
 	void drawTrail(const glm::mat4& currentMat, Renderer& renderer) const;
+	void updateMatrices(glm::mat4& currentMat, const glm::vec3& axisVec,
+			unsigned int i, bool updateBone) const;
 };
 
 typedef boost::shared_ptr<Chain> ChainPtr;

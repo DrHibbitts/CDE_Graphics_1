@@ -19,49 +19,6 @@ Chain::Chain() :
 Chain::~Chain() {
 }
 
-void Chain::drawBonesJoints(Renderer& renderer, glm::mat4& currentMat) const {
-	glm::mat4 rotMat;
-	glm::vec3 boneTranslation;
-	//Rotate along z axis
-	glm::vec3 axisVec(0, 0, 1);
-
-	//Main loop consists of applying joint rotation and then bone translation
-	//For next bone do the same using the previous transformed coordinate system
-	for (unsigned int i = 0; i < bones.size(); i++) {
-		//Set joint position at the beginning of the current bone
-		joints[i]->getDrawable()->setModelMat(currentMat);
-
-		//Calculate rotation by the current joint
-		rotMat = glm::rotate(joints[i]->getAngle(), axisVec);
-
-		//Update total transformation with current joint rotation
-		currentMat = currentMat * rotMat;
-
-		//Bone total transformation is current transformation
-		bones[i]->getDrawable()->setModelMat(currentMat);
-
-		//Update total transformation with current bone translation
-		boneTranslation.x = bones[i]->getLength();
-		currentMat = currentMat * glm::translate(boneTranslation);
-
-		//Render the joints later so the bones appear on the background
-		bones[i]->draw(renderer);
-		joints[i]->draw(renderer);
-	}
-}
-
-void Chain::drawTrail(const glm::mat4& currentMat, Renderer& renderer) const {
-	//Get chain end position
-	glm::vec3 currentEnd = glm::vec3(currentMat * glm::vec4(0, 0, 0, 1));
-
-	//If end position is different than last point in the trail then
-	//add new end position to trail
-	if (pointSet->getLastVertex() != currentEnd) {
-		pointSet->addPoint(currentEnd);
-	}
-	pointSet->draw(renderer);
-}
-
 void Chain::draw(Renderer& renderer) const {
 	glm::mat4 currentMat;
 
@@ -88,24 +45,14 @@ float Chain::getJointAngle(unsigned int index) {
 }
 
 glm::vec3 Chain::getEndEfectorPos() const {
-	//TODO Condensate same code on rendering and here
 	glm::mat4 currentMat, rotMat;
-	glm::vec3 boneTranslation;
 	//Rotate along z axis
 	glm::vec3 axisVec(0, 0, 1);
 
 	//Main loop consists of applying joint rotation and then bone translation
 	//For next bone do the same using the previous transformed coordinate system
 	for (unsigned int i = 0; i < bones.size(); i++) {
-		//Calculate rotation by the current joint
-		rotMat = glm::rotate(joints[i]->getAngle(), axisVec);
-
-		//Update total transformation with current joint rotation
-		currentMat = currentMat * rotMat;
-
-		//Update total transformation with current bone translation
-		boneTranslation.x = bones[i]->getLength();
-		currentMat = currentMat * glm::translate(boneTranslation);
+		updateMatrices(currentMat, axisVec, i, false);
 	}
 
 	//Get chain end position
@@ -132,4 +79,52 @@ Chain::Chain(const Chain& otherChain) {
 
 glm::vec3 Chain::costFun(const glm::vec3& goal) const {
 	return goal - getEndEfectorPos();
+}
+
+void Chain::updateMatrices(glm::mat4& currentMat, const glm::vec3& axisVec,
+		unsigned int i, bool updateBone) const {
+
+	//Update total transformation with current joint rotation
+	currentMat = currentMat * glm::rotate(joints[i]->getAngle(), axisVec);
+
+	if (updateBone) {
+		//Bone total transformation is current transformation
+		bones[i]->getDrawable()->setModelMat(currentMat);
+	}
+
+	//Update total transformation with current bone translation
+	currentMat = currentMat
+			* glm::translate(glm::vec3(bones[i]->getLength(), 0, 0));
+}
+
+void Chain::drawBonesJoints(Renderer& renderer, glm::mat4& currentMat) const {
+	glm::mat4 rotMat;
+	//Rotate along z axis
+	glm::vec3 axisVec(0, 0, 1);
+
+	//Main loop consists of applying joint rotation and then bone translation
+	//For next bone do the same using the previous transformed coordinate system
+	for (unsigned int i = 0; i < bones.size(); i++) {
+		//Set joint position at the beginning of the current bone
+		joints[i]->getDrawable()->setModelMat(currentMat);
+
+		//Calculate rotation by the current joint
+		updateMatrices(currentMat, axisVec, i, true);
+
+		//Render the joints later so the bones appear on the background
+		bones[i]->draw(renderer);
+		joints[i]->draw(renderer);
+	}
+}
+
+void Chain::drawTrail(const glm::mat4& currentMat, Renderer& renderer) const {
+	//Get chain end position
+	glm::vec3 currentEnd = glm::vec3(currentMat * glm::vec4(0, 0, 0, 1));
+
+	//If end position is different than last point in the trail then
+	//add new end position to trail
+	if (pointSet->getLastVertex() != currentEnd) {
+		pointSet->addPoint(currentEnd);
+	}
+	pointSet->draw(renderer);
 }
