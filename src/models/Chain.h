@@ -33,7 +33,6 @@ public:
 
 	void copyToModel(ChainModel& chainModel) const;
 private:
-	ChainModel chainModel;
 	std::vector<JointPtr> joints;
 	std::vector<BonePtr> bones;
 	PointSetPtr pointSet;

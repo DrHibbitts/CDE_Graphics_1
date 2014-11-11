@@ -36,7 +36,7 @@ void SimulationSolver::setChain(ChainPtr chain) {
 }
 
 void SimulationSolver::resetWorkingChain() {
-	for (unsigned int i = 0; i < chain->getNumJoints(); i++) {
+	for (unsigned int i = 0; i < wChain.getNumJoints(); i++) {
 		wChain.setJointAngle(i, chain->getJointAngle(i));
 	}
 }
@@ -67,12 +67,14 @@ void SimulationSolver::updateAngles(double stepSize) {
 	double angleUpdate;
 	for (unsigned int i = 0; i < jacobian.size(); i++) {
 		angleUpdate = glm::dot(-jacobian[i], costVal) * TO_DEG * stepSize;
-		chain->setJointAngle(i, chain->getJointAngle(i) + angleUpdate);
+		wChain.setJointAngle(i, wChain.getJointAngle(i) + angleUpdate);
 	}
 }
 
 void SimulationSolver::updateChain() {
-	for (unsigned int i = 0; i < chain->getNumJoints(); i++) {
-		chain->setJointAngle(i, wChain.getJointAngle(i));
+	if(chain){
+		for (unsigned int i = 0; i < wChain.getNumJoints(); i++) {
+			chain->setJointAngle(i, wChain.getJointAngle(i));
+		}
 	}
 }

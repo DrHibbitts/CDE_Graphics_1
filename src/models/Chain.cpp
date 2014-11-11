@@ -33,14 +33,14 @@ void Chain::draw(Renderer& renderer) const {
 }
 
 void Chain::addBone(float size) {
+	ChainModel::addBone(size);
 	bones.push_back(BonePtr(new Bone(size)));
 	joints.push_back(JointPtr(new Joint()));
-	chainModel.addBone(size);
 }
 
 void Chain::setJointAngle(unsigned int index, float angle) {
+	ChainModel::setJointAngle(index, angle);
 	joints.at(index)->setAngle(angle * TO_RAD);
-	chainModel.setJointAngle(index, angle);
 }
 
 void Chain::copyToModel( ChainModel& chainModel) const{
