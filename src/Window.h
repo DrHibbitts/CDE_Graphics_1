@@ -11,7 +11,6 @@
 #include <string>
 #include <vector>
 #include <iostream>
-#include <mutex>
 
 // Include GLEW
 #include <GL/glew.h>
@@ -74,7 +73,6 @@ private:
 	GLFWwindow* window;
 	Renderer* renderer;
 	SimulationController simController;
-	std::mutex lock;
 
 	std::vector<DrawablePtr> toDrawObjects;
 

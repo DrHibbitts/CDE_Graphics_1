@@ -23,7 +23,7 @@ void Window::cleanUp() {
 	renderer = NULL;
 }
 
-Window::Window() : simController(lock){
+Window::Window() {
 	init();
 }
 
@@ -127,10 +127,9 @@ void Window::executeMainLoop() {
 		//Render all objects
 		DrawableIte it;
 		for (it = toDrawObjects.begin(); it != toDrawObjects.end(); ++it) {
-			if(boost::dynamic_pointer_cast<Chain>(*it)){
-				lock.lock();
+			if (boost::dynamic_pointer_cast<Chain>(*it)) {
+				simController.updateChain();
 				(*it)->draw(*renderer);
-				lock.unlock();
 			} else {
 				(*it)->draw(*renderer);
 			}
@@ -196,7 +195,7 @@ void Window::mouseCallbackImpl(GLFWwindow* window, int button, int actions,
 	}
 }
 
-Window::Window(const Window&): simController(lock) {
+Window::Window(const Window&) {
 	cleanUp();
 	init();
 }

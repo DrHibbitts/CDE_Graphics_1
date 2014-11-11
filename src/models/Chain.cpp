@@ -43,7 +43,7 @@ void Chain::setJointAngle(unsigned int index, float angle) {
 	joints.at(index)->setAngle(angle * TO_RAD);
 }
 
-void Chain::copyToModel( ChainModel& chainModel) const{
+void Chain::copyToModel(ChainModel& chainModel) const {
 	chainModel.clear();
 
 	for (unsigned int i = 0; i < joints.size(); i++) {

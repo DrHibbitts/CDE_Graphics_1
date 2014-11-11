@@ -7,8 +7,8 @@
 
 #include "SimulationController.h"
 
-SimulationController::SimulationController(std::mutex& lock, double epsilon) :
-		lock(lock), simSleepTime(20) {
+SimulationController::SimulationController(double epsilon) :
+		simSleepTime(20) {
 	simulating = false;
 	this->epsilon = epsilon;
 }
@@ -22,7 +22,9 @@ void SimulationController::executeSimulationLoop() {
 	while (simulating) {
 		//If it didn't move much during a set of iterations stop simulating
 		if (glm::length(chain->getEndEfectorPos() - goal) > epsilon) {
+			lock.lock();
 			simSolver.solveForStep(goal, stepSize);
+			lock.unlock();
 		}
 
 		//Sleep the thread a bit, since is way too fast

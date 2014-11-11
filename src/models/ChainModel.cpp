@@ -16,7 +16,7 @@ ChainModel::ChainModel() {
 ChainModel::~ChainModel() {
 }
 
-void ChainModel::clear(){
+void ChainModel::clear() {
 	bones.clear();
 	joints.clear();
 }
