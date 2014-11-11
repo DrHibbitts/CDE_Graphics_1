@@ -53,15 +53,13 @@ void Chain::copyToModel(ChainModel& chainModel) const {
 }
 
 void Chain::updateMatrices(glm::mat4& currentMat, const glm::vec3& axisVec,
-		unsigned int i, bool updateBone) const {
+		unsigned int i) const {
 
 	//Update total transformation with current joint rotation
 	currentMat = currentMat * glm::rotate(joints[i]->getAngle(), axisVec);
 
-	if (updateBone) {
-		//Bone total transformation is current transformation
-		bones[i]->getDrawable()->setModelMat(currentMat);
-	}
+	//Bone total transformation is current transformation
+	bones[i]->getDrawable()->setModelMat(currentMat);
 
 	//Update total transformation with current bone translation
 	currentMat = currentMat
@@ -80,7 +78,7 @@ void Chain::drawBonesJoints(Renderer& renderer, glm::mat4& currentMat) const {
 		joints[i]->getDrawable()->setModelMat(currentMat);
 
 		//Calculate rotation by the current joint
-		updateMatrices(currentMat, axisVec, i, true);
+		updateMatrices(currentMat, axisVec, i);
 
 		//Render the joints later so the bones appear on the background
 		bones[i]->draw(renderer);
