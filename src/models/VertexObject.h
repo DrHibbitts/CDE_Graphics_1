@@ -36,6 +36,7 @@ public:
 	const std::vector<unsigned int>& getIndices() const;
 	const std::vector<glm::vec3>& getColors() const;
 	const PrimitiveParameter& getPrimitivePar() const;
+	virtual glm::vec3 getCurrentPosition() const;
 
 	//Set a color for all the vertices
 	void setUniformColor(const glm::vec3& color);
@@ -47,6 +48,7 @@ protected:
 	void initVAO() const;
 	void sendDataToShader() const;
 	void updateBuffers() const;
+	void destroyBuffers() const;
 
 protected:
 	//Model matrix defines the object transformation
@@ -70,6 +72,8 @@ protected:
 
 	// CBO : Color buffer object
 	GLuint cbo;
+
+	GLenum bufferType;
 };
 
 typedef boost::shared_ptr<VertexObject> VertexObjectPtr;

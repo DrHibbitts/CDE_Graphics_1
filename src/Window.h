@@ -26,6 +26,8 @@
 #include "rendering/Renderer.h"
 #include "simulation/SimulationController.h"
 
+#include "models/Triangle.h"
+
 //Window class is a wrapper around GLFWwindow, it controls what objects
 //are rendered and handles the user input. It is a singleton, solo only one
 //instance is allowed to exist
@@ -62,6 +64,9 @@ private:
 	Window(Window const&); // prevent copies
 	void operator=(Window const&) {
 	}
+
+	void updateGoalMarker(const glm::vec3& goal);
+
 	; // prevent assignments
 
 private:

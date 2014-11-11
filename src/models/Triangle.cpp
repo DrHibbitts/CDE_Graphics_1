@@ -23,6 +23,8 @@ void Triangle::setVertices(const glm::vec3& v0, const glm::vec3& v1,
 	vertices[1] = v1;
 	vertices[2] = v2;
 
+	centroid = glm::vec4(((float) (1.0 / 3)) * (v0 + v1 + v2), 1);
+
 	updateBuffers();
 }
 
@@ -45,4 +47,8 @@ void Triangle::init() {
 	indices.push_back(2);
 	//GL_TRIANGLES takes each consecutive three vertices and draws a triangle
 	primitivePar.setValues(GL_TRIANGLES, 0, 3);
+}
+
+glm::vec3 Triangle::getCurrentPosition() const {
+	return glm::vec3(modelMat * centroid);
 }

@@ -94,7 +94,12 @@ void Window::addDrawable(DrawablePtr drawable) {
 	ChainPtr newChain = boost::dynamic_pointer_cast<Chain>(drawable);
 	//If it is a chain create a new thread that will run the simulation
 	if (newChain) {
+		glm::vec3 goal = newChain->getEndEfectorPos();
+		updateGoalMarker(goal);
+		simController.setGoal(goal);
+
 		simController.startSimulation(newChain);
+
 	}
 }
 
@@ -122,7 +127,12 @@ void Window::executeMainLoop() {
 		//Render all objects
 		DrawableIte it;
 		for (it = toDrawObjects.begin(); it != toDrawObjects.end(); ++it) {
-			(*it)->draw(*renderer);
+			if (boost::dynamic_pointer_cast<Chain>(*it)) {
+				simController.updateChain();
+				(*it)->draw(*renderer);
+			} else {
+				(*it)->draw(*renderer);
+			}
 		}
 
 		//Move the square a bit every frame
@@ -161,6 +171,12 @@ void Window::mouseCallback(GLFWwindow* window, int button, int actions,
 	getInstance().mouseCallbackImpl(window, button, actions, mods);
 }
 
+void Window::updateGoalMarker(const glm::vec3& goal) {
+	DrawablePtr ob = toDrawObjects[1];
+	TrianglePtr tr = boost::static_pointer_cast<Triangle>(ob);
+	tr->translate(goal - tr->getCurrentPosition());
+}
+
 void Window::mouseCallbackImpl(GLFWwindow* window, int button, int actions,
 		int mods) {
 	//Mouse callback example
@@ -171,6 +187,8 @@ void Window::mouseCallbackImpl(GLFWwindow* window, int button, int actions,
 			glm::vec3 goal = renderer->getWorldCoordFromScreen(
 					glm::vec3(xpos, ypos, 0));
 			simController.setGoal(goal);
+
+			updateGoalMarker(goal);
 			std::cout << "Goal is " << goal.x << ", " << goal.y << ", "
 					<< goal.z << std::endl;
 		}

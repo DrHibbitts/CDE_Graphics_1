@@ -7,19 +7,25 @@
 
 #include "SimulationController.h"
 
-SimulationController::SimulationController() :
+SimulationController::SimulationController(double epsilon) :
 		simSleepTime(20) {
 	simulating = false;
+	this->epsilon = epsilon;
 }
 
 SimulationController::~SimulationController() {
 }
 
 void SimulationController::executeSimulationLoop() {
+	double stepSize = 0.01;
 
 	while (simulating) {
-
-		simSolver.solveForStep(chain, goal);
+		//If it didn't move much during a set of iterations stop simulating
+		if (glm::length(chain->getEndEfectorPos() - goal) > epsilon) {
+			lock.lock();
+			simSolver.solveForStep(goal, stepSize);
+			lock.unlock();
+		}
 
 		//Sleep the thread a bit, since is way too fast
 		std::this_thread::sleep_for(simSleepTime);
@@ -40,7 +46,7 @@ void SimulationController::killSimulation() {
 	chain.reset();
 }
 
-const ChainPtr& SimulationController::getChain() const {
+const ChainPtr SimulationController::getChain() const {
 	return chain;
 }
 
@@ -60,8 +66,16 @@ void SimulationController::startSimulation(ChainPtr chain) {
 	//Save chain pointer
 	this->chain = chain;
 
+	simSolver.setChain(chain);
+
 	//Run new thread with simulation loop
 	simulating = true;
 	simulationThread = std::thread(&SimulationController::executeSimulationLoop,
 			this);
+}
+
+void SimulationController::updateChain() {
+	lock.lock();
+	simSolver.updateChain();
+	lock.unlock();
 }

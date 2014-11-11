@@ -8,8 +8,12 @@
 #include "Joint.h"
 
 Joint::Joint() :
-		square(new Square()) {
-	setAngle(0);
+		JointModel(), square(new Square()) {
+}
+
+Joint::Joint(float angle) :
+		JointModel(angle), square(new Square()) {
+	setAngle(angle);
 }
 
 Joint::~Joint() {
@@ -19,12 +23,8 @@ void Joint::draw(Renderer& renderer) const {
 	square->draw(renderer);
 }
 
-float Joint::getAngle() const {
-	return angle;
-}
-
 void Joint::setAngle(float angle) {
-	this->angle = angle;
+	JointModel::setAngle(angle);
 
 	square->setVertices(glm::vec3(-0.1, -0.1, 0), glm::vec3(0.1, -0.1, 0),
 			glm::vec3(-0.1, 0.1, 0), glm::vec3(0.1, 0.1, 0));
@@ -35,3 +35,4 @@ void Joint::setAngle(float angle) {
 SquarePtr Joint::getDrawable() {
 	return square;
 }
+

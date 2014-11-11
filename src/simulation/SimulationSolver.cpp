@@ -7,15 +7,74 @@
 
 #include "SimulationSolver.h"
 
-SimulationSolver::SimulationSolver() {
+#define TO_DEG  180.0 / M_PI
+
+SimulationSolver::SimulationSolver(float h) {
+	this->h = h;
 }
 
 SimulationSolver::~SimulationSolver() {
 }
 
-void SimulationSolver::solveForStep(ChainPtr chain, const glm::vec3 goal) {
+void SimulationSolver::solveForStep(const glm::vec3 goal, double stepSize) {
 	if (chain) {
-		//Dummy example, rotate a joint
-		chain->setJointAngle(2, chain->getJointAngle(2) + 5);
+		finiteDiffJacobian(goal);
+		updateAngles(stepSize);
+	}
+}
+
+void SimulationSolver::setChain(ChainPtr chain) {
+	this->chain = chain;
+
+	if (chain) {
+		//wChain is a real copy of chain, not just another pointer to it
+		chain->copyToModel(wChain);
+		jacobian.resize(chain->getNumJoints());
+	} else {
+		wChain.clear();
+	}
+}
+
+void SimulationSolver::resetWorkingChain() {
+	for (unsigned int i = 0; i < wChain.getNumJoints(); i++) {
+		wChain.setJointAngle(i, chain->getJointAngle(i));
+	}
+}
+
+void SimulationSolver::finiteDiffJacobian(const glm::vec3& goal) {
+
+	resetWorkingChain();
+	costVal = wChain.costFun(goal);
+
+	for (unsigned int i = 0; i < jacobian.size(); i++) {
+		wChain.setJointAngle(i, wChain.getJointAngle(i) + h);
+		jacobian[i] = (1 / h) * (wChain.costFun(goal) - costVal);
+		jacobian[i] = (1 / glm::length(jacobian[i])) * jacobian[i];
+		wChain.setJointAngle(i, wChain.getJointAngle(i) - h);
+	}
+}
+
+float SimulationSolver::getH() const {
+	return h;
+}
+
+void SimulationSolver::setH(float h) {
+	this->h = h;
+}
+
+void SimulationSolver::updateAngles(double stepSize) {
+
+	double angleUpdate;
+	for (unsigned int i = 0; i < jacobian.size(); i++) {
+		angleUpdate = glm::dot(-jacobian[i], costVal) * TO_DEG * stepSize;
+		wChain.setJointAngle(i, wChain.getJointAngle(i) + angleUpdate);
+	}
+}
+
+void SimulationSolver::updateChain() {
+	if (chain) {
+		for (unsigned int i = 0; i < wChain.getNumJoints(); i++) {
+			chain->setJointAngle(i, wChain.getJointAngle(i));
+		}
 	}
 }

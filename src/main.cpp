@@ -25,11 +25,10 @@ int main(void) {
 	//Once an object is added to the window, it will be rendered
 	window.addDrawable(axis);
 
-//	TrianglePtr triangle(
-//			new Triangle(glm::vec3(-1.0f, -1.0f, 0.0f),
-//					glm::vec3(1.0f, -1.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
-//	triangle->setColors(glm::vec3(1, 1, 0), glm::vec3(1, 0, 0),
-//			glm::vec3(1, 0, 0));
+	TrianglePtr goalMarker(
+			new Triangle(glm::vec3(-0.2f, -0.2f, 0.0f),
+					glm::vec3(0.2f, -0.2f, 0.0f), glm::vec3(0.0f, 0.2f, 0.0f)));
+	goalMarker->setUniformColor(glm::vec3(0, 1, 1));
 //
 //	TrianglePtr triangle2(
 //			new Triangle(glm::vec3(-2.0f, -2.0f, 0.0f),
@@ -54,7 +53,7 @@ int main(void) {
 //
 //	square->setUniformColor(glm::vec3(0, 0, 1));
 //
-//	window.addDrawable(triangle);
+	window.addDrawable(goalMarker);
 //	window.addDrawable(line);
 //
 //	window.addDrawable(square);
@@ -68,10 +67,13 @@ int main(void) {
 	chain->addBone(1);
 	//Change the angle of joint 0 to 45 degrees
 	chain->setJointAngle(0, 45);
+
 	chain->addBone(0.5);
 	chain->setJointAngle(1, 45);
+
 	chain->addBone(2);
 	chain->setJointAngle(2, 45);
+
 	chain->addBone(1);
 	chain->setJointAngle(3, -45);
 
@@ -84,5 +86,4 @@ int main(void) {
 	return 0;
 }
 
-//TODO In Window move simulation code to new class
 //TODO Make introduce simulation and/or rendering controlled step size
