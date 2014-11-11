@@ -10,9 +10,10 @@
 
 #include <boost/shared_ptr.hpp>
 
+#include "JointModel.h"
 #include "Square.h"
 
-class Joint: public Drawable {
+class Joint: public JointModel, public Drawable {
 public:
 	Joint();
 	Joint(float angle);
@@ -20,13 +21,11 @@ public:
 
 	void draw(Renderer& renderer) const;
 
-	float getAngle() const;
 	void setAngle(float angle);
 
 	SquarePtr getDrawable();
 
 private:
-	float angle;
 	SquarePtr square;
 };
 

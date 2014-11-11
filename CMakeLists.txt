@@ -40,8 +40,11 @@ SET(SOURCE
 src/main.cpp
 src/models/Axis.cpp
 src/models/Bone.cpp
+src/models/BoneModel.cpp
 src/models/Chain.cpp
+src/models/ChainModel.cpp
 src/models/Joint.cpp
+src/models/JointModel.cpp
 src/models/Line.cpp
 src/models/Point.cpp
 src/models/PointSet.cpp
@@ -60,9 +63,12 @@ src/Window.cpp
 SET(HEADERS
 src/models/Axis.h
 src/models/Bone.h
+src/models/BoneModel.h
 src/models/Chain.h
+src/models/ChainModel.h
 src/models/Drawable.h
 src/models/Joint.h
+src/models/JointModel.h
 src/models/Line.h
 src/models/Point.h
 src/models/PointSet.h
