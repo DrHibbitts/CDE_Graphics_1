@@ -28,7 +28,8 @@ public:
 	void addBone(float size);
 	void setJointAngle(unsigned int index, float angle);
 
-	float getJointAngle(unsigned int index);
+	float getBoneLength(unsigned int index) const;
+	float getJointAngle(unsigned int index) const;
 
 	unsigned int getNumJoints() const;
 

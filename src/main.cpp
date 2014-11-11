@@ -67,10 +67,13 @@ int main(void) {
 	chain->addBone(1);
 	//Change the angle of joint 0 to 45 degrees
 	chain->setJointAngle(0, 45);
+
 	chain->addBone(0.5);
 	chain->setJointAngle(1, 45);
+
 	chain->addBone(2);
 	chain->setJointAngle(2, 45);
+
 	chain->addBone(1);
 	chain->setJointAngle(3, -45);
 

@@ -30,8 +30,12 @@ void ChainModel::setJointAngle(unsigned int index, float angle) {
 	joints.at(index).setAngle(angle * TO_RAD);
 }
 
-float ChainModel::getJointAngle(unsigned int index) {
+float ChainModel::getJointAngle(unsigned int index) const {
 	return joints.at(index).getAngle() * TO_DEG;
+}
+
+float ChainModel::getBoneLength(unsigned int index) const {
+	return bones.at(index).getLength();
 }
 
 glm::vec3 ChainModel::getEndEfectorPos() const {
