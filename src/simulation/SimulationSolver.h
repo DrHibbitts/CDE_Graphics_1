@@ -9,6 +9,7 @@
 #define SRC_SIMULATIONSOLVER_H_
 
 #include "../models/Chain.h"
+#include "../models/ChainModel.h"
 
 class SimulationSolver {
 public:
@@ -29,7 +30,7 @@ private:
 	void updateAngles(double stepSize);
 
 	ChainPtr chain;
-	ChainPtr wChain;
+	ChainModel wChain;
 
 	std::vector<glm::vec3> jacobian;
 	float h;

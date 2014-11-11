@@ -20,7 +20,8 @@ class ChainModel {
 public:
 	ChainModel();
 	virtual ~ChainModel();
-	ChainModel(const ChainModel& ChainModel);
+
+	void clear();
 
 	//When a bone is added a new joint is created in the end of the previous
 	//last bone

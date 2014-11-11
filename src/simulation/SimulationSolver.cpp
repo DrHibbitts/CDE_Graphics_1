@@ -28,29 +28,29 @@ void SimulationSolver::setChain(ChainPtr chain) {
 
 	if (chain) {
 		//wChain is a real copy of chain, not just another pointer to it
-		wChain = ChainPtr(new Chain((*chain.get())));
+		chain->copyToModel(wChain);
 		jacobian.resize(chain->getNumJoints());
 	} else {
-		wChain.reset();
+		wChain.clear();
 	}
 }
 
 void SimulationSolver::resetWorkingChain() {
 	for (unsigned int i = 0; i < chain->getNumJoints(); i++) {
-		wChain->setJointAngle(i, chain->getJointAngle(i));
+		wChain.setJointAngle(i, chain->getJointAngle(i));
 	}
 }
 
 void SimulationSolver::finiteDiffJacobian(const glm::vec3& goal) {
 
 	resetWorkingChain();
-	costVal = wChain->costFun(goal);
+	costVal = wChain.costFun(goal);
 
 	for (unsigned int i = 0; i < jacobian.size(); i++) {
-		wChain->setJointAngle(i, wChain->getJointAngle(i) + h);
-		jacobian[i] = (1 / h) * (wChain->costFun(goal) - costVal);
+		wChain.setJointAngle(i, wChain.getJointAngle(i) + h);
+		jacobian[i] = (1 / h) * (wChain.costFun(goal) - costVal);
 		jacobian[i] = (1 / glm::length(jacobian[i])) * jacobian[i];
-		wChain->setJointAngle(i, wChain->getJointAngle(i) - h);
+		wChain.setJointAngle(i, wChain.getJointAngle(i) - h);
 	}
 }
 
