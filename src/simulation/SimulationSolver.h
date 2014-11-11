@@ -21,6 +21,8 @@ public:
 
 	void setChain(ChainPtr chain);
 
+	void updateChain();
+
 	float getH() const;
 	void setH(float h);
 

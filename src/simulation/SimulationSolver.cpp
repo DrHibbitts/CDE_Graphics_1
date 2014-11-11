@@ -70,3 +70,9 @@ void SimulationSolver::updateAngles(double stepSize) {
 		chain->setJointAngle(i, chain->getJointAngle(i) + angleUpdate);
 	}
 }
+
+void SimulationSolver::updateChain() {
+	for (unsigned int i = 0; i < chain->getNumJoints(); i++) {
+		chain->setJointAngle(i, wChain.getJointAngle(i));
+	}
+}

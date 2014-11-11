@@ -10,15 +10,18 @@
 
 #include <thread>
 #include <chrono>
+#include <mutex>
 
 #include "SimulationSolver.h"
 
 class SimulationController {
 public:
-	SimulationController(double epsilon = 0.01);
+	SimulationController(std::mutex& lock, double epsilon = 0.01);
 	virtual ~SimulationController();
 
 	void startSimulation(ChainPtr chain);
+
+	void updateChain();
 
 	void executeSimulationLoop();
 
@@ -33,6 +36,7 @@ private:
 	ChainPtr chain;
 	SimulationSolver simSolver;
 	std::thread simulationThread;
+	std::mutex& lock;
 	bool simulating;
 	glm::vec3 goal;
 	std::chrono::milliseconds simSleepTime;

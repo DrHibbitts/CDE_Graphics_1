@@ -7,8 +7,8 @@
 
 #include "SimulationController.h"
 
-SimulationController::SimulationController(double epsilon) :
-		simSleepTime(20) {
+SimulationController::SimulationController(std::mutex& lock, double epsilon) :
+		lock(lock), simSleepTime(20) {
 	simulating = false;
 	this->epsilon = epsilon;
 }
@@ -70,4 +70,10 @@ void SimulationController::startSimulation(ChainPtr chain) {
 	simulating = true;
 	simulationThread = std::thread(&SimulationController::executeSimulationLoop,
 			this);
+}
+
+void SimulationController::updateChain() {
+	lock.lock();
+	simSolver.updateChain();
+	lock.unlock();
 }
