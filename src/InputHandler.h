@@ -15,11 +15,12 @@
 #include <GLFW/glfw3.h>
 
 #include "rendering/Renderer.h"
-#include "Window.h"
+
+class Window;
 
 class InputHandler {
 public:
-	InputHandler(Window* window );
+	InputHandler(Window* window);
 	virtual ~InputHandler();
 
 	void mouseCallback(GLFWwindow *glfwWindow, int button, int actions,

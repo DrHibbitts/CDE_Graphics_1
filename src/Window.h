@@ -25,6 +25,7 @@
 #include "rendering/FPSCounter.h"
 #include "rendering/Renderer.h"
 #include "simulation/SimulationController.h"
+#include "InputHandler.h"
 
 #include "models/Triangle.h"
 
@@ -45,6 +46,8 @@ public:
 	void removeDrawable(DrawablePtr drawable);
 
 	void executeMainLoop();
+
+	glm::vec3 getWorldCoordFromScreen(const glm::vec3& screenCoord);
 
 private:
 	void init();
@@ -73,6 +76,7 @@ private:
 	GLFWwindow* window;
 	Renderer* renderer;
 	SimulationController simController;
+	InputHandler inputHandler;
 
 	std::vector<DrawablePtr> toDrawObjects;
 

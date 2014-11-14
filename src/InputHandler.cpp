@@ -15,27 +15,27 @@ InputHandler::InputHandler(Window* window) {
 InputHandler::~InputHandler() {
 }
 
-void InputHandler::mouseCallback(GLFWwindow* glfwWindow, int button, int actions,
-		int mods) const{
+void InputHandler::mouseCallback(GLFWwindow* glfwWindow, int button,
+		int actions, int mods) const {
 	//Mouse callback example
-	switch(button){
-	case GLFW_MOUSE_BUTTON_1:{
-		if(!settingGoal){
+	switch (button) {
+	case GLFW_MOUSE_BUTTON_1: {
+		if (!settingGoal) {
 			handleWindowRotation();
 		} else {
 			handleGoalRotation();
 		}
 		break;
 	}
-	case GLFW_MOUSE_BUTTON_2:{
-		if(!settingGoal){
+	case GLFW_MOUSE_BUTTON_2: {
+		if (!settingGoal) {
 			handleWindowTranslation();
 		} else {
 			handleGoalTranslation();
 		}
 		break;
 	}
-	case GLFW_MOUSE_BUTTON_3:{
+	case GLFW_MOUSE_BUTTON_3: {
 		handleWindowZoom();
 		break;
 	}
