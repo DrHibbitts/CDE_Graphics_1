@@ -57,6 +57,7 @@ src/rendering/ShaderLoader.cpp
 src/rendering/FPSCounter.cpp
 src/simulation/SimulationController.cpp
 src/simulation/SimulationSolver.cpp
+src/InputHandler.cpp
 src/Window.cpp
 )
 
@@ -81,6 +82,7 @@ src/rendering/ShaderLoader.h
 src/rendering/FPSCounter.h
 src/simulation/SimulationController.h
 src/simulation/SimulationSolver.h
+src/InputHandler.h
 src/Window.h
 )
 
