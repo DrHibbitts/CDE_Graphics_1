@@ -8,19 +8,35 @@
 #ifndef SRC_INPUTHANDLER_H_
 #define SRC_INPUTHANDLER_H_
 
+// Include GLEW
+#include <GL/glew.h>
+
+// Include GLFW
+#include <GLFW/glfw3.h>
+
 #include "rendering/Renderer.h"
+#include "Window.h"
 
 class InputHandler {
 public:
-	InputHandler();
+	InputHandler(Window* window );
 	virtual ~InputHandler();
 
-	void setRenderer(Renderer* renderer);
+	void mouseCallback(GLFWwindow *glfwWindow, int button, int actions,
+			int mods) const;
 
-	void mouseCallback(GLFWwindow *window, int button, int actions,
-			int mods);
+	void keyCallback(GLFWwindow *glfwWindow, int button, int actions,
+			int mods) const;
 private:
-	Renderer* renderer;
+	void handleWindowRotation() const;
+	void handleWindowTranslation() const;
+	void handleWindowZoom() const;
+
+	void handleGoalRotation() const;
+	void handleGoalTranslation() const;
+
+	Window* window;
+	bool settingGoal;
 };
 
 #endif /* SRC_INPUTHANDLER_H_ */
