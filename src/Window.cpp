@@ -165,6 +165,7 @@ void Window::executeMainLoop() {
 
 void Window::setCallbacks() {
 	glfwSetMouseButtonCallback(window, &mouseCallback);
+	glfwSetKeyCallback(window, &keyCallback);
 }
 
 glm::vec3 Window::getWorldCoordFromScreen(const glm::vec3& screenCoord) {
@@ -175,6 +176,16 @@ void Window::updateGoalMarker(const glm::vec3& goal) {
 	DrawablePtr ob = toDrawObjects[1];
 	TrianglePtr tr = boost::static_pointer_cast<Triangle>(ob);
 	tr->translate(goal - tr->getCurrentPosition());
+}
+
+void Window::keyCallback(GLFWwindow *window, int key, int scancode, int action,
+		int mods) {
+	getInstance().keyCallbackImpl(window, key, scancode, action, mods);
+}
+
+void Window::keyCallbackImpl(GLFWwindow *window, int key, int scancode,
+		int action, int mods) {
+	inputHandler.keyCallback(window, key, scancode, action, mods);
 }
 
 void Window::mouseCallback(GLFWwindow* window, int button, int actions,
@@ -198,6 +209,7 @@ void Window::mouseCallbackImpl(GLFWwindow* window, int button, int actions,
 					<< goal.z << std::endl;
 		}
 	}
+	inputHandler.mouseCallback(window, button, actions, mods);
 }
 
 Window::Window(const Window&) :

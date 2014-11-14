@@ -44,8 +44,8 @@ void InputHandler::mouseCallback(GLFWwindow* glfwWindow, int button,
 	}
 }
 
-void InputHandler::keyCallback(GLFWwindow* glfwWindow, int button, int actions,
-		int mods) const {
+void InputHandler::keyCallback(GLFWwindow *window, int key, int scancode,
+		int action, int mods) const {
 }
 
 void InputHandler::handleWindowRotation() const {

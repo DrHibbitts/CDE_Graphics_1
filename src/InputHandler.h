@@ -26,7 +26,7 @@ public:
 	void mouseCallback(GLFWwindow *glfwWindow, int button, int actions,
 			int mods) const;
 
-	void keyCallback(GLFWwindow *glfwWindow, int button, int actions,
+	void keyCallback(GLFWwindow *window, int key, int scancode, int action,
 			int mods) const;
 private:
 	void handleWindowRotation() const;

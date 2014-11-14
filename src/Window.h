@@ -64,10 +64,10 @@ private:
 			int mods);
 
 	//The callback has to be a static function according to GLFW
-	static void keyCallback(GLFWwindow *window, int button, int actions,
-			int mods);
+	static void keyCallback(GLFWwindow *window, int key, int scancode,
+			int action, int mods);
 
-	void keyCallbackImpl(GLFWwindow *window, int button, int actions,
+	void keyCallbackImpl(GLFWwindow *window, int key, int scancode, int action,
 			int mods);
 
 	Window(void); // private constructor necessary to allow only one instance
