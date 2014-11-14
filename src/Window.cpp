@@ -167,11 +167,6 @@ void Window::setCallbacks() {
 	glfwSetMouseButtonCallback(window, &mouseCallback);
 }
 
-void Window::mouseCallback(GLFWwindow* window, int button, int actions,
-		int mods) {
-	getInstance().mouseCallbackImpl(window, button, actions, mods);
-}
-
 glm::vec3 Window::getWorldCoordFromScreen(const glm::vec3& screenCoord) {
 	return renderer->getWorldCoordFromScreen(screenCoord);
 }
@@ -180,6 +175,11 @@ void Window::updateGoalMarker(const glm::vec3& goal) {
 	DrawablePtr ob = toDrawObjects[1];
 	TrianglePtr tr = boost::static_pointer_cast<Triangle>(ob);
 	tr->translate(goal - tr->getCurrentPosition());
+}
+
+void Window::mouseCallback(GLFWwindow* window, int button, int actions,
+		int mods) {
+	getInstance().mouseCallbackImpl(window, button, actions, mods);
 }
 
 void Window::mouseCallbackImpl(GLFWwindow* window, int button, int actions,

@@ -63,6 +63,13 @@ private:
 	void mouseCallbackImpl(GLFWwindow *window, int button, int actions,
 			int mods);
 
+	//The callback has to be a static function according to GLFW
+	static void keyCallback(GLFWwindow *window, int button, int actions,
+			int mods);
+
+	void keyCallbackImpl(GLFWwindow *window, int button, int actions,
+			int mods);
+
 	Window(void); // private constructor necessary to allow only one instance
 	Window(Window const&); // prevent copies
 	void operator=(Window const&) {
