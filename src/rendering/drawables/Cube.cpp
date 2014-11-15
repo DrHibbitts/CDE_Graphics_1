@@ -21,10 +21,39 @@ Cube::~Cube() {
 }
 
 void Cube::setWidth(double width) {
+	glm::vec3 offset;
+	offset.x = (width - (vertices[1].x - vertices[0].x)) * 0.5;
 
+	vertices[1] += offset;
+	vertices[2] += offset;
+	vertices[5] += offset;
+	vertices[6] += offset;
+
+	vertices[0] -= offset;
+	vertices[3] -= offset;
+	vertices[4] -= offset;
+	vertices[7] -= offset;
+
+	calculateNormals();
+	updateBuffers();
 }
 
 void Cube::setHeight(double height) {
+	glm::vec3 offset;
+	offset.y = (height - (vertices[4].y - vertices[0].y)) * 0.5;
+
+	vertices[0] -= offset;
+	vertices[1] -= offset;
+	vertices[2] -= offset;
+	vertices[3] -= offset;
+
+	vertices[4] += offset;
+	vertices[5] += offset;
+	vertices[6] += offset;
+	vertices[7] += offset;
+
+	calculateNormals();
+	updateBuffers();
 }
 
 void Cube::init() {
@@ -38,6 +67,10 @@ void Cube::init() {
 	colors.resize(8);
 	normals.resize(8);
 
+	// Vertices are
+	// On the y = -0.1 plane,    On the y = 0.1 plane
+	// v2 - v3						v6 - v7
+	// v1 - v0						v5 - v4
 	//Eight vertices of the cube
 	vertices[0] = glm::vec3(-0.1, -0.1, -0.1);
 	vertices[1] = glm::vec3(0.1, -0.1, -0.1);
@@ -79,7 +112,6 @@ void Cube::init() {
 }
 
 void Cube::calculateNormals() {
-
 	for (unsigned int i = 0; i < normals.size(); i++) {
 		normals.at(i) = glm::normalize(vertices.at(i));
 	}
