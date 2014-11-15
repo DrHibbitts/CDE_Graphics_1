@@ -11,8 +11,7 @@ InputHandler::InputHandler() {
 	prevMouseX = 0;
 	prevMouseY = 0;
 	renderer = NULL;
-	settingGoal = false;
-	camTransSpeed = 2.0;
+	camTransSpeed = 0.5;
 	camRotSpeed = 0.005;
 	inputState = idle;
 }
@@ -47,9 +46,11 @@ void InputHandler::mouseButtonCallback(int button, int actions, int mods) {
 
 void InputHandler::keyCallback(int key, int scancode, int action, int mods) {
 
-	if (action != GLFW_PRESS) {
+	if (action != GLFW_PRESS && action != GLFW_REPEAT) {
 		return;
 	}
+
+	//TODO Allow diagonal movement
 
 	// Move forward
 	if (key == GLFW_KEY_UP || key == GLFW_KEY_W) {

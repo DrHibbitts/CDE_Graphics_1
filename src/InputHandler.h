@@ -33,6 +33,9 @@ private:
 	void handleGoalRotation() const;
 	void handleGoalTranslation() const;
 
+private:
+	Renderer* renderer;
+
 	double prevMouseX;
 	double prevMouseY;
 
@@ -44,9 +47,6 @@ private:
 	};
 
 	InputState inputState;
-
-	Renderer* renderer;
-	bool settingGoal;
 };
 
 #endif /* SRC_INPUTHANDLER_H_ */
