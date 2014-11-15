@@ -8,7 +8,7 @@
 #include "JointModel.h"
 
 JointModel::JointModel() {
-	setZRotAngle(0);
+	setAngles(0, 0);
 }
 
 JointModel::JointModel(float zRotAngle, float yRotAngle) {
@@ -32,10 +32,10 @@ void JointModel::setZRotAngle(float angle) {
 }
 
 float JointModel::getYRotAngle() const {
-	return zRotAngle;
+	return yRotAngle;
 }
 
 void JointModel::setYRotAngle(float angle) {
-	this->zRotAngle = angle;
+	this->yRotAngle = angle;
 }
 

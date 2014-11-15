@@ -67,16 +67,16 @@ int main(void) {
 	//Bone of length 1
 	chain->addBone(1);
 	//Change the angle of joint 0 to 45 degrees
-	chain->setJointAngle(0, 45);
+	chain->setJointAngles(0, 45, 45);
 
 	chain->addBone(0.5);
-	chain->setJointAngle(1, 45);
+	chain->setJointAngles(1, 0, 0);
 
 	chain->addBone(2);
-	chain->setJointAngle(2, 45);
+	chain->setJointAngles(2, 0, 0);
 
 	chain->addBone(1);
-	chain->setJointAngle(3, -45);
+	chain->setJointAngles(3, 0, 0);
 
 	//Draw chain
 	window.addDrawable(chain);

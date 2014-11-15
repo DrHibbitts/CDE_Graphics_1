@@ -10,6 +10,9 @@
 #define TO_RAD  M_PI / 180.0
 #define TO_DEG  180.0 / M_PI
 
+const glm::vec3 ChainModel::zAxis(0, 0, 1);
+const glm::vec3 ChainModel::yAxis(0, 1, 0);
+
 ChainModel::ChainModel() {
 }
 
@@ -53,13 +56,11 @@ float ChainModel::getBoneLength(unsigned int index) const {
 
 glm::vec3 ChainModel::getEndEfectorPos() const {
 	glm::mat4 currentMat, rotMat;
-	//Rotate along z axis
-	glm::vec3 axisVec(0, 0, 1);
 
 	//Main loop consists of applying joint rotation and then bone translation
 	//For next bone do the same using the previous transformed coordinate system
 	for (unsigned int i = 0; i < bones.size(); i++) {
-		updateMatrices(currentMat, axisVec, i, false);
+		updateMatrices(currentMat, i, false);
 	}
 
 	//Get chain end position
@@ -70,11 +71,12 @@ unsigned int ChainModel::getNumJoints() const {
 	return joints.size();
 }
 
-void ChainModel::updateMatrices(glm::mat4& currentMat, const glm::vec3& axisVec,
-		unsigned int i, bool updateBone) const {
+void ChainModel::updateMatrices(glm::mat4& currentMat, unsigned int i,
+		bool updateBone) const {
 
 	//Update total transformation with current joint rotation
-	currentMat = currentMat * glm::rotate(joints[i].getZRotAngle(), axisVec);
+	currentMat = currentMat * glm::rotate(joints[i].getYRotAngle(), yAxis)
+			* glm::rotate(joints[i].getZRotAngle(), zAxis);
 
 	//Update total transformation with current bone translation
 	currentMat = currentMat

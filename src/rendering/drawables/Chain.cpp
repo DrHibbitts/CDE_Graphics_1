@@ -49,7 +49,7 @@ void Chain::setJointYAngle(unsigned int index, float yAngle) {
 }
 void Chain::setJointAngles(unsigned int index, float zAngle, float yAngle) {
 	ChainModel::setJointAngles(index, zAngle, yAngle);
-	joints.at(index)->setAngles(zAngle, yAngle);
+	joints.at(index)->setAngles(zAngle * TO_RAD, yAngle * TO_RAD);
 }
 
 void Chain::copyToModel(ChainModel& chainModel) const {
@@ -61,11 +61,11 @@ void Chain::copyToModel(ChainModel& chainModel) const {
 	}
 }
 
-void Chain::updateMatrices(glm::mat4& currentMat, const glm::vec3& axisVec,
-		unsigned int i) const {
+void Chain::updateMatrices(glm::mat4& currentMat, unsigned int i) const {
 
 	//Update total transformation with current joint rotation
-	currentMat = currentMat * glm::rotate(joints[i]->getZRotAngle(), axisVec);
+	currentMat = currentMat * glm::rotate(joints[i]->getYRotAngle(), yAxis)
+			* glm::rotate(joints[i]->getZRotAngle(), zAxis);
 
 	//Bone total transformation is current transformation
 	bones[i]->getDrawable()->setModelMat(currentMat);
@@ -76,10 +76,6 @@ void Chain::updateMatrices(glm::mat4& currentMat, const glm::vec3& axisVec,
 }
 
 void Chain::drawBonesJoints(Renderer& renderer, glm::mat4& currentMat) const {
-	glm::mat4 rotMat;
-	//Rotate along z axis
-	glm::vec3 axisVec(0, 0, 1);
-
 	//Main loop consists of applying joint rotation and then bone translation
 	//For next bone do the same using the previous transformed coordinate system
 	for (unsigned int i = 0; i < bones.size(); i++) {
@@ -87,7 +83,7 @@ void Chain::drawBonesJoints(Renderer& renderer, glm::mat4& currentMat) const {
 		joints[i]->getDrawable()->setModelMat(currentMat);
 
 		//Calculate rotation by the current joint
-		updateMatrices(currentMat, axisVec, i);
+		updateMatrices(currentMat, i);
 
 		//Render the joints later so the bones appear on the background
 		bones[i]->draw(renderer);

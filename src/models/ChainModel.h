@@ -40,8 +40,14 @@ public:
 
 	glm::vec3 costFun(const glm::vec3& goal) const;
 
-	void updateMatrices(glm::mat4& currentMat, const glm::vec3& axisVec,
-			unsigned int i, bool updateBone) const;
+private:
+	void updateMatrices(glm::mat4& currentMat, unsigned int i,
+			bool updateBone) const;
+
+protected:
+	const static glm::vec3 zAxis;
+	const static glm::vec3 yAxis;
+
 private:
 	std::vector<JointModel> joints;
 	std::vector<BoneModel> bones;
