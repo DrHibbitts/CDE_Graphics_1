@@ -25,7 +25,7 @@ private:
 private:
 	double centre;
 	double width;
-	double eight;
+	double height;
 };
 
 typedef boost::shared_ptr<Cube> CubePtr;
