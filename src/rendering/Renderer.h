@@ -26,15 +26,13 @@ public:
 
 	void resetScreen();
 
-	void setCameraLookAt(const glm::vec3&camPosition,const glm::vec3& camLookAt,const glm::vec3& camUp);
+	const glm::vec3& getCamLookAtVector() const;
 
-	void rotateXCamera(float angle);
+	const glm::vec3& getCamLookAtRightVector() const;
 
-	void rotateYCamera(float angle);
+	void updateCameraPosition(const glm::vec3& offset);
 
-	void rotateZCamera(float angle);
-
-	void translateCamera(const glm::vec3& offset);
+	void updateLookAt(float horizontalAngleOffset, float verticalAngleOffset);
 
 	const glm::mat4& getViewProjectionMatrix() const;
 
@@ -45,6 +43,7 @@ public:
 
 private:
 	void loadDefaultShaders();
+	void updateView();
 
 private:
 	ShaderLoader shaderLoader;
@@ -58,6 +57,8 @@ private:
 
 	glm::vec3 camPosition;
 	glm::vec3 camLookAt;
+	glm::vec3 camLookAtVector;
+	glm::vec3 camRightVector;
 	glm::vec3 camUp;
 
 	// Initial horizontal angle : toward -Z

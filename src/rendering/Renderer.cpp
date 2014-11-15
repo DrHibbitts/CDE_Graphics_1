@@ -22,11 +22,18 @@ Renderer::Renderer() {
 	//Orthographic projection, left, right, bottom, top, zNear, zFar
 	//Projection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, 0.0f, 100.0f);
 
+	// Camera is looking towards Z, and up vector is Y
+	horizontalAngle = 0.0f;
+	verticalAngle = 0.0f;
+
 	// Camera matrix, camera position, look at position, normalised up vector
-	glm::vec3 camPosition = glm::vec3(0, 0, -13);
-	glm::vec3 camLookAt = glm::vec3(0, 0, 0);
-	glm::vec3 camUp = glm::vec3(0, 1, 0);
-	view = glm::lookAt(camPosition, camLookAt, camUp);
+	camPosition = glm::vec3(0, 0, -13);
+	//camLookAt = glm::vec3(0, 0, 0);
+	//camUp = glm::vec3(0, 1, 0);
+	//view = glm::lookAt(camPosition, camLookAt, camUp);
+
+	updateView();
+
 }
 
 Renderer::~Renderer() {
@@ -44,20 +51,25 @@ const glm::mat4& Renderer::getViewProjectionMatrix() const {
 	return viewProjection;
 }
 
-void Renderer::loadDefaultShaders() {
-	// Create and compile our GLSL program from the shaders
-	try {
-		programID = shaderLoader.loadShaderProgram(
-				"../CDE_Graphics_1/src/rendering/vertexShader.glsl",
-				"../CDE_Graphics_1/src/rendering/fragmentShader.glsl");
-		return;
-	} catch (std::runtime_error& e) {
-	}
+const glm::vec3& Renderer::getCamLookAtVector() const {
+	return camLookAtVector;
+}
 
-	//Try a different path for the Shaders
-	programID = shaderLoader.loadShaderProgram(
-			"../src/rendering/vertexShader.glsl",
-			"../src/rendering/fragmentShader.glsl");
+const glm::vec3& Renderer::getCamLookAtRightVector() const {
+	return camRightVector;
+}
+
+void Renderer::updateCameraPosition(const glm::vec3& offset) {
+	camPosition += offset;
+
+	view = glm::lookAt(camPosition, camPosition + camLookAtVector, camUp);
+}
+
+void Renderer::updateLookAt(float horizontalAngleOffset,
+		float verticalAngleOffset) {
+	horizontalAngle += horizontalAngleOffset;
+	verticalAngle += verticalAngleOffset;
+	updateView();
 }
 
 GLuint Renderer::getMVPlocation() const {
@@ -78,23 +90,30 @@ glm::vec3 Renderer::getWorldCoordFromScreen(const glm::vec3& screenCoord) {
 	return aux;
 }
 
-void Renderer::rotateXCamera(float angle) {
-	view =  glm::rotate(view, angle, glm::vec3(1, 0, 0));
+void Renderer::updateView() {
+	camLookAtVector = glm::vec3(cos(verticalAngle) * sin(horizontalAngle),
+			sin(verticalAngle), cos(verticalAngle) * cos(horizontalAngle));
+
+	camRightVector = glm::vec3(sin(horizontalAngle - 3.14f / 2.0f), 0,
+			cos(horizontalAngle - 3.14f / 2.0f));
+
+	camUp = glm::cross(camRightVector, camLookAtVector);
+
+	view = glm::lookAt(camPosition, camPosition + camLookAtVector, camUp);
 }
 
-void Renderer::rotateYCamera(float angle) {
-	view = glm::rotate(view, angle, glm::vec3(0, 1, 0));
-}
+void Renderer::loadDefaultShaders() {
+	// Create and compile our GLSL program from the shaders
+	try {
+		programID = shaderLoader.loadShaderProgram(
+				"../CDE_Graphics_1/src/rendering/vertexShader.glsl",
+				"../CDE_Graphics_1/src/rendering/fragmentShader.glsl");
+		return;
+	} catch (std::runtime_error& e) {
+	}
 
-void Renderer::rotateZCamera(float angle) {
-	view = glm::rotate(view, angle, glm::vec3(0, 0, 1));
-}
-
-void Renderer::translateCamera(const glm::vec3& offset) {
-	view = view * glm::translate(glm::mat4(), offset);
-}
-
-void Renderer::setCameraLookAt(const glm::vec3& camPosition,
-		const glm::vec3& camLookAt, const glm::vec3& camUp) {
-	view = glm::lookAt(camPosition, camLookAt, camUp);
+	//Try a different path for the Shaders
+	programID = shaderLoader.loadShaderProgram(
+			"../src/rendering/vertexShader.glsl",
+			"../src/rendering/fragmentShader.glsl");
 }

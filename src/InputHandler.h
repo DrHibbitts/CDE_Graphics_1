@@ -30,10 +30,6 @@ public:
 	void setRenderer(Renderer* renderer);
 
 private:
-	void rotateCamera(float angle) const;
-	void translateCamera(const glm::vec3& translation) const;
-	void changeZoom() const;
-
 	void handleGoalRotation() const;
 	void handleGoalTranslation() const;
 

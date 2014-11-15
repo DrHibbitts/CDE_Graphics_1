@@ -65,58 +65,26 @@ void InputHandler::keyCallback(int key, int scancode, int action, int mods) {
 		return;
 	}
 
-	// Direction : Spherical coordinates to Cartesian coordinates conversion
-	glm::vec3 direction(
-		cos(verticalAngle) * sin(horizontalAngle),
-		sin(verticalAngle),
-		cos(verticalAngle) * cos(horizontalAngle)
-	);
-
-	// Right vector
-	glm::vec3 right = glm::vec3(
-		sin(horizontalAngle - 3.14f/2.0f),
-		0,
-		cos(horizontalAngle - 3.14f/2.0f)
-	);
 	float speed = 3.0f;
-	// Up vector
-	glm::vec3 up = glm::cross( right, direction );
 
 	// Move forward
-	if (key == GLFW_KEY_UP || key == GLFW_KEY_W){
-		position += direction * speed;
+	if (key == GLFW_KEY_UP || key == GLFW_KEY_W) {
+		renderer->updateCameraPosition(renderer->getCamLookAtVector() * speed);
 	}
 	// Move backward
-	if (key == GLFW_KEY_DOWN || key == GLFW_KEY_S ){
-		position -= direction * speed;
+	if (key == GLFW_KEY_DOWN || key == GLFW_KEY_S) {
+		renderer->updateCameraPosition(-renderer->getCamLookAtVector() * speed);
 	}
 	// Strafe right
-	if (key == GLFW_KEY_RIGHT || key == GLFW_KEY_D ){
-		position += right * speed;
+	if (key == GLFW_KEY_RIGHT || key == GLFW_KEY_D) {
+		renderer->updateCameraPosition(
+				renderer->getCamLookAtRightVector() * speed);
 	}
 	// Strafe left
-	if (key == GLFW_KEY_LEFT || key == GLFW_KEY_A ){
-		position -= right * speed;
+	if (key == GLFW_KEY_LEFT || key == GLFW_KEY_A) {
+		renderer->updateCameraPosition(
+				-renderer->getCamLookAtRightVector() * speed);
 	}
-
-	renderer->setCameraLookAt(position, position+direction, up);
-}
-
-void InputHandler::rotateCamera(float angle) const {
-	if(rotAxis == rotX){
-		renderer->rotateXCamera(angle * camRotSpeed);
-	} else if (rotAxis == rotY) {
-		renderer->rotateYCamera(angle * camRotSpeed);
-	} else if (rotAxis == rotZ) {
-		renderer->rotateZCamera(angle * camRotSpeed);
-	}
-}
-
-void InputHandler::translateCamera(const glm::vec3& translation) const {
-	renderer->translateCamera(camTransSpeed * translation);
-}
-
-void InputHandler::changeZoom() const {
 }
 
 void InputHandler::handleGoalRotation() const {
@@ -124,31 +92,11 @@ void InputHandler::handleGoalRotation() const {
 
 void InputHandler::mousePositionCallback(double mouseX, double mouseY) {
 
-
 	switch (inputState) {
-	case translate:{
-		horizontalAngle += mouseSpeed * (prevMouseX - mouseX);
-		verticalAngle += mouseSpeed * (prevMouseY - mouseY);
-
-		// Direction : Spherical coordinates to Cartesian coordinates conversion
-		glm::vec3 direction(
-			cos(verticalAngle) * sin(horizontalAngle),
-			sin(verticalAngle),
-			cos(verticalAngle) * cos(horizontalAngle)
-		);
-
-		// Right vector
-		glm::vec3 right = glm::vec3(
-			sin(horizontalAngle - 3.14f/2.0f),
-			0,
-			cos(horizontalAngle - 3.14f/2.0f)
-		);
-
-		glm::vec3 up = glm::cross( right, direction );
-
-		renderer->setCameraLookAt(position, position+direction, up);
+	case translate:
+		renderer->updateLookAt(mouseSpeed * (prevMouseX - mouseX),
+				mouseSpeed * (prevMouseY - mouseY));
 		break;
-	}
 	case rotate:
 		break;
 	case zoom:
