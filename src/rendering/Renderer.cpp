@@ -30,7 +30,6 @@ Renderer::Renderer() {
 	camPosition = glm::vec3(0, 0, -13);
 
 	updateView();
-
 }
 
 Renderer::~Renderer() {
@@ -38,7 +37,7 @@ Renderer::~Renderer() {
 
 void Renderer::resetScreen() {
 	// Clear the screen
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	//Update ViewProjection matrix
 	viewProjection = projection * view;

@@ -12,6 +12,7 @@ VertexObject::VertexObject() {
 	vbo = 0;
 	ebo = 0;
 	cbo = 0;
+	nbo = 0;
 	bufferType = GL_STATIC_DRAW;
 }
 
@@ -53,6 +54,9 @@ void VertexObject::generateBuffers() {
 
 	// Generate an CBO and bind it for holding vertex indices.
 	glGenBuffers(1, &cbo);
+
+	//Generate a NBO
+	glGenBuffers(1, &nbo);
 }
 
 void VertexObject::populateBuffers() const {
@@ -69,6 +73,11 @@ void VertexObject::populateBuffers() const {
 	glBindBuffer( GL_ARRAY_BUFFER, cbo);
 	// Populate the VBO.
 	glBufferData( GL_ARRAY_BUFFER, vboSize, &(colors[0]), bufferType);
+
+	//Activate nbo
+	glBindBuffer( GL_ARRAY_BUFFER, nbo);
+	// Populate the NBO.
+	glBufferData( GL_ARRAY_BUFFER, vboSize, &(normals[0]), bufferType);
 
 	// Populate the EBO.
 	glBufferData( GL_ELEMENT_ARRAY_BUFFER, eboSize, &(indices[0]), bufferType);
@@ -93,6 +102,8 @@ void VertexObject::sendDataToShader() const {
 	glEnableVertexAttribArray(0);
 	glBindBuffer( GL_ARRAY_BUFFER, vbo);
 	//Set vertex buffer structure
+	// Buffer index, components per vertex, data type, normalised, offset for
+	// interleaving, offset for first element
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*) 0);
 
 	//Enable color buffer
@@ -100,6 +111,12 @@ void VertexObject::sendDataToShader() const {
 	glBindBuffer( GL_ARRAY_BUFFER, cbo);
 	//Set color buffer structure
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*) 0);
+
+	//Enable normal buffer
+	glEnableVertexAttribArray(2);
+	glBindBuffer( GL_ARRAY_BUFFER, nbo);
+	//Set normal buffer structure
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (void*) 0);
 
 	//Enable element buffer
 	glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, ebo);
@@ -118,6 +135,7 @@ void VertexObject::destroyBuffers() const {
 	glDeleteBuffers(1, &vbo);
 	glDeleteBuffers(1, &ebo);
 	glDeleteBuffers(1, &cbo);
+	glDeleteBuffers(1, &nbo);
 	glDeleteVertexArrays(1, &vao);
 }
 

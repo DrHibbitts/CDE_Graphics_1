@@ -54,6 +54,7 @@ protected:
 	//Model matrix defines the object transformation
 	glm::mat4 modelMat;
 	std::vector<glm::vec3> vertices;
+	std::vector<glm::vec3> normals;
 	std::vector<unsigned int> indices;
 	std::vector<glm::vec3> colors;
 
@@ -61,16 +62,19 @@ protected:
 	PrimitiveParameter primitivePar;
 
 	//Common object and buffers needed for OpenGL rendering
-	// VAO : Vertex Attributes Array.
+	// VAO: Vertex Attributes Array.
 	GLuint vao;
 
-	// VBO : Vertex buffer object
+	// VBO: Vertex buffer object
 	GLuint vbo;
 
-	// EBO : Elements-Buffer object.
+	// NBO: Normal buffer object
+	GLuint nbo;
+
+	// EBO: Elements-Buffer object.
 	GLuint ebo;
 
-	// CBO : Color buffer object
+	// CBO: Color buffer object
 	GLuint cbo;
 
 	GLenum bufferType;

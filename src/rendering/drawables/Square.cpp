@@ -45,6 +45,7 @@ void Square::init() {
 
 	vertices.resize(4);
 	colors.resize(4);
+	normals.resize(4);
 	indices.push_back(0);
 	indices.push_back(1);
 	indices.push_back(2);

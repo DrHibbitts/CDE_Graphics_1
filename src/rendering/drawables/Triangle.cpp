@@ -42,6 +42,7 @@ void Triangle::init() {
 
 	vertices.resize(3);
 	colors.resize(3);
+	normals.resize(3);
 	indices.push_back(0);
 	indices.push_back(1);
 	indices.push_back(2);
