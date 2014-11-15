@@ -43,6 +43,7 @@ src/models/ChainModel.cpp
 src/models/JointModel.cpp
 src/rendering/drawables/Axis.cpp
 src/rendering/drawables/Bone.cpp
+src/rendering/drawables/Cube.cpp
 src/rendering/drawables/Chain.cpp
 src/rendering/drawables/Joint.cpp
 src/rendering/drawables/Line.cpp
@@ -67,6 +68,7 @@ src/models/ChainModel.h
 src/models/JointModel.h
 src/rendering/drawables/Axis.h
 src/rendering/drawables/Bone.h
+src/rendering/drawables/Cube.h
 src/rendering/drawables/Chain.h
 src/rendering/drawables/Drawable.h
 src/rendering/drawables/Joint.h
