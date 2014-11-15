@@ -21,7 +21,7 @@ public:
 
 	void draw(Renderer& renderer) const;
 
-	void setAngle(float angle);
+	void setZRotAngle(float angle);
 
 	CubePtr getDrawable();
 

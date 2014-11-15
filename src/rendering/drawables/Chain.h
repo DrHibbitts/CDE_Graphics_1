@@ -28,7 +28,7 @@ public:
 	//When a bone is added a new joint is created in the end of the previous
 	//last bone
 	void addBone(float size);
-	void setJointAngle(unsigned int index, float angle);
+	void setJointZAngle(unsigned int index, float ZAngle);
 
 	void copyToModel(ChainModel& chainModel) const;
 private:

@@ -26,12 +26,12 @@ void ChainModel::addBone(float size) {
 	joints.push_back(JointModel());
 }
 
-void ChainModel::setJointAngle(unsigned int index, float angle) {
-	joints.at(index).setAngle(angle * TO_RAD);
+void ChainModel::setJointZAngle(unsigned int index, float ZAngle) {
+	joints.at(index).setZRotAngle(ZAngle * TO_RAD);
 }
 
-float ChainModel::getJointAngle(unsigned int index) const {
-	return joints.at(index).getAngle() * TO_DEG;
+float ChainModel::getJointZAngle(unsigned int index) const {
+	return joints.at(index).getZRotAngle() * TO_DEG;
 }
 
 float ChainModel::getBoneLength(unsigned int index) const {
@@ -61,7 +61,7 @@ void ChainModel::updateMatrices(glm::mat4& currentMat, const glm::vec3& axisVec,
 		unsigned int i, bool updateBone) const {
 
 	//Update total transformation with current joint rotation
-	currentMat = currentMat * glm::rotate(joints[i].getAngle(), axisVec);
+	currentMat = currentMat * glm::rotate(joints[i].getZRotAngle(), axisVec);
 
 	//Update total transformation with current bone translation
 	currentMat = currentMat

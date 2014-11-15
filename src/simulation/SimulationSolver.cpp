@@ -37,7 +37,7 @@ void SimulationSolver::setChain(ChainPtr chain) {
 
 void SimulationSolver::resetWorkingChain() {
 	for (unsigned int i = 0; i < wChain.getNumJoints(); i++) {
-		wChain.setJointAngle(i, chain->getJointAngle(i));
+		wChain.setJointZAngle(i, chain->getJointZAngle(i));
 	}
 }
 
@@ -47,10 +47,10 @@ void SimulationSolver::finiteDiffJacobian(const glm::vec3& goal) {
 	costVal = wChain.costFun(goal);
 
 	for (unsigned int i = 0; i < jacobian.size(); i++) {
-		wChain.setJointAngle(i, wChain.getJointAngle(i) + h);
+		wChain.setJointZAngle(i, wChain.getJointZAngle(i) + h);
 		jacobian[i] = (1 / h) * (wChain.costFun(goal) - costVal);
 		jacobian[i] = (1 / glm::length(jacobian[i])) * jacobian[i];
-		wChain.setJointAngle(i, wChain.getJointAngle(i) - h);
+		wChain.setJointZAngle(i, wChain.getJointZAngle(i) - h);
 	}
 }
 
@@ -67,14 +67,14 @@ void SimulationSolver::updateAngles(double stepSize) {
 	double angleUpdate;
 	for (unsigned int i = 0; i < jacobian.size(); i++) {
 		angleUpdate = glm::dot(-jacobian[i], costVal) * TO_DEG * stepSize;
-		wChain.setJointAngle(i, wChain.getJointAngle(i) + angleUpdate);
+		wChain.setJointZAngle(i, wChain.getJointZAngle(i) + angleUpdate);
 	}
 }
 
 void SimulationSolver::updateChain() {
 	if (chain) {
 		for (unsigned int i = 0; i < wChain.getNumJoints(); i++) {
-			chain->setJointAngle(i, wChain.getJointAngle(i));
+			chain->setJointZAngle(i, wChain.getJointZAngle(i));
 		}
 	}
 }

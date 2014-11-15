@@ -13,7 +13,7 @@ Joint::Joint() :
 
 Joint::Joint(float angle) :
 		JointModel(angle), cube(new Cube()) {
-	setAngle(angle);
+	setZRotAngle(angle);
 }
 
 Joint::~Joint() {
@@ -23,8 +23,8 @@ void Joint::draw(Renderer& renderer) const {
 	cube->draw(renderer);
 }
 
-void Joint::setAngle(float angle) {
-	JointModel::setAngle(angle);
+void Joint::setZRotAngle(float angle) {
+	JointModel::setZRotAngle(angle);
 	cube->setUniformColor(glm::vec3(1, 0, 0));
 }
 

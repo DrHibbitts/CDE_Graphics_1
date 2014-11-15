@@ -14,10 +14,11 @@ public:
 	JointModel(float angle);
 	virtual ~JointModel();
 
-	float getAngle() const;
-	void setAngle(float angle);
+	float getZRotAngle() const;
+	void setZRotAngle(float angle);
 private:
-	float angle;
+	float ZRotAngle;
+	float YRotAngle;
 };
 
 #endif /* SRC_JOINTMODEL_H_ */
