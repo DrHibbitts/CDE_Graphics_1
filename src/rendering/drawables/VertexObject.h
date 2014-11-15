@@ -46,7 +46,7 @@ protected:
 	void generateBuffers();
 	void populateBuffers() const;
 	void initVAO() const;
-	void sendDataToShader() const;
+	void sendDataToShader(Renderer& renderer) const;
 	void updateBuffers() const;
 	void destroyBuffers() const;
 

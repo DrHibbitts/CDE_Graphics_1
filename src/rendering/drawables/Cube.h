@@ -21,9 +21,11 @@ public:
 	void setHeight(double height);
 private:
 	void init();
+	void calculateNormals();
+	void setInidices();
 
 private:
-	double centre;
+	glm::vec3 centre;
 	double width;
 	double height;
 };

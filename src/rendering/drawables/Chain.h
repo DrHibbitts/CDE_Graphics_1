@@ -22,7 +22,6 @@ class Chain: public Drawable, public ChainModel {
 public:
 	Chain();
 	virtual ~Chain();
-	Chain(const Chain& otherChain);
 
 	void draw(Renderer& renderer) const;
 

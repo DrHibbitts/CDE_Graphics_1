@@ -31,7 +31,7 @@ void Point::init() {
 	//A line has one vertex and is drawn with GL_POINTS
 	vertices.resize(1);
 	colors.resize(1);
-	normals.resize(1);
+	normals.push_back(glm::vec3(1, 0, 0));
 	indices.push_back(0);
-	primitivePar.setValues(GL_POINTS, 0, 1);
+	primitivePar.setValues(GL_POINTS, 0, indices.size());
 }

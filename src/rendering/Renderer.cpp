@@ -13,8 +13,12 @@ Renderer::Renderer() {
 
 	loadDefaultShaders();
 
-	// Get a handle for our "MVP" uniform
+	// Get a handle for the matrix locations in the shaders
 	MVPlocation = glGetUniformLocation(programID, "MVP");
+	Vlocation = glGetUniformLocation(programID, "V");
+	Mlocation = glGetUniformLocation(programID, "M");
+
+	LightID = glGetUniformLocation(programID, "LightPosition_worldspace");
 
 	// Projection matrix : 45º Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
 	projection = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f);
@@ -41,6 +45,9 @@ void Renderer::resetScreen() {
 
 	//Update ViewProjection matrix
 	viewProjection = projection * view;
+
+	glm::vec3 lightPos = glm::vec3(4, 4, 4);
+	glUniform3f(LightID, lightPos.x, lightPos.y, lightPos.z);
 }
 
 const glm::mat4& Renderer::getViewProjectionMatrix() const {
@@ -84,6 +91,17 @@ glm::vec3 Renderer::getWorldCoordFromScreen(const glm::vec3& screenCoord) {
 	aux.y = -aux.y;
 	aux.z = 0;
 	return aux;
+}
+
+void Renderer::sendModelMatToShader(const glm::mat4& modelMat) const {
+	//Calculate Model View Projection matrix
+	glm::mat4 MVP = viewProjection * modelMat;
+
+	//Send matrix to shader
+	glUniformMatrix4fv(MVPlocation, 1, GL_FALSE, &(MVP[0][0]));
+
+	glUniformMatrix4fv(Vlocation, 1, GL_FALSE, &(view[0][0]));
+	glUniformMatrix4fv(Mlocation, 1, GL_FALSE, &(modelMat[0][0]));
 }
 
 void Renderer::updateView() {

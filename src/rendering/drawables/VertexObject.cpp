@@ -21,13 +21,7 @@ VertexObject::~VertexObject() {
 }
 
 void VertexObject::draw(Renderer& renderer) const {
-	sendDataToShader();
-
-	//Calculate Model View Projection matrix
-	glm::mat4 MVP = renderer.getViewProjectionMatrix() * modelMat;
-
-	//Send matrix to shader
-	glUniformMatrix4fv(renderer.getMVPlocation(), 1, GL_FALSE, &(MVP[0][0]));
+	sendDataToShader(renderer);
 
 	//Draw count objects of mode type
 	glDrawElements(primitivePar.getMode(), primitivePar.getCount(),
@@ -61,7 +55,7 @@ void VertexObject::generateBuffers() {
 
 void VertexObject::populateBuffers() const {
 	const unsigned int vboSize = vertices.size() * sizeof(glm::vec3);
-	const unsigned int eboSize = indices.size() * sizeof(glm::vec3);
+	const unsigned int eboSize = indices.size() * sizeof(unsigned int);
 	//Writes vertex, color and index data in the buffers, should only be called
 	//once at object creation for efficiency purposes
 
@@ -94,7 +88,7 @@ void VertexObject::initVAO() const {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-void VertexObject::sendDataToShader() const {
+void VertexObject::sendDataToShader(Renderer& renderer) const {
 	// Bind VAO and Buffers as the active ones.
 	glBindVertexArray(vao);
 
@@ -120,6 +114,8 @@ void VertexObject::sendDataToShader() const {
 
 	//Enable element buffer
 	glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, ebo);
+
+	renderer.sendModelMatToShader(modelMat);
 }
 
 void VertexObject::updateBuffers() const {

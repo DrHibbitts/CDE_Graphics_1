@@ -15,7 +15,7 @@ PointSet::PointSet(const unsigned int capacity) {
 	vertices.resize(capacity);
 	colors.resize(capacity);
 	indices.resize(capacity);
-	normals.resize(capacity);
+	normals.resize(capacity, glm::vec3(1, 0, 0));
 
 	//Since we are rendering points each i index belongs to i vertex
 	for (unsigned int i = 0; i < capacity; i++) {
@@ -91,7 +91,7 @@ void PointSet::resizeDataVectors() {
 	vertices.resize(totalSize);
 	colors.resize(totalSize);
 	indices.resize(totalSize);
-	normals.resize(totalSize);
+	normals.resize(totalSize, glm::vec3(1, 0, 0));
 
 	for (unsigned int i = currentSize; i < totalSize; i++) {
 		colors[i] = colors[currentSize - 1];

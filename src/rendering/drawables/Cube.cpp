@@ -40,7 +40,7 @@ void Cube::init() {
 
 	vertices.resize(8);
 	colors.resize(8);
-	normals.resize(12);
+	normals.resize(8);
 
 	vertices[0] = glm::vec3(-0.1, -0.1, -0.1);
 	vertices[1] = glm::vec3(0.1, -0.1, -0.1);
@@ -102,8 +102,25 @@ void Cube::init() {
 	indices.push_back(1);
 	indices.push_back(4);
 
+	calculateNormals();
+
 	// 12 triangles for a cube
 	primitivePar.setValues(GL_TRIANGLES, 0, 26);
 
 	updateBuffers();
+}
+
+void Cube::calculateNormals() {
+
+	glm::vec3 normal = glm::normalize(
+			glm::cross(vertices.at(0), vertices.at(1)));
+
+	normals[0] = normal;
+	normals[1] = normal;
+	normals[2] = normal;
+	normals[3] = normal;
+	normals[4] = normal;
+	normals[5] = normal;
+	normals[6] = normal;
+	normals[7] = normal;
 }

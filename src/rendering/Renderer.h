@@ -34,6 +34,8 @@ public:
 
 	void updateLookAt(float horizontalAngleOffset, float verticalAngleOffset);
 
+	void sendModelMatToShader(const glm::mat4& modelMat) const;
+
 	const glm::mat4& getViewProjectionMatrix() const;
 
 	glm::vec3 getWorldCoordFromScreen(const glm::vec3& screenCoord);
@@ -50,10 +52,14 @@ private:
 	GLuint programID;
 
 	GLuint MVPlocation;
+	GLuint Vlocation;
+	GLuint Mlocation;
 
 	glm::mat4 view;
 	glm::mat4 projection;
 	glm::mat4 viewProjection;
+
+	GLuint LightID;
 
 	//TODO Move camera code to Camera class
 	glm::vec3 camPosition;

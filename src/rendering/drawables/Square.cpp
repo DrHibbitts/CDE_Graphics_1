@@ -27,6 +27,14 @@ void Square::setVertices(const glm::vec3& v0, const glm::vec3& v1,
 	vertices[2] = v2;
 	vertices[3] = v3;
 
+	glm::vec3 normal = glm::normalize(
+			glm::cross(vertices.at(0), vertices.at(1)));
+
+	normals[0] = normal;
+	normals[1] = normal;
+	normals[2] = normal;
+	normals[3] = normal;
+
 	updateBuffers();
 }
 
@@ -53,5 +61,5 @@ void Square::init() {
 	//Squares are drawn using two triangles
 	//GL_TRIANGLE_STRIP uses the first three vertices for the first triangle and
 	//then uses a new one and the two previous for consequent triangles
-	primitivePar.setValues(GL_TRIANGLE_STRIP, 0, 4);
+	primitivePar.setValues(GL_TRIANGLE_STRIP, 0, indices.size());
 }

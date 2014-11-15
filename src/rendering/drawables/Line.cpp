@@ -39,8 +39,8 @@ void Line::init() {
 	//A line has two vertices and is drawn with GL_LINES
 	vertices.resize(2);
 	colors.resize(2);
-	normals.resize(2);
+	normals.resize(2, glm::vec3(1, 0, 0));
 	indices.push_back(0);
 	indices.push_back(1);
-	primitivePar.setValues(GL_LINES, 0, 2);
+	primitivePar.setValues(GL_LINES, 0, indices.size());
 }
