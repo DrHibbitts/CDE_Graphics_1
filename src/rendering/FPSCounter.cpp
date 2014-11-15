@@ -7,15 +7,18 @@
 
 #include "FPSCounter.h"
 
-FPSCounter::FPSCounter() :
+FPSCounter::FPSCounter(double maxFps) :
 		theTimeInterval(1.0) {
+	timePerFrame = 1 / maxFps;
 	init();
 }
 
-FPSCounter::FPSCounter(GLFWwindow* window, const std::string& windowTitle) :
+FPSCounter::FPSCounter(GLFWwindow* window, const std::string& windowTitle,
+		double maxFps) :
 		theTimeInterval(1.0) {
+	timePerFrame = 1 / maxFps;
 	init();
-	setWindow(window, windowTitle);
+	setWindow(window, windowTitle, maxFps);
 }
 
 FPSCounter::~FPSCounter() {
@@ -26,7 +29,7 @@ void FPSCounter::setWindowFPS() {
 		return;
 	}
 	// Get the current time in seconds since the program started (non-static, so executed every time)
-	double currentTime = glfwGetTime();
+	currentTime = glfwGetTime();
 
 	// Calculate and display the FPS every specified time interval
 	if ((currentTime - t0Value) > theTimeInterval) {
@@ -50,14 +53,27 @@ void FPSCounter::setWindowFPS() {
 	}
 }
 
-void FPSCounter::setWindow(GLFWwindow* window, const std::string& windowTitle) {
+void FPSCounter::setWindow(GLFWwindow* window, const std::string& windowTitle,
+		double maxFps) {
 	this->window = window;
 	this->windowTitle = windowTitle;
+	timePerFrame = 1 / maxFps;
 }
 
 void FPSCounter::init() {
 	t0Value = glfwGetTime(); // Set the initial time to now
 	fpsFrameCount = 0;        // Set the initial FPS frame count to 0
 	fps = 0.0;           // Set the initial FPS value to 0.0
+	currentTime = t0Value;
+	prevTime = t0Value;
+
 	window = NULL;
+}
+
+void FPSCounter::sleepForFixedFPS() {
+	if (currentTime - prevTime < timePerFrame) {
+		int duration = (timePerFrame - (currentTime - prevTime)) * 1000;
+		std::this_thread::sleep_for(std::chrono::milliseconds(duration));
+	}
+	prevTime = glfwGetTime();
 }

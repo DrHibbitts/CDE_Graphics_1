@@ -10,7 +10,7 @@
 
 #include "boost/shared_ptr.hpp"
 
-#include "../rendering/Renderer.h"
+#include "../Renderer.h"
 
 //Abstract class that defines a common interface to be rendered
 //Any subclass of Drawable can be rendered by Window

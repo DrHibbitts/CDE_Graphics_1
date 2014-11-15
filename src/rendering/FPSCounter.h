@@ -10,25 +10,36 @@
 
 #include <string>
 #include <sstream>
+#include <thread>
+#include <chrono>
 
 // Include GLFW
 #include <GLFW/glfw3.h>
 
 class FPSCounter {
 public:
-	FPSCounter();
-	FPSCounter(GLFWwindow* window, const std::string& windowTitle);
+	FPSCounter(double maxFps = 60);
+	FPSCounter(GLFWwindow* window, const std::string& windowTitle,
+			double maxFps = 60);
 	virtual ~FPSCounter();
 
 	void setWindowFPS();
 
-	void setWindow(GLFWwindow* window, const std::string& windowTitle);
+	void setWindow(GLFWwindow* window, const std::string& windowTitle,
+			double maxFps);
+
+	void sleepForFixedFPS();
 
 private:
 	void init();
 
 	GLFWwindow* window;
 	std::string windowTitle;
+
+	double timePerFrame;
+	double currentTime;
+	double prevTime;
+	std::chrono::seconds sleepTime;
 
 	//Variables for a FPS counter
 	double t0Value;

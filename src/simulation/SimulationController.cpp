@@ -11,6 +11,7 @@ SimulationController::SimulationController(double epsilon) :
 		simSleepTime(20) {
 	simulating = false;
 	this->epsilon = epsilon;
+	movingToGoal = false;
 }
 
 SimulationController::~SimulationController() {
@@ -25,6 +26,9 @@ void SimulationController::executeSimulationLoop() {
 			lock.lock();
 			simSolver.solveForStep(goal, stepSize);
 			lock.unlock();
+		} else if (movingToGoal) {
+			std::cout << "Goal reached" << std::endl;
+			movingToGoal = false;
 		}
 
 		//Sleep the thread a bit, since is way too fast
@@ -56,6 +60,7 @@ const glm::vec3& SimulationController::getGoal() const {
 
 void SimulationController::setGoal(const glm::vec3& goal) {
 	this->goal = goal;
+	movingToGoal = true;
 }
 
 void SimulationController::startSimulation(ChainPtr chain) {

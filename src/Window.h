@@ -20,13 +20,14 @@
 
 #include <boost/pointer_cast.hpp>
 
-#include "models/Chain.h"
-#include "models/Drawable.h"
+#include "rendering/drawables/Chain.h"
+#include "rendering/drawables/Drawable.h"
 #include "rendering/FPSCounter.h"
 #include "rendering/Renderer.h"
 #include "simulation/SimulationController.h"
+#include "InputHandler.h"
 
-#include "models/Triangle.h"
+#include "rendering/drawables/Triangle.h"
 
 //Window class is a wrapper around GLFWwindow, it controls what objects
 //are rendered and handles the user input. It is a singleton, solo only one
@@ -39,12 +40,14 @@ public:
 	virtual ~Window();
 
 	void createWindow(unsigned int height, unsigned int width,
-			const std::string& windowTitle);
+			const std::string& windowTitle, double maxFps);
 
 	void addDrawable(DrawablePtr drawable);
 	void removeDrawable(DrawablePtr drawable);
 
 	void executeMainLoop();
+
+	glm::vec3 getWorldCoordFromScreen(const glm::vec3& screenCoord);
 
 private:
 	void init();
@@ -54,11 +57,20 @@ private:
 	void setCallbacks();
 
 	//The callback has to be a static function according to GLFW
-	static void mouseCallback(GLFWwindow *window, int button, int actions,
+	static void mouseButtonCallback(GLFWwindow *window, int button, int actions,
 			int mods);
 
-	void mouseCallbackImpl(GLFWwindow *window, int button, int actions,
-			int mods);
+	void mouseButtonCallbackImpl(int button, int actions, int mods);
+
+	static void mousePosCallback(GLFWwindow *window, double xpos, double ypos);
+
+	void mousePosCallbackImpl(double xpos, double ypos);
+
+	//The callback has to be a static function according to GLFW
+	static void keyCallback(GLFWwindow *window, int key, int scancode,
+			int action, int mods);
+
+	void keyCallbackImpl(int key, int scancode, int action, int mods);
 
 	Window(void); // private constructor necessary to allow only one instance
 	Window(Window const&); // prevent copies
@@ -73,6 +85,7 @@ private:
 	GLFWwindow* window;
 	Renderer* renderer;
 	SimulationController simController;
+	InputHandler inputHandler;
 
 	std::vector<DrawablePtr> toDrawObjects;
 

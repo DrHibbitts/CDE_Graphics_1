@@ -8,7 +8,7 @@
 #ifndef SRC_SIMULATIONSOLVER_H_
 #define SRC_SIMULATIONSOLVER_H_
 
-#include "../models/Chain.h"
+#include "../rendering/drawables/Chain.h"
 #include "../models/ChainModel.h"
 
 class SimulationSolver {

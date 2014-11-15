@@ -16,7 +16,7 @@
 
 class SimulationController {
 public:
-	SimulationController(double epsilon = 0.01);
+	SimulationController(double epsilon = 0.03);
 	virtual ~SimulationController();
 
 	void startSimulation(ChainPtr chain);
@@ -39,6 +39,7 @@ private:
 	std::mutex lock;
 	bool simulating;
 	glm::vec3 goal;
+	bool movingToGoal;
 	std::chrono::milliseconds simSleepTime;
 	double epsilon;
 };

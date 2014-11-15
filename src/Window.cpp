@@ -55,7 +55,7 @@ Window::~Window() {
 }
 
 void Window::createWindow(unsigned int height, unsigned int width,
-		const std::string& windowTitle) {
+		const std::string& windowTitle, double maxFps) {
 	//If this is not a first call close the previous windows and free the memory
 	cleanUp();
 	init();
@@ -82,7 +82,9 @@ void Window::createWindow(unsigned int height, unsigned int width,
 
 	renderer = new Renderer();
 
-	fpsCounter.setWindow(window, windowTitle);
+	fpsCounter.setWindow(window, windowTitle, maxFps);
+
+	inputHandler.setRenderer(renderer);
 
 	setCallbacks();
 }
@@ -143,11 +145,14 @@ void Window::executeMainLoop() {
 		// Swap buffers
 		glfwSwapBuffers(window);
 
-		//Display FPS
-		fpsCounter.setWindowFPS();
-
 		//Get user input
 		glfwPollEvents();
+
+		//Set
+		fpsCounter.sleepForFixedFPS();
+
+		//Display FPS
+		fpsCounter.setWindowFPS();
 
 		//Mouse polling example
 		//if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS) {
@@ -163,12 +168,13 @@ void Window::executeMainLoop() {
 }
 
 void Window::setCallbacks() {
-	glfwSetMouseButtonCallback(window, &mouseCallback);
+	glfwSetMouseButtonCallback(window, &mouseButtonCallback);
+	glfwSetKeyCallback(window, &keyCallback);
+	glfwSetCursorPosCallback(window, &mousePosCallback);
 }
 
-void Window::mouseCallback(GLFWwindow* window, int button, int actions,
-		int mods) {
-	getInstance().mouseCallbackImpl(window, button, actions, mods);
+glm::vec3 Window::getWorldCoordFromScreen(const glm::vec3& screenCoord) {
+	return renderer->getWorldCoordFromScreen(screenCoord);
 }
 
 void Window::updateGoalMarker(const glm::vec3& goal) {
@@ -177,13 +183,27 @@ void Window::updateGoalMarker(const glm::vec3& goal) {
 	tr->translate(goal - tr->getCurrentPosition());
 }
 
-void Window::mouseCallbackImpl(GLFWwindow* window, int button, int actions,
+void Window::keyCallback(GLFWwindow *window, int key, int scancode, int action,
 		int mods) {
+	getInstance().keyCallbackImpl(key, scancode, action, mods);
+}
+
+void Window::keyCallbackImpl(int key, int scancode, int action, int mods) {
+	inputHandler.keyCallback(key, scancode, action, mods);
+}
+
+void Window::mouseButtonCallback(GLFWwindow* window, int button, int actions,
+		int mods) {
+	getInstance().mouseButtonCallbackImpl(button, actions, mods);
+}
+
+void Window::mouseButtonCallbackImpl(int button, int actions, int mods) {
+	double xpos, ypos;
+	glfwGetCursorPos(window, &xpos, &ypos);
+
 	//Mouse callback example
 	if (button == GLFW_MOUSE_BUTTON_1) {
 		if (actions == GLFW_RELEASE) {
-			double xpos, ypos;
-			glfwGetCursorPos(window, &xpos, &ypos);
 			glm::vec3 goal = renderer->getWorldCoordFromScreen(
 					glm::vec3(xpos, ypos, 0));
 			simController.setGoal(goal);
@@ -193,6 +213,15 @@ void Window::mouseCallbackImpl(GLFWwindow* window, int button, int actions,
 					<< goal.z << std::endl;
 		}
 	}
+	inputHandler.mouseButtonCallback(button, actions, mods);
+}
+
+void Window::mousePosCallback(GLFWwindow *window, double xpos, double ypos) {
+	getInstance().mousePosCallbackImpl(xpos, ypos);
+}
+
+void Window::mousePosCallbackImpl(double xpos, double ypos) {
+	inputHandler.mousePositionCallback(xpos, ypos);
 }
 
 Window::Window(const Window&) {

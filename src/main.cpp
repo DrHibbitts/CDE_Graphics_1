@@ -5,18 +5,18 @@
 #include <glm/glm.hpp>
 
 #include "Window.h"
-#include "models/Triangle.h"
-#include "models/Line.h"
-#include "models/Square.h"
-#include "models/Axis.h"
-#include "models/Chain.h"
+#include "rendering/drawables/Triangle.h"
+#include "rendering/drawables/Line.h"
+#include "rendering/drawables/Square.h"
+#include "rendering/drawables/Axis.h"
+#include "rendering/drawables/Chain.h"
 
 int main(void) {
 	//Only one Window is allowed in the application, singleton pattern
 	//Create a window of: width, height, title
 	Window& window = Window::getInstance();
 	window.createWindow(1024, 768,
-			std::string("Inverse kinematics course work"));
+			std::string("Inverse kinematics course work"), 60.0);
 
 	//All objects to be drawn have to be created with their pointers
 	//Create 3D axis object

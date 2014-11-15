@@ -26,6 +26,14 @@ public:
 
 	void resetScreen();
 
+	const glm::vec3& getCamLookAtVector() const;
+
+	const glm::vec3& getCamLookAtRightVector() const;
+
+	void updateCameraPosition(const glm::vec3& offset);
+
+	void updateLookAt(float horizontalAngleOffset, float verticalAngleOffset);
+
 	const glm::mat4& getViewProjectionMatrix() const;
 
 	glm::vec3 getWorldCoordFromScreen(const glm::vec3& screenCoord);
@@ -35,6 +43,7 @@ public:
 
 private:
 	void loadDefaultShaders();
+	void updateView();
 
 private:
 	ShaderLoader shaderLoader;
@@ -42,9 +51,21 @@ private:
 
 	GLuint MVPlocation;
 
-	glm::mat4 View;
-	glm::mat4 Projection;
-	glm::mat4 ViewProjection;
+	glm::mat4 view;
+	glm::mat4 projection;
+	glm::mat4 viewProjection;
+
+	//TODO Move camera code to Camera class
+	glm::vec3 camPosition;
+	glm::vec3 camLookAtVector;
+	glm::vec3 camRightVector;
+	glm::vec3 camUp;
+
+	// Initial horizontal angle : toward -Z
+	float horizontalAngle;
+	// Initial vertical angle : none
+	float verticalAngle;
+
 };
 
 #endif /* RENDERER_H_ */
