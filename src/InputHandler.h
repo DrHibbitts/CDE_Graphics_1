@@ -38,24 +38,12 @@ private:
 
 	float camTransSpeed;
 	float camRotSpeed;
-	float mouseSpeed;
 
 	enum InputState {
-		translate, rotate, zoom, idle
-	};
-
-	enum RotAxis {
-		rotX, rotY, rotZ
+		cameraUpdate, idle
 	};
 
 	InputState inputState;
-	RotAxis rotAxis;
-
-	// Initial horizontal angle : toward -Z
-	float horizontalAngle;
-	// Initial vertical angle : none
-	float verticalAngle;
-	glm::vec3 position;
 
 	Renderer* renderer;
 	bool settingGoal;

@@ -55,8 +55,8 @@ private:
 	glm::mat4 projection;
 	glm::mat4 viewProjection;
 
+	//TODO Move camera code to Camera class
 	glm::vec3 camPosition;
-	glm::vec3 camLookAt;
 	glm::vec3 camLookAtVector;
 	glm::vec3 camRightVector;
 	glm::vec3 camUp;

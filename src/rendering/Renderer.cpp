@@ -28,9 +28,6 @@ Renderer::Renderer() {
 
 	// Camera matrix, camera position, look at position, normalised up vector
 	camPosition = glm::vec3(0, 0, -13);
-	//camLookAt = glm::vec3(0, 0, 0);
-	//camUp = glm::vec3(0, 1, 0);
-	//view = glm::lookAt(camPosition, camLookAt, camUp);
 
 	updateView();
 
@@ -94,8 +91,8 @@ void Renderer::updateView() {
 	camLookAtVector = glm::vec3(cos(verticalAngle) * sin(horizontalAngle),
 			sin(verticalAngle), cos(verticalAngle) * cos(horizontalAngle));
 
-	camRightVector = glm::vec3(sin(horizontalAngle - 3.14f / 2.0f), 0,
-			cos(horizontalAngle - 3.14f / 2.0f));
+	camRightVector = glm::vec3(sin(horizontalAngle - M_PI_2), 0,
+			cos(horizontalAngle - M_PI_2));
 
 	camUp = glm::cross(camRightVector, camLookAtVector);
 

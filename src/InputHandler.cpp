@@ -12,17 +12,9 @@ InputHandler::InputHandler() {
 	prevMouseY = 0;
 	renderer = NULL;
 	settingGoal = false;
-	camTransSpeed = 0.01;
-	camRotSpeed = 0.002;
+	camTransSpeed = 2.0;
+	camRotSpeed = 0.005;
 	inputState = idle;
-	rotAxis = rotX;
-	mouseSpeed = 0.005;
-
-	// Initial horizontal angle : toward Z
-	horizontalAngle = 0.0f;
-	// Initial vertical angle : none
-	verticalAngle = 0.0f;
-	position = glm::vec3(0, 0, -13);
 }
 
 InputHandler::~InputHandler() {
@@ -36,13 +28,7 @@ void InputHandler::mouseButtonCallback(int button, int actions, int mods) {
 
 		switch (button) {
 		case GLFW_MOUSE_BUTTON_1:
-			inputState = translate;
-			break;
-		case GLFW_MOUSE_BUTTON_2:
-			inputState = rotate;
-			break;
-		case GLFW_MOUSE_BUTTON_3:
-			inputState = zoom;
+			inputState = cameraUpdate;
 			break;
 		default:
 			break;
@@ -65,25 +51,25 @@ void InputHandler::keyCallback(int key, int scancode, int action, int mods) {
 		return;
 	}
 
-	float speed = 3.0f;
-
 	// Move forward
 	if (key == GLFW_KEY_UP || key == GLFW_KEY_W) {
-		renderer->updateCameraPosition(renderer->getCamLookAtVector() * speed);
+		renderer->updateCameraPosition(
+				renderer->getCamLookAtVector() * camTransSpeed);
 	}
 	// Move backward
 	if (key == GLFW_KEY_DOWN || key == GLFW_KEY_S) {
-		renderer->updateCameraPosition(-renderer->getCamLookAtVector() * speed);
+		renderer->updateCameraPosition(
+				-renderer->getCamLookAtVector() * camTransSpeed);
 	}
 	// Strafe right
 	if (key == GLFW_KEY_RIGHT || key == GLFW_KEY_D) {
 		renderer->updateCameraPosition(
-				renderer->getCamLookAtRightVector() * speed);
+				renderer->getCamLookAtRightVector() * camTransSpeed);
 	}
 	// Strafe left
 	if (key == GLFW_KEY_LEFT || key == GLFW_KEY_A) {
 		renderer->updateCameraPosition(
-				-renderer->getCamLookAtRightVector() * speed);
+				-renderer->getCamLookAtRightVector() * camTransSpeed);
 	}
 }
 
@@ -93,13 +79,9 @@ void InputHandler::handleGoalRotation() const {
 void InputHandler::mousePositionCallback(double mouseX, double mouseY) {
 
 	switch (inputState) {
-	case translate:
-		renderer->updateLookAt(mouseSpeed * (prevMouseX - mouseX),
-				mouseSpeed * (prevMouseY - mouseY));
-		break;
-	case rotate:
-		break;
-	case zoom:
+	case cameraUpdate:
+		renderer->updateLookAt(camRotSpeed * (prevMouseX - mouseX),
+				camRotSpeed * (prevMouseY - mouseY));
 		break;
 	case idle:
 		break;
