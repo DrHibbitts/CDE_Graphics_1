@@ -22,17 +22,18 @@ Cube::~Cube() {
 
 void Cube::setWidth(double width) {
 	glm::vec3 offset;
-	offset.x = (width - (vertices[1].x - vertices[0].x)) * 0.5;
+	offset.x = (width - (vertices[1].x - vertices[0].x) * 0.5);
 
+	//TODO This works but is to localised
 	vertices[1] += offset;
 	vertices[2] += offset;
 	vertices[5] += offset;
 	vertices[6] += offset;
 
-	vertices[0] -= offset;
-	vertices[3] -= offset;
-	vertices[4] -= offset;
-	vertices[7] -= offset;
+	//vertices[0] -= offset;
+	//vertices[3] -= offset;
+	//vertices[4] -= offset;
+	//vertices[7] -= offset;
 
 	calculateNormals();
 	updateBuffers();
@@ -49,6 +50,24 @@ void Cube::setHeight(double height) {
 
 	vertices[4] += offset;
 	vertices[5] += offset;
+	vertices[6] += offset;
+	vertices[7] += offset;
+
+	calculateNormals();
+	updateBuffers();
+}
+
+void Cube::setDepth(double depth) {
+	glm::vec3 offset;
+	offset.z = (depth - (vertices[2].z - vertices[1].z)) * 0.5;
+
+	vertices[0] -= offset;
+	vertices[1] -= offset;
+	vertices[4] -= offset;
+	vertices[5] -= offset;
+
+	vertices[2] += offset;
+	vertices[3] += offset;
 	vertices[6] += offset;
 	vertices[7] += offset;
 

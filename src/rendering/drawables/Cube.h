@@ -18,6 +18,7 @@ public:
 
 	void setWidth(double width);
 	void setHeight(double height);
+	void setDepth(double depth);
 private:
 	void init();
 	void calculateNormals();

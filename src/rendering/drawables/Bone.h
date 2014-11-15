@@ -11,7 +11,7 @@
 #include <boost/shared_ptr.hpp>
 
 #include "../../models/BoneModel.h"
-#include "Square.h"
+#include "Cube.h"
 
 //Bone class defines a bone of size length on the x axis
 class Bone: public BoneModel, public Drawable {
@@ -24,10 +24,10 @@ public:
 
 	void setLength(float length);
 
-	SquarePtr getDrawable();
+	CubePtr getDrawable();
 
 private:
-	SquarePtr square;
+	CubePtr cube;
 };
 
 typedef boost::shared_ptr<Bone> BonePtr;
