@@ -34,6 +34,11 @@ Renderer::Renderer() {
 	camPosition = glm::vec3(0, 0, -13);
 
 	updateView();
+
+	// Enable depth test
+	glEnable(GL_DEPTH_TEST);
+	// Accept fragment if it closer to the camera than the former one
+	glDepthFunc(GL_LESS);
 }
 
 Renderer::~Renderer() {

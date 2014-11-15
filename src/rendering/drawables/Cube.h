@@ -28,6 +28,7 @@ private:
 	glm::vec3 centre;
 	double width;
 	double height;
+	std::vector<glm::vec3> indexVec3;
 };
 
 typedef boost::shared_ptr<Cube> CubePtr;

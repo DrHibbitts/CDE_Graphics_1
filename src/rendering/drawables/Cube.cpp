@@ -42,6 +42,7 @@ void Cube::init() {
 	colors.resize(8);
 	normals.resize(8);
 
+	//Eight vertices of the cube
 	vertices[0] = glm::vec3(-0.1, -0.1, -0.1);
 	vertices[1] = glm::vec3(0.1, -0.1, -0.1);
 	vertices[2] = glm::vec3(0.1, -0.1, 0.1);
@@ -52,75 +53,38 @@ void Cube::init() {
 	vertices[7] = glm::vec3(-0.1, 0.1, 0.1);
 
 	// 12 Triangles, 3 vertices
-	indices.reserve(26);
+	indices.reserve(36);
 
-	indices.push_back(0);
-	indices.push_back(1);
-	indices.push_back(2);
+	indexVec3.push_back(glm::vec3(0, 1, 2));
+	indexVec3.push_back(glm::vec3(0, 2, 3));
+	indexVec3.push_back(glm::vec3(4, 5, 6));
+	indexVec3.push_back(glm::vec3(4, 6, 7));
+	indexVec3.push_back(glm::vec3(0, 3, 4));
+	indexVec3.push_back(glm::vec3(3, 4, 7));
+	indexVec3.push_back(glm::vec3(1, 2, 5));
+	indexVec3.push_back(glm::vec3(2, 5, 6));
+	indexVec3.push_back(glm::vec3(2, 6, 7));
+	indexVec3.push_back(glm::vec3(2, 3, 7));
+	indexVec3.push_back(glm::vec3(1, 4, 5));
+	indexVec3.push_back(glm::vec3(0, 1, 4));
 
-	indices.push_back(0);
-	indices.push_back(2);
-	indices.push_back(3);
-
-	indices.push_back(4);
-	indices.push_back(5);
-	indices.push_back(6);
-
-	indices.push_back(4);
-	indices.push_back(6);
-	indices.push_back(7);
-
-	indices.push_back(0);
-	indices.push_back(3);
-	indices.push_back(4);
-
-	indices.push_back(3);
-	indices.push_back(4);
-	indices.push_back(7);
-
-	indices.push_back(1);
-	indices.push_back(2);
-	indices.push_back(5);
-
-	indices.push_back(2);
-	indices.push_back(5);
-	indices.push_back(6);
-
-	indices.push_back(2);
-	indices.push_back(6);
-	indices.push_back(7);
-
-	indices.push_back(2);
-	indices.push_back(3);
-	indices.push_back(7);
-
-	indices.push_back(1);
-	indices.push_back(4);
-	indices.push_back(5);
-
-	indices.push_back(0);
-	indices.push_back(1);
-	indices.push_back(4);
+	for (unsigned int i = 0; i < indexVec3.size(); i++) {
+		indices.push_back(indexVec3.at(i).x);
+		indices.push_back(indexVec3.at(i).y);
+		indices.push_back(indexVec3.at(i).z);
+	}
 
 	calculateNormals();
 
 	// 12 triangles for a cube
-	primitivePar.setValues(GL_TRIANGLES, 0, 26);
+	primitivePar.setValues(GL_TRIANGLES, 0, indices.size());
 
 	updateBuffers();
 }
 
 void Cube::calculateNormals() {
 
-	glm::vec3 normal = glm::normalize(
-			glm::cross(vertices.at(0), vertices.at(1)));
-
-	normals[0] = normal;
-	normals[1] = normal;
-	normals[2] = normal;
-	normals[3] = normal;
-	normals[4] = normal;
-	normals[5] = normal;
-	normals[6] = normal;
-	normals[7] = normal;
+	for (unsigned int i = 0; i < normals.size(); i++) {
+		normals.at(i) = glm::normalize(vertices.at(i));
+	}
 }
