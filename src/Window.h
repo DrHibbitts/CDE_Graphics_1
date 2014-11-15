@@ -40,7 +40,7 @@ public:
 	virtual ~Window();
 
 	void createWindow(unsigned int height, unsigned int width,
-			const std::string& windowTitle);
+			const std::string& windowTitle, double maxFps);
 
 	void addDrawable(DrawablePtr drawable);
 	void removeDrawable(DrawablePtr drawable);

@@ -16,7 +16,7 @@ int main(void) {
 	//Create a window of: width, height, title
 	Window& window = Window::getInstance();
 	window.createWindow(1024, 768,
-			std::string("Inverse kinematics course work"));
+			std::string("Inverse kinematics course work"), 60.0);
 
 	//All objects to be drawn have to be created with their pointers
 	//Create 3D axis object

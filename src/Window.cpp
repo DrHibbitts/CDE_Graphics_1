@@ -55,7 +55,7 @@ Window::~Window() {
 }
 
 void Window::createWindow(unsigned int height, unsigned int width,
-		const std::string& windowTitle) {
+		const std::string& windowTitle, double maxFps) {
 	//If this is not a first call close the previous windows and free the memory
 	cleanUp();
 	init();
@@ -82,7 +82,7 @@ void Window::createWindow(unsigned int height, unsigned int width,
 
 	renderer = new Renderer();
 
-	fpsCounter.setWindow(window, windowTitle);
+	fpsCounter.setWindow(window, windowTitle, maxFps);
 
 	inputHandler.setRenderer(renderer);
 
@@ -145,11 +145,14 @@ void Window::executeMainLoop() {
 		// Swap buffers
 		glfwSwapBuffers(window);
 
-		//Display FPS
-		fpsCounter.setWindowFPS();
-
 		//Get user input
 		glfwPollEvents();
+
+		//Set
+		fpsCounter.sleepForFixedFPS();
+
+		//Display FPS
+		fpsCounter.setWindowFPS();
 
 		//Mouse polling example
 		//if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS) {
