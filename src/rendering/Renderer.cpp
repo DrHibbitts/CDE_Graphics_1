@@ -17,16 +17,16 @@ Renderer::Renderer() {
 	MVPlocation = glGetUniformLocation(programID, "MVP");
 
 	// Projection matrix : 45º Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
-	Projection = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f);
+	projection = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f);
 
 	//Orthographic projection, left, right, bottom, top, zNear, zFar
 	//Projection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, 0.0f, 100.0f);
 
-	camPosition = glm::vec3(0, 0, -13);
-	camLookAt = glm::vec3(0, 0, 0);
-	camUp = glm::vec3(0, 1, 0);
-
-	updateView();
+	// Camera matrix, camera position, look at position, normalised up vector
+	glm::vec3 camPosition = glm::vec3(0, 0, -13);
+	glm::vec3 camLookAt = glm::vec3(0, 0, 0);
+	glm::vec3 camUp = glm::vec3(0, 1, 0);
+	view = glm::lookAt(camPosition, camLookAt, camUp);
 }
 
 Renderer::~Renderer() {
@@ -37,16 +37,11 @@ void Renderer::resetScreen() {
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	//Update ViewProjection matrix
-	ViewProjection = Projection * View;
+	viewProjection = projection * view;
 }
 
 const glm::mat4& Renderer::getViewProjectionMatrix() const {
-	return ViewProjection;
-}
-
-void Renderer::updateView() {
-	// Camera matrix, camera position, look at position, normalised up vector
-	View = glm::lookAt(camPosition, camLookAt, camUp);
+	return viewProjection;
 }
 
 void Renderer::loadDefaultShaders() {
@@ -75,7 +70,7 @@ GLuint Renderer::getProgramId() const {
 
 glm::vec3 Renderer::getWorldCoordFromScreen(const glm::vec3& screenCoord) {
 	//TODO Viewport should be given by Window
-	glm::vec3 aux = glm::unProject(screenCoord, View, Projection,
+	glm::vec3 aux = glm::unProject(screenCoord, view, projection,
 			glm::vec4(0, 0, 1024, 768));
 	//TODO REALLY IMPORTANT This will not work on 3D
 	aux.y = -aux.y;
@@ -83,15 +78,23 @@ glm::vec3 Renderer::getWorldCoordFromScreen(const glm::vec3& screenCoord) {
 	return aux;
 }
 
-void Renderer::rotateCamera() {
+void Renderer::rotateXCamera(float angle) {
+	view =  glm::rotate(view, angle, glm::vec3(1, 0, 0));
+}
+
+void Renderer::rotateYCamera(float angle) {
+	view = glm::rotate(view, angle, glm::vec3(0, 1, 0));
+}
+
+void Renderer::rotateZCamera(float angle) {
+	view = glm::rotate(view, angle, glm::vec3(0, 0, 1));
 }
 
 void Renderer::translateCamera(const glm::vec3& offset) {
-	camPosition = camPosition + offset;
-	camLookAt = camLookAt + offset;
-
-	updateView();
+	view = view * glm::translate(glm::mat4(), offset);
 }
 
-void Renderer::zoomCamera() {
+void Renderer::setCameraLookAt(const glm::vec3& camPosition,
+		const glm::vec3& camLookAt, const glm::vec3& camUp) {
+	view = glm::lookAt(camPosition, camLookAt, camUp);
 }

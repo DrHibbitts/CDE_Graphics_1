@@ -30,7 +30,7 @@ public:
 	void setRenderer(Renderer* renderer);
 
 private:
-	void rotateCamera() const;
+	void rotateCamera(float angle) const;
 	void translateCamera(const glm::vec3& translation) const;
 	void changeZoom() const;
 
@@ -42,12 +42,24 @@ private:
 
 	float camTransSpeed;
 	float camRotSpeed;
+	float mouseSpeed;
 
 	enum InputState {
 		translate, rotate, zoom, idle
 	};
 
+	enum RotAxis {
+		rotX, rotY, rotZ
+	};
+
 	InputState inputState;
+	RotAxis rotAxis;
+
+	// Initial horizontal angle : toward -Z
+	float horizontalAngle;
+	// Initial vertical angle : none
+	float verticalAngle;
+	glm::vec3 position;
 
 	Renderer* renderer;
 	bool settingGoal;

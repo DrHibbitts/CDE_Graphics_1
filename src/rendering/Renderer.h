@@ -26,11 +26,15 @@ public:
 
 	void resetScreen();
 
-	void rotateCamera();
+	void setCameraLookAt(const glm::vec3&camPosition,const glm::vec3& camLookAt,const glm::vec3& camUp);
+
+	void rotateXCamera(float angle);
+
+	void rotateYCamera(float angle);
+
+	void rotateZCamera(float angle);
 
 	void translateCamera(const glm::vec3& offset);
-
-	void zoomCamera();
 
 	const glm::mat4& getViewProjectionMatrix() const;
 
@@ -40,8 +44,6 @@ public:
 	GLuint getProgramId() const;
 
 private:
-	void updateView();
-
 	void loadDefaultShaders();
 
 private:
@@ -50,13 +52,19 @@ private:
 
 	GLuint MVPlocation;
 
-	glm::mat4 View;
-	glm::mat4 Projection;
-	glm::mat4 ViewProjection;
+	glm::mat4 view;
+	glm::mat4 projection;
+	glm::mat4 viewProjection;
 
 	glm::vec3 camPosition;
 	glm::vec3 camLookAt;
 	glm::vec3 camUp;
+
+	// Initial horizontal angle : toward -Z
+	float horizontalAngle;
+	// Initial vertical angle : none
+	float verticalAngle;
+
 };
 
 #endif /* RENDERER_H_ */
