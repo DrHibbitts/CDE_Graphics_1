@@ -185,8 +185,7 @@ void Window::keyCallback(GLFWwindow *window, int key, int scancode, int action,
 	getInstance().keyCallbackImpl(key, scancode, action, mods);
 }
 
-void Window::keyCallbackImpl(int key, int scancode,
-		int action, int mods) {
+void Window::keyCallbackImpl(int key, int scancode, int action, int mods) {
 	inputHandler.keyCallback(key, scancode, action, mods);
 }
 
@@ -195,8 +194,7 @@ void Window::mouseButtonCallback(GLFWwindow* window, int button, int actions,
 	getInstance().mouseButtonCallbackImpl(button, actions, mods);
 }
 
-void Window::mouseButtonCallbackImpl(int button, int actions,
-		int mods) {
+void Window::mouseButtonCallbackImpl(int button, int actions, int mods) {
 	double xpos, ypos;
 	glfwGetCursorPos(window, &xpos, &ypos);
 
@@ -215,11 +213,11 @@ void Window::mouseButtonCallbackImpl(int button, int actions,
 	inputHandler.mouseButtonCallback(button, actions, mods);
 }
 
-void Window::mousePosCallback(GLFWwindow *window, double xpos, double ypos){
+void Window::mousePosCallback(GLFWwindow *window, double xpos, double ypos) {
 	getInstance().mousePosCallbackImpl(xpos, ypos);
 }
 
-void Window::mousePosCallbackImpl(double xpos, double ypos){
+void Window::mousePosCallbackImpl(double xpos, double ypos) {
 	inputHandler.mousePositionCallback(xpos, ypos);
 }
 

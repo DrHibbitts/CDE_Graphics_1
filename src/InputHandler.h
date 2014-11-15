@@ -21,10 +21,9 @@ public:
 	InputHandler();
 	virtual ~InputHandler();
 
-	void mouseButtonCallback(int button, int actions,
-			int mods);
+	void mouseButtonCallback(int button, int actions, int mods);
 
-	void mousePositionCallback(double mouse_x, double mouse_y);
+	void mousePositionCallback(double mouseX, double mouseY);
 
 	void keyCallback(int key, int scancode, int action, int mods);
 
@@ -32,21 +31,21 @@ public:
 
 private:
 	void rotateCamera() const;
-	void translateCamera() const;
+	void translateCamera(const glm::vec3& translation) const;
 	void changeZoom() const;
 
 	void handleGoalRotation() const;
 	void handleGoalTranslation() const;
 
-	double mouse_x;
-	double mouse_y;
-	double prev_mouse_x;
-	double prev_mouse_y;
+	double prevMouseX;
+	double prevMouseY;
 
-	double camTransSpeed;
-	double camRotSpeed;
+	float camTransSpeed;
+	float camRotSpeed;
 
-	enum InputState { translate, rotate, zoom, idle};
+	enum InputState {
+		translate, rotate, zoom, idle
+	};
 
 	InputState inputState;
 

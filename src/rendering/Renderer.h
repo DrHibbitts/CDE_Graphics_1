@@ -28,7 +28,7 @@ public:
 
 	void rotateCamera();
 
-	void translateCamera(const glm::vec3& offset );
+	void translateCamera(const glm::vec3& offset);
 
 	void zoomCamera();
 
