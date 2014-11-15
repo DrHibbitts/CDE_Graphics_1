@@ -16,27 +16,33 @@
 
 #include "rendering/Renderer.h"
 
-class Window;
 
 class InputHandler {
 public:
-	InputHandler(Window* window);
+	InputHandler();
 	virtual ~InputHandler();
 
-	void mouseCallback(GLFWwindow *glfwWindow, int button, int actions,
-			int mods) const;
+	void mouseCallback(double mouse_x, double mouse_y, int button, int actions,
+			int mods);
 
-	void keyCallback(GLFWwindow *window, int key, int scancode, int action,
-			int mods) const;
+	void keyCallback(int key, int scancode, int action, int mods);
+
+	void setRenderer(Renderer* renderer);
+
 private:
-	void handleWindowRotation() const;
-	void handleWindowTranslation() const;
-	void handleWindowZoom() const;
+	void handleCameraRotation() const;
+	void handleCameraTranslation() const;
+	void handleRenameZoom() const;
 
 	void handleGoalRotation() const;
 	void handleGoalTranslation() const;
 
-	Window* window;
+	double mouse_x;
+	double mouse_y;
+	double prev_mouse_x;
+	double prev_mouse_y;
+
+	Renderer* renderer;
 	bool settingGoal;
 };
 

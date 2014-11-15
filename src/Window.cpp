@@ -23,8 +23,7 @@ void Window::cleanUp() {
 	renderer = NULL;
 }
 
-Window::Window() :
-		inputHandler(this) {
+Window::Window() {
 	init();
 }
 
@@ -84,6 +83,8 @@ void Window::createWindow(unsigned int height, unsigned int width,
 	renderer = new Renderer();
 
 	fpsCounter.setWindow(window, windowTitle);
+
+	inputHandler.setRenderer(renderer);
 
 	setCallbacks();
 }
@@ -185,7 +186,7 @@ void Window::keyCallback(GLFWwindow *window, int key, int scancode, int action,
 
 void Window::keyCallbackImpl(GLFWwindow *window, int key, int scancode,
 		int action, int mods) {
-	inputHandler.keyCallback(window, key, scancode, action, mods);
+	inputHandler.keyCallback(key, scancode, action, mods);
 }
 
 void Window::mouseCallback(GLFWwindow* window, int button, int actions,
@@ -207,13 +208,14 @@ void Window::mouseCallbackImpl(GLFWwindow* window, int button, int actions,
 			updateGoalMarker(goal);
 			std::cout << "Goal is " << goal.x << ", " << goal.y << ", "
 					<< goal.z << std::endl;
+
+			inputHandler.mouseCallback(xpos, ypos, button, actions, mods);
 		}
 	}
-	inputHandler.mouseCallback(window, button, actions, mods);
+
 }
 
-Window::Window(const Window&) :
-		inputHandler(this) {
+Window::Window(const Window&) {
 	cleanUp();
 	init();
 }
