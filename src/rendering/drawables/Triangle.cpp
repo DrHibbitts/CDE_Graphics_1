@@ -26,7 +26,7 @@ void Triangle::setVertices(const glm::vec3& v0, const glm::vec3& v1,
 	centroid = glm::vec4(((float) (1.0 / 3)) * (v0 + v1 + v2), 1);
 
 	glm::vec3 normal = glm::normalize(
-			glm::cross(vertices.at(0), vertices.at(1)));
+			glm::cross(vertices.at(1), vertices.at(0)));
 
 	normals[0] = normal;
 	normals[1] = normal;

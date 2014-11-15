@@ -28,7 +28,7 @@ void Square::setVertices(const glm::vec3& v0, const glm::vec3& v1,
 	vertices[3] = v3;
 
 	glm::vec3 normal = glm::normalize(
-			glm::cross(vertices.at(0), vertices.at(1)));
+			glm::cross(vertices.at(1), vertices.at(0)));
 
 	normals[0] = normal;
 	normals[1] = normal;

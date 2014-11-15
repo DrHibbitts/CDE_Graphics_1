@@ -91,7 +91,7 @@ void PointSet::resizeDataVectors() {
 	vertices.resize(totalSize);
 	colors.resize(totalSize);
 	indices.resize(totalSize);
-	normals.resize(totalSize, glm::vec3(1, 0, 0));
+	normals.resize(totalSize, glm::vec3(0, 0, -1));
 
 	for (unsigned int i = currentSize; i < totalSize; i++) {
 		colors[i] = colors[currentSize - 1];

@@ -81,16 +81,22 @@ int main(void) {
 	//Draw chain
 	window.addDrawable(chain);
 
+	// This only changes the light marker, to change the position go to
+	//the renderer class
+	glm::vec3 lightPosition(3, 3, -1);
 	LinePtr lightX(new Line(glm::vec3(-0.1, 0, 0), glm::vec3(0.1, 0, 0)));
-	lightX->translate(glm::vec3(4, 4, 4));
+	lightX->translate(lightPosition);
 	lightX->setUniformColor(glm::vec3(0.9, 0.9, 0.9));
 
 	LinePtr lightY(new Line(glm::vec3(0, -0.1, 0), glm::vec3(0, 0.1, 0)));
-	lightY->translate(glm::vec3(4, 4, 4));
+	lightY->translate(lightPosition);
 	lightY->setUniformColor(glm::vec3(0.9, 0.9, 0.9));
 
 	window.addDrawable(lightX);
 	window.addDrawable(lightY);
+
+	CubePtr cube(new Cube());
+	cube->setUniformColor(glm::vec3(0, 1, 1));
 
 	//Start the input handling and rendering loop
 	window.executeMainLoop();

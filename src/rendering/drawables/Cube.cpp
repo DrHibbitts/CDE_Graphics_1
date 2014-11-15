@@ -13,7 +13,6 @@ Cube::Cube() {
 
 Cube::Cube(const glm::vec3& centre, double width, double height) {
 	init();
-	setCentre(centre);
 	setWidth(width);
 	setHeight(height);
 }
@@ -21,11 +20,8 @@ Cube::Cube(const glm::vec3& centre, double width, double height) {
 Cube::~Cube() {
 }
 
-void Cube::setCentre(const glm::vec3& centre) {
-
-}
-
 void Cube::setWidth(double width) {
+
 }
 
 void Cube::setHeight(double height) {

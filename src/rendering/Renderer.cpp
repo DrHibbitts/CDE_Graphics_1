@@ -51,7 +51,7 @@ void Renderer::resetScreen() {
 	//Update ViewProjection matrix
 	viewProjection = projection * view;
 
-	glm::vec3 lightPos = glm::vec3(4, 4, 4);
+	glm::vec3 lightPos = glm::vec3(3, 3, -1);
 	glUniform3f(LightID, lightPos.x, lightPos.y, lightPos.z);
 }
 

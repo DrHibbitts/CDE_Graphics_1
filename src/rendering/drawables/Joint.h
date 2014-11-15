@@ -11,7 +11,7 @@
 #include <boost/shared_ptr.hpp>
 
 #include "../../models/JointModel.h"
-#include "Square.h"
+#include "Cube.h"
 
 class Joint: public JointModel, public Drawable {
 public:
@@ -23,10 +23,10 @@ public:
 
 	void setAngle(float angle);
 
-	SquarePtr getDrawable();
+	CubePtr getDrawable();
 
 private:
-	SquarePtr square;
+	CubePtr cube;
 };
 
 typedef boost::shared_ptr<Joint> JointPtr;
