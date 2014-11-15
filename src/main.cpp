@@ -10,6 +10,7 @@
 #include "rendering/drawables/Square.h"
 #include "rendering/drawables/Axis.h"
 #include "rendering/drawables/Chain.h"
+#include "rendering/drawables/Line.h"
 
 int main(void) {
 	//Only one Window is allowed in the application, singleton pattern
@@ -79,6 +80,17 @@ int main(void) {
 
 	//Draw chain
 	window.addDrawable(chain);
+
+	LinePtr lightX(new Line(glm::vec3(-0.1, 0, 0), glm::vec3(0.1, 0, 0)));
+	lightX->translate(glm::vec3(4, 4, 4));
+	lightX->setUniformColor(glm::vec3(0.9, 0.9, 0.9));
+
+	LinePtr lightY(new Line(glm::vec3(0, -0.1, 0), glm::vec3(0, 0.1, 0)));
+	lightY->translate(glm::vec3(4, 4, 4));
+	lightY->setUniformColor(glm::vec3(0.9, 0.9, 0.9));
+
+	window.addDrawable(lightX);
+	window.addDrawable(lightY);
 
 	//Start the input handling and rendering loop
 	window.executeMainLoop();
