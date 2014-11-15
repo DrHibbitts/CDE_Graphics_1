@@ -22,9 +22,11 @@ Renderer::Renderer() {
 	//Orthographic projection, left, right, bottom, top, zNear, zFar
 	//Projection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, 0.0f, 100.0f);
 
-	// Camera matrix, camera position, look at position, normalised up vector
-	View = glm::lookAt(glm::vec3(0, 0, -13), glm::vec3(0, 0, 0),
-			glm::vec3(0, 1, 0));
+	camPosition = glm::vec3(0, 0, -13);
+	camLookAt = glm::vec3(0, 0, 0);
+	camUp = glm::vec3(0, 1, 0);
+
+	updateView();
 }
 
 Renderer::~Renderer() {
@@ -40,6 +42,11 @@ void Renderer::resetScreen() {
 
 const glm::mat4& Renderer::getViewProjectionMatrix() const {
 	return ViewProjection;
+}
+
+void Renderer::updateView() {
+	// Camera matrix, camera position, look at position, normalised up vector
+	View = glm::lookAt(camPosition, camLookAt, camUp);
 }
 
 void Renderer::loadDefaultShaders() {
@@ -74,4 +81,17 @@ glm::vec3 Renderer::getWorldCoordFromScreen(const glm::vec3& screenCoord) {
 	aux.y = -aux.y;
 	aux.z = 0;
 	return aux;
+}
+
+void Renderer::rotateCamera() {
+}
+
+void Renderer::translateCamera(const glm::vec3& offset) {
+	camPosition = camPosition + offset;
+	camLookAt = camLookAt + offset;
+
+	updateView();
+}
+
+void Renderer::zoomCamera() {
 }

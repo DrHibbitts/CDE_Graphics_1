@@ -165,8 +165,9 @@ void Window::executeMainLoop() {
 }
 
 void Window::setCallbacks() {
-	glfwSetMouseButtonCallback(window, &mouseCallback);
+	glfwSetMouseButtonCallback(window, &mouseButtonCallback);
 	glfwSetKeyCallback(window, &keyCallback);
+	glfwSetCursorPosCallback(window, &mousePosCallback);
 }
 
 glm::vec3 Window::getWorldCoordFromScreen(const glm::vec3& screenCoord) {
@@ -181,26 +182,27 @@ void Window::updateGoalMarker(const glm::vec3& goal) {
 
 void Window::keyCallback(GLFWwindow *window, int key, int scancode, int action,
 		int mods) {
-	getInstance().keyCallbackImpl(window, key, scancode, action, mods);
+	getInstance().keyCallbackImpl(key, scancode, action, mods);
 }
 
-void Window::keyCallbackImpl(GLFWwindow *window, int key, int scancode,
+void Window::keyCallbackImpl(int key, int scancode,
 		int action, int mods) {
 	inputHandler.keyCallback(key, scancode, action, mods);
 }
 
-void Window::mouseCallback(GLFWwindow* window, int button, int actions,
+void Window::mouseButtonCallback(GLFWwindow* window, int button, int actions,
 		int mods) {
-	getInstance().mouseCallbackImpl(window, button, actions, mods);
+	getInstance().mouseButtonCallbackImpl(button, actions, mods);
 }
 
-void Window::mouseCallbackImpl(GLFWwindow* window, int button, int actions,
+void Window::mouseButtonCallbackImpl(int button, int actions,
 		int mods) {
+	double xpos, ypos;
+	glfwGetCursorPos(window, &xpos, &ypos);
+
 	//Mouse callback example
 	if (button == GLFW_MOUSE_BUTTON_1) {
 		if (actions == GLFW_RELEASE) {
-			double xpos, ypos;
-			glfwGetCursorPos(window, &xpos, &ypos);
 			glm::vec3 goal = renderer->getWorldCoordFromScreen(
 					glm::vec3(xpos, ypos, 0));
 			simController.setGoal(goal);
@@ -208,11 +210,17 @@ void Window::mouseCallbackImpl(GLFWwindow* window, int button, int actions,
 			updateGoalMarker(goal);
 			std::cout << "Goal is " << goal.x << ", " << goal.y << ", "
 					<< goal.z << std::endl;
-
-			inputHandler.mouseCallback(xpos, ypos, button, actions, mods);
 		}
 	}
+	inputHandler.mouseButtonCallback(button, actions, mods);
+}
 
+void Window::mousePosCallback(GLFWwindow *window, double xpos, double ypos){
+	getInstance().mousePosCallbackImpl(xpos, ypos);
+}
+
+void Window::mousePosCallbackImpl(double xpos, double ypos){
+	inputHandler.mousePositionCallback(xpos, ypos);
 }
 
 Window::Window(const Window&) {

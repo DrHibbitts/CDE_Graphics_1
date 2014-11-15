@@ -16,23 +16,24 @@
 
 #include "rendering/Renderer.h"
 
-
 class InputHandler {
 public:
 	InputHandler();
 	virtual ~InputHandler();
 
-	void mouseCallback(double mouse_x, double mouse_y, int button, int actions,
+	void mouseButtonCallback(int button, int actions,
 			int mods);
+
+	void mousePositionCallback(double mouse_x, double mouse_y);
 
 	void keyCallback(int key, int scancode, int action, int mods);
 
 	void setRenderer(Renderer* renderer);
 
 private:
-	void handleCameraRotation() const;
-	void handleCameraTranslation() const;
-	void handleRenameZoom() const;
+	void rotateCamera() const;
+	void translateCamera() const;
+	void changeZoom() const;
 
 	void handleGoalRotation() const;
 	void handleGoalTranslation() const;
@@ -41,6 +42,13 @@ private:
 	double mouse_y;
 	double prev_mouse_x;
 	double prev_mouse_y;
+
+	double camTransSpeed;
+	double camRotSpeed;
+
+	enum InputState { translate, rotate, zoom, idle};
+
+	InputState inputState;
 
 	Renderer* renderer;
 	bool settingGoal;

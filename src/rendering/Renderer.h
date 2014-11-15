@@ -26,6 +26,12 @@ public:
 
 	void resetScreen();
 
+	void rotateCamera();
+
+	void translateCamera(const glm::vec3& offset );
+
+	void zoomCamera();
+
 	const glm::mat4& getViewProjectionMatrix() const;
 
 	glm::vec3 getWorldCoordFromScreen(const glm::vec3& screenCoord);
@@ -34,6 +40,8 @@ public:
 	GLuint getProgramId() const;
 
 private:
+	void updateView();
+
 	void loadDefaultShaders();
 
 private:
@@ -45,6 +53,10 @@ private:
 	glm::mat4 View;
 	glm::mat4 Projection;
 	glm::mat4 ViewProjection;
+
+	glm::vec3 camPosition;
+	glm::vec3 camLookAt;
+	glm::vec3 camUp;
 };
 
 #endif /* RENDERER_H_ */

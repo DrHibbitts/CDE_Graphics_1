@@ -57,18 +57,20 @@ private:
 	void setCallbacks();
 
 	//The callback has to be a static function according to GLFW
-	static void mouseCallback(GLFWwindow *window, int button, int actions,
+	static void mouseButtonCallback(GLFWwindow *window, int button, int actions,
 			int mods);
 
-	void mouseCallbackImpl(GLFWwindow *window, int button, int actions,
-			int mods);
+	void mouseButtonCallbackImpl(int button, int actions, int mods);
+
+	static void mousePosCallback(GLFWwindow *window, double xpos, double ypos);
+
+	void mousePosCallbackImpl(double xpos, double ypos);
 
 	//The callback has to be a static function according to GLFW
 	static void keyCallback(GLFWwindow *window, int key, int scancode,
 			int action, int mods);
 
-	void keyCallbackImpl(GLFWwindow *window, int key, int scancode, int action,
-			int mods);
+	void keyCallbackImpl(int key, int scancode, int action, int mods);
 
 	Window(void); // private constructor necessary to allow only one instance
 	Window(Window const&); // prevent copies
