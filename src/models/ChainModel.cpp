@@ -26,12 +26,25 @@ void ChainModel::addBone(float size) {
 	joints.push_back(JointModel());
 }
 
-void ChainModel::setJointZAngle(unsigned int index, float ZAngle) {
-	joints.at(index).setZRotAngle(ZAngle * TO_RAD);
+void ChainModel::setJointZAngle(unsigned int index, float zAngle) {
+	joints.at(index).setZRotAngle(zAngle * TO_RAD);
+}
+
+void ChainModel::setJointYAngle(unsigned int index, float yAngle) {
+	joints.at(index).setYRotAngle(yAngle * TO_RAD);
+}
+
+void ChainModel::setJointAngles(unsigned int index, float zAngle,
+		float yAngle) {
+	joints.at(index).setAngles(zAngle * TO_RAD, yAngle * TO_RAD);
 }
 
 float ChainModel::getJointZAngle(unsigned int index) const {
 	return joints.at(index).getZRotAngle() * TO_DEG;
+}
+
+float ChainModel::getJointYAngle(unsigned int index) const {
+	return joints.at(index).getYRotAngle() * TO_DEG;
 }
 
 float ChainModel::getBoneLength(unsigned int index) const {

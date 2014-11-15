@@ -11,14 +11,19 @@
 class JointModel {
 public:
 	JointModel();
-	JointModel(float angle);
+	JointModel(float zRotAngle, float yRotAngle);
 	virtual ~JointModel();
+
+	void setAngles(float zRotAngle, float yRotAngle);
 
 	float getZRotAngle() const;
 	void setZRotAngle(float angle);
+
+	float getYRotAngle() const;
+	void setYRotAngle(float angle);
 private:
-	float ZRotAngle;
-	float YRotAngle;
+	float zRotAngle;
+	float yRotAngle;
 };
 
 #endif /* SRC_JOINTMODEL_H_ */

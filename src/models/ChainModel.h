@@ -26,10 +26,13 @@ public:
 	//When a bone is added a new joint is created in the end of the previous
 	//last bone
 	void addBone(float size);
-	void setJointZAngle(unsigned int index, float ZAngle);
+	void setJointZAngle(unsigned int index, float zAngle);
+	void setJointYAngle(unsigned int index, float yAngle);
+	void setJointAngles(unsigned int index, float zAngle, float yAngle);
 
 	float getBoneLength(unsigned int index) const;
 	float getJointZAngle(unsigned int index) const;
+	float getJointYAngle(unsigned int index) const;
 
 	unsigned int getNumJoints() const;
 

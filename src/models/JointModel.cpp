@@ -11,18 +11,31 @@ JointModel::JointModel() {
 	setZRotAngle(0);
 }
 
-JointModel::JointModel(float angle) {
-	setZRotAngle(angle);
+JointModel::JointModel(float zRotAngle, float yRotAngle) {
+	setAngles(zRotAngle, yRotAngle);
 }
 
 JointModel::~JointModel() {
 }
 
+void JointModel::setAngles(float zRotAngle, float yRotAngle) {
+	setZRotAngle(zRotAngle);
+	setYRotAngle(yRotAngle);
+}
+
 float JointModel::getZRotAngle() const {
-	return ZRotAngle;
+	return zRotAngle;
 }
 
 void JointModel::setZRotAngle(float angle) {
-	this->ZRotAngle = angle;
+	this->zRotAngle = angle;
+}
+
+float JointModel::getYRotAngle() const {
+	return zRotAngle;
+}
+
+void JointModel::setYRotAngle(float angle) {
+	this->zRotAngle = angle;
 }
 
