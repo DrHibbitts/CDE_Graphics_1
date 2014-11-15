@@ -20,14 +20,14 @@
 
 #include <boost/pointer_cast.hpp>
 
-#include "models/Chain.h"
-#include "models/Drawable.h"
+#include "rendering/drawables/Chain.h"
+#include "rendering/drawables/Drawable.h"
 #include "rendering/FPSCounter.h"
 #include "rendering/Renderer.h"
 #include "simulation/SimulationController.h"
 #include "InputHandler.h"
 
-#include "models/Triangle.h"
+#include "rendering/drawables/Triangle.h"
 
 //Window class is a wrapper around GLFWwindow, it controls what objects
 //are rendered and handles the user input. It is a singleton, solo only one

@@ -5,11 +5,11 @@
 #include <glm/glm.hpp>
 
 #include "Window.h"
-#include "models/Triangle.h"
-#include "models/Line.h"
-#include "models/Square.h"
-#include "models/Axis.h"
-#include "models/Chain.h"
+#include "rendering/drawables/Triangle.h"
+#include "rendering/drawables/Line.h"
+#include "rendering/drawables/Square.h"
+#include "rendering/drawables/Axis.h"
+#include "rendering/drawables/Chain.h"
 
 int main(void) {
 	//Only one Window is allowed in the application, singleton pattern

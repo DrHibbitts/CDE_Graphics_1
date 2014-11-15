@@ -10,7 +10,7 @@
 
 #include <boost/shared_ptr.hpp>
 
-#include "BoneModel.h"
+#include "../../models/BoneModel.h"
 #include "Square.h"
 
 //Bone class defines a bone of size length on the x axis

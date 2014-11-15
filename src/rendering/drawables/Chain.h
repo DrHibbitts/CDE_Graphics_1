@@ -11,7 +11,7 @@
 #define GLM_FORCE_RADIANS
 #include <glm/gtx/transform.hpp>
 
-#include "ChainModel.h"
+#include "../../models/ChainModel.h"
 #include "Drawable.h"
 #include "Bone.h"
 #include "Joint.h"

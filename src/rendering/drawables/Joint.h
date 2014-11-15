@@ -10,7 +10,7 @@
 
 #include <boost/shared_ptr.hpp>
 
-#include "JointModel.h"
+#include "../../models/JointModel.h"
 #include "Square.h"
 
 class Joint: public JointModel, public Drawable {
