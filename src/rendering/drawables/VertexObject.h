@@ -57,6 +57,7 @@ protected:
 	std::vector<glm::vec3> normals;
 	std::vector<unsigned int> indices;
 	std::vector<glm::vec3> colors;
+	glm::vec3 centroid;
 
 	//OpenGL parameters holder object
 	PrimitiveParameter primitivePar;

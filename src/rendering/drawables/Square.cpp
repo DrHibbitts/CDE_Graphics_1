@@ -27,6 +27,8 @@ void Square::setVertices(const glm::vec3& v0, const glm::vec3& v1,
 	vertices[2] = v2;
 	vertices[3] = v3;
 
+	centroid = (float) 0.25 * (v0 + v1 + v2 + v3);
+
 	glm::vec3 normal = glm::normalize(
 			glm::cross(vertices.at(1), vertices.at(0)));
 

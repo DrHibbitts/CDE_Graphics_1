@@ -15,15 +15,12 @@ public:
 	Triangle();
 	Triangle(const glm::vec3& v0, const glm::vec3& v1, const glm::vec3& v2);
 
-	glm::vec3 getCurrentPosition() const;
-
 	void setColors(const glm::vec3& c0, const glm::vec3& c1,
 			const glm::vec3& c2);
 	void setVertices(const glm::vec3& v0, const glm::vec3& v1,
 			const glm::vec3& v2);
 private:
 	void init();
-	glm::vec4 centroid;
 };
 
 typedef boost::shared_ptr<Triangle> TrianglePtr;

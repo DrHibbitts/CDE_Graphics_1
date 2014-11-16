@@ -21,6 +21,7 @@ Point::~Point() {
 
 void Point::setVertex(const glm::vec3& v) {
 	vertices[0] = v;
+	centroid = v;
 
 	updateBuffers();
 }

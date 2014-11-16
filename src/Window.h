@@ -27,7 +27,10 @@
 #include "simulation/SimulationController.h"
 #include "InputHandler.h"
 
-#include "rendering/drawables/Triangle.h"
+#include "rendering/drawables/Point3DMarker.h"
+
+//TODO A better design is a general controller class that synchronises window,
+//simulation and input handling
 
 //Window class is a wrapper around GLFWwindow, it controls what objects
 //are rendered and handles the user input. It is a singleton, solo only one

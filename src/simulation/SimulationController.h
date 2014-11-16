@@ -16,7 +16,7 @@
 
 class SimulationController {
 public:
-	SimulationController(double epsilon = 0.03);
+	SimulationController();
 	virtual ~SimulationController();
 
 	void startSimulation(ChainPtr chain);

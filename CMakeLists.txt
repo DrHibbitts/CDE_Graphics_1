@@ -48,6 +48,7 @@ src/rendering/drawables/Chain.cpp
 src/rendering/drawables/Joint.cpp
 src/rendering/drawables/Line.cpp
 src/rendering/drawables/Point.cpp
+src/rendering/drawables/Point3DMarker.cpp
 src/rendering/drawables/PointSet.cpp
 src/rendering/drawables/PrimitiveParameter.cpp
 src/rendering/drawables/Square.cpp
@@ -74,6 +75,7 @@ src/rendering/drawables/Drawable.h
 src/rendering/drawables/Joint.h
 src/rendering/drawables/Line.h
 src/rendering/drawables/Point.h
+src/rendering/drawables/Point3DMarker.h
 src/rendering/drawables/PointSet.h
 src/rendering/drawables/PrimitiveParameter.h
 src/rendering/drawables/Square.h

@@ -179,8 +179,8 @@ glm::vec3 Window::getWorldCoordFromScreen(const glm::vec3& screenCoord) {
 
 void Window::updateGoalMarker(const glm::vec3& goal) {
 	DrawablePtr ob = toDrawObjects[1];
-	TrianglePtr tr = boost::static_pointer_cast<Triangle>(ob);
-	tr->translate(goal - tr->getCurrentPosition());
+	Point3DMarkerPtr marker = boost::static_pointer_cast<Point3DMarker>(ob);
+	marker->translate(goal - marker->getCurrentPosition());
 }
 
 void Window::keyCallback(GLFWwindow *window, int key, int scancode, int action,

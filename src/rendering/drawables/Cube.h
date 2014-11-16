@@ -19,6 +19,8 @@ public:
 	void setWidth(double width, const glm::vec3& offset = glm::vec3());
 	void setHeight(double height);
 	void setDepth(double depth);
+
+	void resize(double newSize);
 private:
 	void init();
 	void calculateNormals();

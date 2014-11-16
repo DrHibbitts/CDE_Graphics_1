@@ -11,6 +11,7 @@
 #include "rendering/drawables/Axis.h"
 #include "rendering/drawables/Chain.h"
 #include "rendering/drawables/Line.h"
+#include "rendering/drawables/Point3DMarker.h"
 
 int main(void) {
 	//Only one Window is allowed in the application, singleton pattern
@@ -26,10 +27,9 @@ int main(void) {
 	//Once an object is added to the window, it will be rendered
 	window.addDrawable(axis);
 
-	TrianglePtr goalMarker(
-			new Triangle(glm::vec3(-0.2f, -0.2f, 0.0f),
-					glm::vec3(0.2f, -0.2f, 0.0f), glm::vec3(0.0f, 0.2f, 0.0f)));
+	Point3DMarkerPtr goalMarker(new Point3DMarker());
 	goalMarker->setUniformColor(glm::vec3(0, 1, 1));
+	//goalMarker->scale(glm::vec3(0.5, 0.5, 0.5));
 //
 //	TrianglePtr triangle2(
 //			new Triangle(glm::vec3(-2.0f, -2.0f, 0.0f),

@@ -76,6 +76,12 @@ void Cube::setDepth(double depth) {
 	updateBuffers();
 }
 
+void Cube::resize(double newSize) {
+	setWidth(newSize);
+	setHeight(newSize);
+	setDepth(newSize);
+}
+
 void Cube::init() {
 	generateBuffers();
 

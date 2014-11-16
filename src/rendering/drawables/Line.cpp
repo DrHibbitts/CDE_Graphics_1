@@ -23,6 +23,8 @@ void Line::setVertices(const glm::vec3& v0, const glm::vec3& v1) {
 	vertices[0] = v0;
 	vertices[1] = v1;
 
+	centroid = (float) 0.5 * (v0 + v1);
+
 	updateBuffers();
 }
 

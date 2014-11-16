@@ -7,11 +7,11 @@
 
 #include "SimulationController.h"
 
-SimulationController::SimulationController(double epsilon) {
+SimulationController::SimulationController() {
 	simulating = false;
-	this->epsilon = epsilon;
+	epsilon = 0.003;
 	numIterations = 0;
-	maxIterations = 500;
+	maxIterations = 1000;
 	simState = idle;
 	stepSleepTime = std::chrono::milliseconds(20);
 	idleSleepTime = std::chrono::milliseconds(500);

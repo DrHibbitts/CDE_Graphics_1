@@ -124,7 +124,7 @@ void VertexObject::updateBuffers() const {
 }
 
 glm::vec3 VertexObject::getCurrentPosition() const {
-	return glm::vec3();
+	return glm::vec3(modelMat * glm::vec4(centroid, 1));
 }
 
 void VertexObject::destroyBuffers() const {
