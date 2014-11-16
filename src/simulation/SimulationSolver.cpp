@@ -74,7 +74,8 @@ void SimulationSolver::updateAngles(double stepSize) {
 void SimulationSolver::updateChain() {
 	if (chain) {
 		for (unsigned int i = 0; i < wChain.getNumJoints(); i++) {
-			chain->setJointZAngle(i, wChain.getJointZAngle(i));
+			chain->setJointAngles(i, wChain.getJointZAngle(i),
+					wChain.getJointYAngle(i));
 		}
 	}
 }
