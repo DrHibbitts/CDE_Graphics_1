@@ -20,20 +20,21 @@ Cube::Cube(const glm::vec3& centre, double width, double height) {
 Cube::~Cube() {
 }
 
-void Cube::setWidth(double width) {
-	glm::vec3 offset;
-	offset.x = (width - (vertices[1].x - vertices[0].x) * 0.5);
+void Cube::setWidth(double width, const glm::vec3& offset) {
+	glm::vec3 widthOffset;
+	widthOffset.x = (width - (vertices[1].x - vertices[0].x)) * 0.5;
 
-	//TODO This works but is to localised
-	vertices[1] += offset;
-	vertices[2] += offset;
-	vertices[5] += offset;
-	vertices[6] += offset;
+	//widthOffset += offset;
 
-	//vertices[0] -= offset;
-	//vertices[3] -= offset;
-	//vertices[4] -= offset;
-	//vertices[7] -= offset;
+	vertices[1] = vertices[1] + widthOffset + offset;
+	vertices[2] = vertices[2] + widthOffset + offset;
+	vertices[5] = vertices[5] + widthOffset + offset;
+	vertices[6] = vertices[6] + widthOffset + offset;
+
+	vertices[0] = vertices[0] - widthOffset + offset;
+	vertices[3] = vertices[3] - widthOffset + offset;
+	vertices[4] = vertices[4] - widthOffset + offset;
+	vertices[7] = vertices[7] - widthOffset + offset;
 
 	calculateNormals();
 	updateBuffers();

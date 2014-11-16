@@ -31,7 +31,7 @@ Renderer::Renderer() {
 	verticalAngle = 0.0f;
 
 	// Camera matrix, camera position, look at position, normalised up vector
-	camPosition = glm::vec3(0, 0, -13);
+	camPosition = glm::vec3(0, 0, -7);
 
 	updateView();
 

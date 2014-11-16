@@ -27,7 +27,9 @@ void Bone::setLength(float length) {
 	BoneModel::setLength(length);
 
 	cube->setUniformColor(glm::vec3(1, 1, 0));
-	cube->setWidth(length);
+	// Set the cube to be as long as the bone, then move the cube centre to
+	// match the bone centre
+	cube->setWidth(length, glm::vec3(length * 0.5, 0, 0));
 	cube->setHeight(0.1);
 	cube->setDepth(0.1);
 }

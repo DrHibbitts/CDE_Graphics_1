@@ -16,7 +16,7 @@ public:
 	Cube(const glm::vec3& centre, double width, double height);
 	virtual ~Cube();
 
-	void setWidth(double width);
+	void setWidth(double width, const glm::vec3& offset = glm::vec3());
 	void setHeight(double height);
 	void setDepth(double depth);
 private:
