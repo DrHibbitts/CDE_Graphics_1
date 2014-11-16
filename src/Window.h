@@ -22,12 +22,11 @@
 
 #include "rendering/drawables/Chain.h"
 #include "rendering/drawables/Drawable.h"
+#include "rendering/drawables/Point3DMarker.h"
 #include "rendering/FPSCounter.h"
 #include "rendering/Renderer.h"
 #include "simulation/SimulationController.h"
 #include "InputHandler.h"
-
-#include "rendering/drawables/Point3DMarker.h"
 
 //TODO A better design is a general controller class that synchronises window,
 //simulation and input handling
@@ -52,6 +51,8 @@ public:
 
 	glm::vec3 getWorldCoordFromScreen(const glm::vec3& screenCoord);
 
+	InputHandler& getInputHandler();
+
 private:
 	void init();
 
@@ -59,29 +60,19 @@ private:
 
 	void setCallbacks();
 
-	//The callback has to be a static function according to GLFW
+	//The callbacks have to be static functions to work with GLFW
 	static void mouseButtonCallback(GLFWwindow *window, int button, int actions,
 			int mods);
 
-	void mouseButtonCallbackImpl(int button, int actions, int mods);
-
 	static void mousePosCallback(GLFWwindow *window, double xpos, double ypos);
 
-	void mousePosCallbackImpl(double xpos, double ypos);
-
-	//The callback has to be a static function according to GLFW
 	static void keyCallback(GLFWwindow *window, int key, int scancode,
 			int action, int mods);
-
-	void keyCallbackImpl(int key, int scancode, int action, int mods);
 
 	Window(void); // private constructor necessary to allow only one instance
 	Window(Window const&); // prevent copies
 	void operator=(Window const&) {
 	}
-
-	void updateGoalMarker(const glm::vec3& goal);
-
 	; // prevent assignments
 
 private:

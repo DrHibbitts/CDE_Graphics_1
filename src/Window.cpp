@@ -99,7 +99,7 @@ void Window::addDrawable(DrawablePtr drawable) {
 	//If it is a chain create a new thread that will run the simulation
 	if (newChain) {
 		glm::vec3 goal = newChain->getEndEfectorPos();
-		updateGoalMarker(goal);
+		inputHandler.updateGoalMarker(goal);
 		simController->setGoal(goal);
 
 		simController->startSimulation(newChain);
@@ -179,55 +179,26 @@ glm::vec3 Window::getWorldCoordFromScreen(const glm::vec3& screenCoord) {
 	return renderer->getWorldCoordFromScreen(screenCoord);
 }
 
-void Window::updateGoalMarker(const glm::vec3& goal) {
-	DrawablePtr ob = toDrawObjects[1];
-	Point3DMarkerPtr marker = boost::static_pointer_cast<Point3DMarker>(ob);
-	marker->translate(goal - marker->getCurrentPosition());
-}
-
 void Window::keyCallback(GLFWwindow *window, int key, int scancode, int action,
 		int mods) {
-	getInstance().keyCallbackImpl(key, scancode, action, mods);
-}
-
-void Window::keyCallbackImpl(int key, int scancode, int action, int mods) {
-	inputHandler.keyCallback(key, scancode, action, mods);
+	getInstance().inputHandler.keyCallback(key, scancode, action, mods);
 }
 
 void Window::mouseButtonCallback(GLFWwindow* window, int button, int actions,
 		int mods) {
-	getInstance().mouseButtonCallbackImpl(button, actions, mods);
-}
-
-void Window::mouseButtonCallbackImpl(int button, int actions, int mods) {
-	double xpos, ypos;
-	glfwGetCursorPos(window, &xpos, &ypos);
-
-	//Mouse callback example
-	if (button == GLFW_MOUSE_BUTTON_1) {
-		if (actions == GLFW_RELEASE) {
-			glm::vec3 goal = renderer->getWorldCoordFromScreen(
-					glm::vec3(xpos, ypos, 0));
-			simController->setGoal(goal);
-
-			updateGoalMarker(goal);
-			std::cout << "Goal is " << goal.x << ", " << goal.y << ", "
-					<< goal.z << std::endl;
-		}
-	}
-	inputHandler.mouseButtonCallback(button, actions, mods);
+	getInstance().inputHandler.mouseButtonCallback(button, actions, mods);
 }
 
 void Window::mousePosCallback(GLFWwindow *window, double xpos, double ypos) {
-	getInstance().mousePosCallbackImpl(xpos, ypos);
-}
-
-void Window::mousePosCallbackImpl(double xpos, double ypos) {
-	inputHandler.mousePositionCallback(xpos, ypos);
+	getInstance().inputHandler.mousePositionCallback(xpos, ypos);
 }
 
 Window::Window(const Window&) :
 		simController(new SimulationController()) {
 	cleanUp();
 	init();
+}
+
+InputHandler& Window::getInputHandler() {
+	return inputHandler;
 }

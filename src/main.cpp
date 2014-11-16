@@ -29,36 +29,11 @@ int main(void) {
 
 	Point3DMarkerPtr goalMarker(new Point3DMarker());
 	goalMarker->setUniformColor(glm::vec3(0, 1, 1));
-	//goalMarker->scale(glm::vec3(0.5, 0.5, 0.5));
-//
-//	TrianglePtr triangle2(
-//			new Triangle(glm::vec3(-2.0f, -2.0f, 0.0f),
-//					glm::vec3(0.0f, -2.0f, 0.0f),
-//					glm::vec3(-1.0f, 0.0f, 0.0f)));
-//
-//
-//	triangle2->setUniformColor(glm::vec3(0, 1, 1));
-//
-//	triangle->translate(glm::vec3(1, 0.8, 0));
-//
-//	LinePtr line(new Line(glm::vec3(-2, 0, 0), glm::vec3(2, 0, 0)));
-//	line->setUniformColor(glm::vec3(0, 1, 0));
-//
-//	//Indices should be provided as
-//	// 3 - 4
-//	// 1 - 2
-//	SquarePtr square(
-//			new Square(glm::vec3(-1.0f, -1.0f, 0.0f),
-//					glm::vec3(1.0f, -1.0f, 0.0f), glm::vec3(-1.0f, 1.0f, 0.0f),
-//					glm::vec3(1.0f, 1.0f, 0.0f)));
-//
-//	square->setUniformColor(glm::vec3(0, 0, 1));
-//
+
+	// Add the marker to inputHandler before adding the Chain to Window
+	// If not, the marker wont get initialised to chain initial position
+	window.getInputHandler().setGoalMarker(goalMarker);
 	window.addDrawable(goalMarker);
-//	window.addDrawable(line);
-//
-//	window.addDrawable(square);
-//	window.addDrawable(triangle2);
 
 	//Create a chain object
 	ChainPtr chain(new Chain());
@@ -98,6 +73,35 @@ int main(void) {
 	window.executeMainLoop();
 
 	return 0;
+//
+//	TrianglePtr triangle2(
+//			new Triangle(glm::vec3(-2.0f, -2.0f, 0.0f),
+//					glm::vec3(0.0f, -2.0f, 0.0f),
+//					glm::vec3(-1.0f, 0.0f, 0.0f)));
+//
+//
+//	triangle2->setUniformColor(glm::vec3(0, 1, 1));
+//
+//	triangle->translate(glm::vec3(1, 0.8, 0));
+//
+//	LinePtr line(new Line(glm::vec3(-2, 0, 0), glm::vec3(2, 0, 0)));
+//	line->setUniformColor(glm::vec3(0, 1, 0));
+//
+//	//Indices should be provided as
+//	// 3 - 4
+//	// 1 - 2
+//	SquarePtr square(
+//			new Square(glm::vec3(-1.0f, -1.0f, 0.0f),
+//					glm::vec3(1.0f, -1.0f, 0.0f), glm::vec3(-1.0f, 1.0f, 0.0f),
+//					glm::vec3(1.0f, 1.0f, 0.0f)));
+//
+//	square->setUniformColor(glm::vec3(0, 0, 1));
+//
+
+//	window.addDrawable(line);
+//
+//	window.addDrawable(square);
+//	window.addDrawable(triangle2);
 }
 
 //TODO Make introduce simulation and/or rendering controlled step size

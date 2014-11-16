@@ -80,9 +80,19 @@ void InputHandler::handleGoalRotation() const {
 void InputHandler::mousePositionCallback(double mouseX, double mouseY) {
 
 	switch (inputState) {
-	case cameraUpdate:
+	case cameraUpdate: {
 		renderer->updateLookAt(camRotSpeed * (prevMouseX - mouseX),
 				camRotSpeed * (prevMouseY - mouseY));
+
+		//Mouse callback example
+		glm::vec3 goal = renderer->getWorldCoordFromScreen(
+				glm::vec3(mouseX, mouseY, 0));
+		simController->setGoal(goal);
+
+		updateGoalMarker(goal);
+		std::cout << "Goal is " << goal.x << ", " << goal.y << ", " << goal.z
+				<< std::endl;
+	}
 		break;
 	case idle:
 		break;
@@ -97,9 +107,19 @@ void InputHandler::setSimController(SimulationControllerPtr simController) {
 	this->simController = simController;
 }
 
+void InputHandler::setGoalMarker(Point3DMarkerPtr goalMarker) {
+	this->goalMarker = goalMarker;
+}
+
 void InputHandler::handleGoalTranslation() const {
 }
 
 void InputHandler::setRenderer(Renderer* renderer) {
 	this->renderer = renderer;
+}
+
+void InputHandler::updateGoalMarker(const glm::vec3& goal) {
+	if (goalMarker) {
+		goalMarker->translate(goal - goalMarker->getCurrentPosition());
+	}
 }
