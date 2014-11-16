@@ -14,7 +14,7 @@ Window& Window::getInstance() {
 
 void Window::cleanUp() {
 	//Terminate simulation thread
-	simController.killSimulation();
+	simController->killSimulation();
 
 	// Close OpenGL window and terminate GLFW
 	glfwTerminate();
@@ -23,7 +23,8 @@ void Window::cleanUp() {
 	renderer = NULL;
 }
 
-Window::Window() {
+Window::Window() :
+		simController(new SimulationController()) {
 	init();
 }
 
@@ -85,6 +86,7 @@ void Window::createWindow(unsigned int height, unsigned int width,
 	fpsCounter.setWindow(window, windowTitle, maxFps);
 
 	inputHandler.setRenderer(renderer);
+	inputHandler.setSimController(simController);
 
 	setCallbacks();
 }
@@ -98,9 +100,9 @@ void Window::addDrawable(DrawablePtr drawable) {
 	if (newChain) {
 		glm::vec3 goal = newChain->getEndEfectorPos();
 		updateGoalMarker(goal);
-		simController.setGoal(goal);
+		simController->setGoal(goal);
 
-		simController.startSimulation(newChain);
+		simController->startSimulation(newChain);
 
 	}
 }
@@ -115,8 +117,8 @@ void Window::removeDrawable(DrawablePtr drawable) {
 	}
 
 	//Check if the object is a chain
-	if (drawable == simController.getChain()) {
-		simController.killSimulation();
+	if (drawable == simController->getChain()) {
+		simController->killSimulation();
 	}
 }
 
@@ -130,7 +132,7 @@ void Window::executeMainLoop() {
 		DrawableIte it;
 		for (it = toDrawObjects.begin(); it != toDrawObjects.end(); ++it) {
 			if (boost::dynamic_pointer_cast<Chain>(*it)) {
-				simController.updateChain();
+				simController->updateChain();
 				(*it)->draw(*renderer);
 			} else {
 				(*it)->draw(*renderer);
@@ -206,7 +208,7 @@ void Window::mouseButtonCallbackImpl(int button, int actions, int mods) {
 		if (actions == GLFW_RELEASE) {
 			glm::vec3 goal = renderer->getWorldCoordFromScreen(
 					glm::vec3(xpos, ypos, 0));
-			simController.setGoal(goal);
+			simController->setGoal(goal);
 
 			updateGoalMarker(goal);
 			std::cout << "Goal is " << goal.x << ", " << goal.y << ", "
@@ -224,7 +226,8 @@ void Window::mousePosCallbackImpl(double xpos, double ypos) {
 	inputHandler.mousePositionCallback(xpos, ypos);
 }
 
-Window::Window(const Window&) {
+Window::Window(const Window&) :
+		simController(new SimulationController()) {
 	cleanUp();
 	init();
 }

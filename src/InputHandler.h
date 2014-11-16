@@ -15,6 +15,7 @@
 #include <GLFW/glfw3.h>
 
 #include "rendering/Renderer.h"
+#include "simulation/SimulationController.h"
 
 class InputHandler {
 public:
@@ -28,6 +29,7 @@ public:
 	void keyCallback(int key, int scancode, int action, int mods);
 
 	void setRenderer(Renderer* renderer);
+	void setSimController(SimulationControllerPtr simController);
 
 private:
 	void handleGoalRotation() const;
@@ -35,6 +37,7 @@ private:
 
 private:
 	Renderer* renderer;
+	SimulationControllerPtr simController;
 
 	double prevMouseX;
 	double prevMouseY;

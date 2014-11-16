@@ -87,7 +87,7 @@ private:
 private:
 	GLFWwindow* window;
 	Renderer* renderer;
-	SimulationController simController;
+	SimulationControllerPtr simController;
 	InputHandler inputHandler;
 
 	std::vector<DrawablePtr> toDrawObjects;

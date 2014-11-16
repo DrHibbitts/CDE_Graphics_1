@@ -56,4 +56,6 @@ private:
 	double epsilon;
 };
 
+typedef boost::shared_ptr<SimulationController> SimulationControllerPtr;
+
 #endif /* SRC_SIMULATIONCONTROLLER_H_ */

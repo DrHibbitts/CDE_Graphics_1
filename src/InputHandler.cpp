@@ -93,6 +93,10 @@ void InputHandler::mousePositionCallback(double mouseX, double mouseY) {
 
 }
 
+void InputHandler::setSimController(SimulationControllerPtr simController) {
+	this->simController = simController;
+}
+
 void InputHandler::handleGoalTranslation() const {
 }
 
