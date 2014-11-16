@@ -35,12 +35,24 @@ public:
 private:
 	ChainPtr chain;
 	SimulationSolver simSolver;
+
 	std::thread simulationThread;
 	std::mutex lock;
+	std::chrono::milliseconds sleepTime;
+	std::chrono::milliseconds stepSleepTime;
+	std::chrono::milliseconds idleSleepTime;
+
+	enum SimulationState {
+		stepping, reachedGoal, reachedMaxIte, idle
+	};
+
+	SimulationState simState;
+
 	bool simulating;
 	glm::vec3 goal;
-	bool movingToGoal;
-	std::chrono::milliseconds simSleepTime;
+	unsigned int numIterations;
+	unsigned int maxIterations;
+
 	double epsilon;
 };
 
