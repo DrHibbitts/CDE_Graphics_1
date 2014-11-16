@@ -34,9 +34,6 @@ public:
 	void setGoalMarker(Point3DMarkerPtr goalMarker);
 
 	void updateGoalMarker(const glm::vec3& goal);
-private:
-	void handleGoalRotation() const;
-	void handleGoalTranslation() const;
 
 private:
 	Renderer* renderer;
@@ -50,7 +47,7 @@ private:
 	float camRotSpeed;
 
 	enum InputState {
-		cameraUpdate, idle
+		cameraUpdate, goalUpdate, idle
 	};
 
 	InputState inputState;

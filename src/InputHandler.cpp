@@ -11,7 +11,7 @@ InputHandler::InputHandler() {
 	prevMouseX = 0;
 	prevMouseY = 0;
 	renderer = NULL;
-	camTransSpeed = 0.5;
+	camTransSpeed = 0.1;
 	camRotSpeed = 0.005;
 	inputState = idle;
 }
@@ -28,6 +28,9 @@ void InputHandler::mouseButtonCallback(int button, int actions, int mods) {
 		switch (button) {
 		case GLFW_MOUSE_BUTTON_1:
 			inputState = cameraUpdate;
+			break;
+		case GLFW_MOUSE_BUTTON_2:
+			inputState = goalUpdate;
 			break;
 		default:
 			break;
@@ -51,30 +54,63 @@ void InputHandler::keyCallback(int key, int scancode, int action, int mods) {
 	}
 
 	//TODO Allow diagonal movement
+	switch (inputState) {
+	case idle:
+	case cameraUpdate: {
+		// Move forward
+		if (key == GLFW_KEY_UP || key == GLFW_KEY_W) {
+			renderer->updateCameraPosition(
+					renderer->getCamLookAtVector() * camTransSpeed);
+		}
+		// Move backward
+		if (key == GLFW_KEY_DOWN || key == GLFW_KEY_S) {
+			renderer->updateCameraPosition(
+					-renderer->getCamLookAtVector() * camTransSpeed);
+		}
+		// Strafe right
+		if (key == GLFW_KEY_RIGHT || key == GLFW_KEY_D) {
+			renderer->updateCameraPosition(
+					renderer->getCamLookAtRightVector() * camTransSpeed);
+		}
+		// Strafe left
+		if (key == GLFW_KEY_LEFT || key == GLFW_KEY_A) {
+			renderer->updateCameraPosition(
+					-renderer->getCamLookAtRightVector() * camTransSpeed);
+		}
+		break;
+	}
 
-	// Move forward
-	if (key == GLFW_KEY_UP || key == GLFW_KEY_W) {
-		renderer->updateCameraPosition(
-				renderer->getCamLookAtVector() * camTransSpeed);
+	case goalUpdate: {
+		if (key == GLFW_KEY_UP || key == GLFW_KEY_W) {
+			goalMarker->translate(
+					renderer->getCamLookAtVector() * camTransSpeed);
+		}
+		// Move backward
+		if (key == GLFW_KEY_DOWN || key == GLFW_KEY_S) {
+			goalMarker->translate(
+					-renderer->getCamLookAtVector() * camTransSpeed);
+		}
+		// Strafe right
+		if (key == GLFW_KEY_RIGHT || key == GLFW_KEY_D) {
+			goalMarker->translate(
+					renderer->getCamLookAtRightVector() * camTransSpeed);
+		}
+		// Strafe left
+		if (key == GLFW_KEY_LEFT || key == GLFW_KEY_A) {
+			goalMarker->translate(
+					-renderer->getCamLookAtRightVector() * camTransSpeed);
+		}
+		break;
 	}
-	// Move backward
-	if (key == GLFW_KEY_DOWN || key == GLFW_KEY_S) {
-		renderer->updateCameraPosition(
-				-renderer->getCamLookAtVector() * camTransSpeed);
 	}
-	// Strafe right
-	if (key == GLFW_KEY_RIGHT || key == GLFW_KEY_D) {
-		renderer->updateCameraPosition(
-				renderer->getCamLookAtRightVector() * camTransSpeed);
-	}
-	// Strafe left
-	if (key == GLFW_KEY_LEFT || key == GLFW_KEY_A) {
-		renderer->updateCameraPosition(
-				-renderer->getCamLookAtRightVector() * camTransSpeed);
-	}
-}
 
-void InputHandler::handleGoalRotation() const {
+	if (key == GLFW_KEY_ENTER) {
+		simController->setGoal(goalMarker->getCurrentPosition());
+
+		std::cout << "Goal is " << goalMarker->getCurrentPosition().x << ", "
+				<< goalMarker->getCurrentPosition().y << ", "
+				<< goalMarker->getCurrentPosition().z << std::endl;
+	}
 }
 
 void InputHandler::mousePositionCallback(double mouseX, double mouseY) {
@@ -83,16 +119,9 @@ void InputHandler::mousePositionCallback(double mouseX, double mouseY) {
 	case cameraUpdate: {
 		renderer->updateLookAt(camRotSpeed * (prevMouseX - mouseX),
 				camRotSpeed * (prevMouseY - mouseY));
-
-		//Mouse callback example
-		glm::vec3 goal = renderer->getWorldCoordFromScreen(
-				glm::vec3(mouseX, mouseY, 0));
-		simController->setGoal(goal);
-
-		updateGoalMarker(goal);
-		std::cout << "Goal is " << goal.x << ", " << goal.y << ", " << goal.z
-				<< std::endl;
+		break;
 	}
+	case goalUpdate:
 		break;
 	case idle:
 		break;
@@ -109,9 +138,6 @@ void InputHandler::setSimController(SimulationControllerPtr simController) {
 
 void InputHandler::setGoalMarker(Point3DMarkerPtr goalMarker) {
 	this->goalMarker = goalMarker;
-}
-
-void InputHandler::handleGoalTranslation() const {
 }
 
 void InputHandler::setRenderer(Renderer* renderer) {
