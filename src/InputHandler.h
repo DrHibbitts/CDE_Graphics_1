@@ -36,6 +36,9 @@ public:
 	void updateGoalMarker(const glm::vec3& goal);
 
 private:
+	void getOffsetFromKey(int key, glm::vec3& offset);
+
+private:
 	Renderer* renderer;
 	SimulationControllerPtr simController;
 	Point3DMarkerPtr goalMarker;

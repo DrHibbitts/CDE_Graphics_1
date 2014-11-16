@@ -53,63 +53,28 @@ void InputHandler::keyCallback(int key, int scancode, int action, int mods) {
 		return;
 	}
 
-	//TODO Allow diagonal movement
+	glm::vec3 offset;
+	getOffsetFromKey(key, offset);
+
 	switch (inputState) {
 	case idle:
 	case cameraUpdate: {
-		// Move forward
-		if (key == GLFW_KEY_UP || key == GLFW_KEY_W) {
-			renderer->updateCameraPosition(
-					renderer->getCamLookAtVector() * camTransSpeed);
-		}
-		// Move backward
-		if (key == GLFW_KEY_DOWN || key == GLFW_KEY_S) {
-			renderer->updateCameraPosition(
-					-renderer->getCamLookAtVector() * camTransSpeed);
-		}
-		// Strafe right
-		if (key == GLFW_KEY_RIGHT || key == GLFW_KEY_D) {
-			renderer->updateCameraPosition(
-					renderer->getCamLookAtRightVector() * camTransSpeed);
-		}
-		// Strafe left
-		if (key == GLFW_KEY_LEFT || key == GLFW_KEY_A) {
-			renderer->updateCameraPosition(
-					-renderer->getCamLookAtRightVector() * camTransSpeed);
-		}
+		renderer->updateCameraPosition(offset);
 		break;
 	}
 
 	case goalUpdate: {
-		if (key == GLFW_KEY_UP || key == GLFW_KEY_W) {
-			goalMarker->translate(
-					renderer->getCamLookAtVector() * camTransSpeed);
-		}
-		// Move backward
-		if (key == GLFW_KEY_DOWN || key == GLFW_KEY_S) {
-			goalMarker->translate(
-					-renderer->getCamLookAtVector() * camTransSpeed);
-		}
-		// Strafe right
-		if (key == GLFW_KEY_RIGHT || key == GLFW_KEY_D) {
-			goalMarker->translate(
-					renderer->getCamLookAtRightVector() * camTransSpeed);
-		}
-		// Strafe left
-		if (key == GLFW_KEY_LEFT || key == GLFW_KEY_A) {
-			goalMarker->translate(
-					-renderer->getCamLookAtRightVector() * camTransSpeed);
-		}
+		goalMarker->translate(offset);
 		break;
 	}
 	}
 
 	if (key == GLFW_KEY_ENTER) {
-		simController->setGoal(goalMarker->getCurrentPosition());
+		offset = goalMarker->getCurrentPosition();
+		simController->setGoal(offset);
 
-		std::cout << "Goal is " << goalMarker->getCurrentPosition().x << ", "
-				<< goalMarker->getCurrentPosition().y << ", "
-				<< goalMarker->getCurrentPosition().z << std::endl;
+		std::cout << "Goal is " << offset.x << ", " << offset.y << ", "
+				<< offset.z << std::endl;
 	}
 }
 
@@ -147,5 +112,24 @@ void InputHandler::setRenderer(Renderer* renderer) {
 void InputHandler::updateGoalMarker(const glm::vec3& goal) {
 	if (goalMarker) {
 		goalMarker->translate(goal - goalMarker->getCurrentPosition());
+	}
+}
+
+void InputHandler::getOffsetFromKey(int key, glm::vec3& offset) {
+	//TODO Allow diagonal movement
+	if (key == GLFW_KEY_UP || key == GLFW_KEY_W) {
+		offset = renderer->getCamLookAtVector() * camTransSpeed;
+	}
+	// Move backward
+	if (key == GLFW_KEY_DOWN || key == GLFW_KEY_S) {
+		offset = -renderer->getCamLookAtVector() * camTransSpeed;
+	}
+	// Strafe right
+	if (key == GLFW_KEY_RIGHT || key == GLFW_KEY_D) {
+		offset = renderer->getCamLookAtRightVector() * camTransSpeed;
+	}
+	// Strafe left
+	if (key == GLFW_KEY_LEFT || key == GLFW_KEY_A) {
+		offset = -renderer->getCamLookAtRightVector() * camTransSpeed;
 	}
 }
