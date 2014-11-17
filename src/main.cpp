@@ -42,10 +42,10 @@ int main(void) {
 	//Bone of length 1
 	chain->addBone(1);
 	//Change the angle of joint 0 to 45 degrees
-	chain->setJointAngles(0, 45, 45);
+	chain->setJointAngles(0, 15, 0);
 
 	chain->addBone(0.5);
-	chain->setJointAngles(1, 0, 0);
+	chain->setJointAngles(1, -15, 0);
 
 	chain->addBone(2);
 	chain->setJointAngles(2, 0, 0);

@@ -83,6 +83,30 @@ void ChainModel::updateMatrices(glm::mat4& currentMat, unsigned int i,
 			* glm::translate(glm::vec3(bones[i].getLength(), 0, 0));
 }
 
-glm::vec3 ChainModel::costFun(const glm::vec3& goal) const {
-	return goal - getEndEfectorPos();
+glm::vec3 ChainModel::costFun(const glm::vec3& goal,
+		std::vector<double> angleConstrains) const {
+	glm::vec3 distanceVec(goal - getEndEfectorPos());
+
+	assert(angleConstrains.size() == 4);
+
+	double penalty = 0;
+	for (unsigned int i = 0; i < joints.size(); i++) {
+		// If the angle gets close to the constraint then the penalty is increased
+		// FLT_MIN is added to avoid 1 \ 0
+		double aux = joints.at(i).getZRotAngle() - angleConstrains.at(0);
+		penalty += 1.0 / std::abs(aux + FLT_MIN);
+
+		aux = joints.at(i).getZRotAngle() - angleConstrains.at(1);
+		penalty += 1.0 / std::abs(aux + FLT_MIN);
+
+		aux = joints.at(i).getYRotAngle() - angleConstrains.at(2);
+		penalty += 1.0 / std::abs(aux + FLT_MIN);
+
+		aux = joints.at(i).getYRotAngle() - angleConstrains.at(3);
+		penalty += 1.0 / std::abs(aux + FLT_MIN);
+	}
+
+	float anglePenalty = -0.01 * penalty;
+
+	return (distanceVec + anglePenalty * glm::normalize(distanceVec));
 }

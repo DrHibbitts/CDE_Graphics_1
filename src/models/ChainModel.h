@@ -9,6 +9,7 @@
 #define SRC_MODELS_CHAINMODEL_H_
 
 #include <vector>
+#include <cmath>
 
 #define GLM_FORCE_RADIANS
 #include <glm/gtx/transform.hpp>
@@ -38,7 +39,8 @@ public:
 
 	glm::vec3 getEndEfectorPos() const;
 
-	glm::vec3 costFun(const glm::vec3& goal) const;
+	glm::vec3 costFun(const glm::vec3& goal,
+			std::vector<double> angleConstrains) const;
 
 private:
 	void updateMatrices(glm::mat4& currentMat, unsigned int i,
