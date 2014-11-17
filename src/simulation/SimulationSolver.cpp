@@ -47,21 +47,19 @@ void SimulationSolver::finiteDiffJacobian(const glm::vec3& goal) {
 	costVal = wChain.costFun(goal);
 
 	unsigned int mid = jacobian.size() * 0.5;
-	for (unsigned int i = 0; i < jacobian.size(); i++) {
-		if (i < mid) {
-			wChain.setJointZAngle(i, wChain.getJointZAngle(i) + h);
-		} else {
-			wChain.setJointYAngle(i - mid, wChain.getJointYAngle(i - mid) + h);
-		}
 
+	for (unsigned int i = 0; i < mid; i++) {
+		wChain.setJointZAngle(i, wChain.getJointZAngle(i) + h);
 		jacobian[i] = (1 / h) * (wChain.costFun(goal) - costVal);
 		jacobian[i] = (1 / glm::length(jacobian[i])) * jacobian[i];
+		wChain.setJointZAngle(i, wChain.getJointZAngle(i) - h);
+	}
 
-		if (i < mid) {
-			wChain.setJointZAngle(i, wChain.getJointZAngle(i) - h);
-		} else {
-			wChain.setJointYAngle(i - mid, wChain.getJointYAngle(i - mid) - h);
-		}
+	for (unsigned int i = mid; i < jacobian.size(); i++) {
+		wChain.setJointYAngle(i - mid, wChain.getJointYAngle(i - mid) + h);
+		jacobian[i] = (1 / h) * (wChain.costFun(goal) - costVal);
+		jacobian[i] = (1 / glm::length(jacobian[i])) * jacobian[i];
+		wChain.setJointYAngle(i - mid, wChain.getJointYAngle(i - mid) - h);
 	}
 }
 
