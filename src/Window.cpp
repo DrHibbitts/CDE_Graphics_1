@@ -52,7 +52,7 @@ Window::~Window() {
 	glDeleteProgram(renderer->getProgramId());
 	cleanUp();
 
-	std::cout << "MAIN THREAD MEMORY FREED AND EXIT" << std::endl;
+	std::cout << "MAIN THREAD EXIT" << std::endl;
 }
 
 void Window::createWindow(unsigned int height, unsigned int width,
