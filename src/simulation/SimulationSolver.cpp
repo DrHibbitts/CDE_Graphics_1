@@ -30,9 +30,6 @@ void SimulationSolver::setChain(ChainPtr chain) {
 		//wChain is a real copy of chain, not just another pointer to it
 		chain->copyToModel(wChain);
 		jacobian.resize(chain->getNumJoints() * 2);
-		// Z min, Z max, Y min, Y max
-		//constrains = {-30, 30, -0.1, 0.1};
-		constrains = {-180, 180, -180, 180};
 	} else {
 		wChain.clear();
 	}
@@ -47,20 +44,20 @@ void SimulationSolver::resetWorkingChain() {
 void SimulationSolver::finiteDiffJacobian(const glm::vec3& goal) {
 
 	resetWorkingChain();
-	costVal = wChain.costFun(goal, constrains);
+	costVal = wChain.costFun(goal);
 
 	unsigned int mid = jacobian.size() * 0.5;
 
 	for (unsigned int i = 0; i < mid; i++) {
 		wChain.setJointZAngle(i, wChain.getJointZAngle(i) + h);
-		jacobian[i] = (1 / h) * (wChain.costFun(goal, constrains) - costVal);
+		jacobian[i] = (1 / h) * (wChain.costFun(goal) - costVal);
 		jacobian[i] = (1 / glm::length(jacobian[i])) * jacobian[i];
 		wChain.setJointZAngle(i, wChain.getJointZAngle(i) - h);
 	}
 
 	for (unsigned int i = mid; i < jacobian.size(); i++) {
 		wChain.setJointYAngle(i - mid, wChain.getJointYAngle(i - mid) + h);
-		jacobian[i] = (1 / h) * (wChain.costFun(goal, constrains) - costVal);
+		jacobian[i] = (1 / h) * (wChain.costFun(goal) - costVal);
 		jacobian[i] = (1 / glm::length(jacobian[i])) * jacobian[i];
 		wChain.setJointYAngle(i - mid, wChain.getJointYAngle(i - mid) - h);
 	}

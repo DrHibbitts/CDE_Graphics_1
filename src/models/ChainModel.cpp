@@ -14,6 +14,10 @@ const glm::vec3 ChainModel::zAxis(0, 0, 1);
 const glm::vec3 ChainModel::yAxis(0, 1, 0);
 
 ChainModel::ChainModel() {
+	minZ = -180;
+	maxZ = 180;
+	minY = -180;
+	maxY = 180;
 }
 
 ChainModel::~ChainModel() {
@@ -27,6 +31,7 @@ void ChainModel::clear() {
 void ChainModel::addBone(float size) {
 	bones.push_back(BoneModel(size));
 	joints.push_back(JointModel());
+	stiffness.push_back(1);
 }
 
 void ChainModel::setJointZAngle(unsigned int index, float zAngle) {
@@ -40,6 +45,17 @@ void ChainModel::setJointYAngle(unsigned int index, float yAngle) {
 void ChainModel::setJointAngles(unsigned int index, float zAngle,
 		float yAngle) {
 	joints.at(index).setAngles(zAngle * TO_RAD, yAngle * TO_RAD);
+}
+
+void ChainModel::setAngleConstrains(double minZ, double maxZ, double minY,
+		double maxY) {
+	this->minZ = minZ;
+	this->maxZ = maxZ;
+	this->minY = minY;
+	this->maxY = maxY;
+}
+void ChainModel::setBoneStiffness(unsigned int index, double stiffness) {
+	this->stiffness.at(index) = stiffness;
 }
 
 float ChainModel::getJointZAngle(unsigned int index) const {
@@ -83,27 +99,21 @@ void ChainModel::updateMatrices(glm::mat4& currentMat, unsigned int i,
 			* glm::translate(glm::vec3(bones[i].getLength(), 0, 0));
 }
 
-glm::vec3 ChainModel::costFun(const glm::vec3& goal,
-		std::vector<double> angleConstrains) const {
-	glm::vec3 distanceVec(goal - getEndEfectorPos());
+glm::vec3 ChainModel::costFun(const glm::vec3& goal) const {
 
-	assert(angleConstrains.size() == 4);
+	glm::vec3 distanceVec(goal - getEndEfectorPos());
 
 	double penalty = 0;
 	for (unsigned int i = 0; i < joints.size(); i++) {
 		// If the angle gets close to the constraint then the penalty is increased
 		// FLT_MIN is added to avoid 1 \ 0
-		double aux = joints.at(i).getZRotAngle() - angleConstrains.at(0);
-		penalty += 1.0 / std::abs(aux + FLT_MIN);
+		penalty += 1.0 / std::abs(joints.at(i).getZRotAngle() - minZ + FLT_MIN);
 
-		aux = joints.at(i).getZRotAngle() - angleConstrains.at(1);
-		penalty += 1.0 / std::abs(aux + FLT_MIN);
+		penalty += 1.0 / std::abs(joints.at(i).getZRotAngle() - maxZ + FLT_MIN);
 
-		aux = joints.at(i).getYRotAngle() - angleConstrains.at(2);
-		penalty += 1.0 / std::abs(aux + FLT_MIN);
+		penalty += 1.0 / std::abs(joints.at(i).getYRotAngle() - minY + FLT_MIN);
 
-		aux = joints.at(i).getYRotAngle() - angleConstrains.at(3);
-		penalty += 1.0 / std::abs(aux + FLT_MIN);
+		penalty += 1.0 / std::abs(joints.at(i).getYRotAngle() - maxY + FLT_MIN);
 	}
 
 	float anglePenalty = -0.01 * penalty;

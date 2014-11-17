@@ -11,7 +11,7 @@
 #define TO_DEG  180.0 / M_PI
 
 Chain::Chain() :
-		pointSet(new PointSet()) {
+		ChainModel(), pointSet(new PointSet()) {
 	drawingTrail = true;
 	pointSet->setUniformColor(glm::vec3(0.5, 0.9, 0.1));
 	trailEpsilon = 0.01;

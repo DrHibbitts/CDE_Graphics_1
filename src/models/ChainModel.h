@@ -30,6 +30,8 @@ public:
 	void setJointZAngle(unsigned int index, float zAngle);
 	void setJointYAngle(unsigned int index, float yAngle);
 	void setJointAngles(unsigned int index, float zAngle, float yAngle);
+	void setAngleConstrains(double minZ, double maxZ, double minY, double maxY);
+	void setBoneStiffness(unsigned int index, double stiffness);
 
 	float getBoneLength(unsigned int index) const;
 	float getJointZAngle(unsigned int index) const;
@@ -39,8 +41,7 @@ public:
 
 	glm::vec3 getEndEfectorPos() const;
 
-	glm::vec3 costFun(const glm::vec3& goal,
-			std::vector<double> angleConstrains) const;
+	glm::vec3 costFun(const glm::vec3& goal) const;
 
 private:
 	void updateMatrices(glm::mat4& currentMat, unsigned int i,
@@ -53,6 +54,8 @@ protected:
 private:
 	std::vector<JointModel> joints;
 	std::vector<BoneModel> bones;
+	double minZ, maxZ, minY, maxY;
+	std::vector<double> stiffness;
 };
 
 #endif /* SRC_MODELS_CHAINMODEL_H_ */

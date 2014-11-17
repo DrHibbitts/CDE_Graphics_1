@@ -38,20 +38,27 @@ int main(void) {
 	//Create a chain object
 	ChainPtr chain(new Chain());
 
+	// Set minimum and maximum angles, MinZ, MaxZ, MinY, MaxY
+	chain->setAngleConstrains(-180, 180, -180, 180);
+
 	//Add several bones with different lengths and joints rotations
 	//Bone of length 1
 	chain->addBone(1);
-	//Change the angle of joint 0 to 45 degrees
+	//Change the angle of joint 0 to Z degrees and Y degrees
 	chain->setJointAngles(0, 15, 0);
+	chain->setBoneStiffness(0, 1);
 
 	chain->addBone(0.5);
 	chain->setJointAngles(1, -15, 0);
+	chain->setBoneStiffness(1, 1);
 
 	chain->addBone(2);
 	chain->setJointAngles(2, 0, 0);
+	chain->setBoneStiffness(2, 1);
 
 	chain->addBone(1);
 	chain->setJointAngles(3, 0, 0);
+	chain->setBoneStiffness(3, 1);
 
 	//Draw chain
 	window.addDrawable(chain);

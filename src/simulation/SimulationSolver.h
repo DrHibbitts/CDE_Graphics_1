@@ -37,7 +37,6 @@ private:
 	std::vector<glm::vec3> jacobian;
 	float h;
 	glm::vec3 costVal;
-	std::vector<double> constrains;
 };
 
 #endif /* SRC_SIMULATIONSOLVER_H_ */
