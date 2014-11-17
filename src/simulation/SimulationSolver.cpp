@@ -29,7 +29,7 @@ void SimulationSolver::setChain(ChainPtr chain) {
 	if (chain) {
 		//wChain is a real copy of chain, not just another pointer to it
 		chain->copyToModel(wChain);
-		jacobian.resize(chain->getNumJoints());
+		jacobian.resize(chain->getNumJoints() * 2);
 	} else {
 		wChain.clear();
 	}
@@ -46,11 +46,22 @@ void SimulationSolver::finiteDiffJacobian(const glm::vec3& goal) {
 	resetWorkingChain();
 	costVal = wChain.costFun(goal);
 
+	unsigned int mid = jacobian.size() * 0.5;
 	for (unsigned int i = 0; i < jacobian.size(); i++) {
-		wChain.setJointZAngle(i, wChain.getJointZAngle(i) + h);
+		if (i < mid) {
+			wChain.setJointZAngle(i, wChain.getJointZAngle(i) + h);
+		} else {
+			wChain.setJointYAngle(i - mid, wChain.getJointYAngle(i - mid) + h);
+		}
+
 		jacobian[i] = (1 / h) * (wChain.costFun(goal) - costVal);
 		jacobian[i] = (1 / glm::length(jacobian[i])) * jacobian[i];
-		wChain.setJointZAngle(i, wChain.getJointZAngle(i) - h);
+
+		if (i < mid) {
+			wChain.setJointZAngle(i, wChain.getJointZAngle(i) - h);
+		} else {
+			wChain.setJointYAngle(i - mid, wChain.getJointYAngle(i - mid) - h);
+		}
 	}
 }
 
@@ -65,9 +76,17 @@ void SimulationSolver::setH(float h) {
 void SimulationSolver::updateAngles(double stepSize) {
 
 	double angleUpdate;
-	for (unsigned int i = 0; i < jacobian.size(); i++) {
+	unsigned int mid = jacobian.size() * 0.5;
+
+	for (unsigned int i = 0; i < mid; i++) {
 		angleUpdate = glm::dot(-jacobian[i], costVal) * TO_DEG * stepSize;
 		wChain.setJointZAngle(i, wChain.getJointZAngle(i) + angleUpdate);
+	}
+
+	for (unsigned int i = mid; i < jacobian.size(); i++) {
+		angleUpdate = glm::dot(-jacobian[i], costVal) * TO_DEG * stepSize;
+		wChain.setJointYAngle(i - mid,
+				wChain.getJointYAngle(i - mid) + angleUpdate);
 	}
 }
 
