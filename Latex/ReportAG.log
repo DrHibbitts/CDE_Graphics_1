@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.11.6)  12 NOV 2014 11:40
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.11.6)  17 NOV 2014 10:56
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -274,18 +274,18 @@ Class scrartcl Warning: Usage of package `fancyhdr' together
 ) (./ReportAG.aux)
 \openout1 = `ReportAG.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 47.
-LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 49.
+LaTeX Font Info:    ... okay on input line 49.
  (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
 
@@ -379,16 +379,16 @@ e
 * layout: <same size as paper>
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
 * modes: 
-* h-part:(L,W,R)=(56.9055pt, 483.69693pt, 56.9055pt)
-* v-part:(T,H,B)=(56.9055pt, 731.23593pt, 56.9055pt)
+* h-part:(L,W,R)=(71.13188pt, 455.24417pt, 71.13188pt)
+* v-part:(T,H,B)=(71.13188pt, 702.78317pt, 71.13188pt)
 * \paperwidth=597.50793pt
 * \paperheight=845.04694pt
-* \textwidth=483.69693pt
-* \textheight=731.23593pt
-* \oddsidemargin=-15.36449pt
-* \evensidemargin=-15.36449pt
-* \topmargin=-52.7645pt
-* \headheight=9.0pt
+* \textwidth=455.24417pt
+* \textheight=702.78317pt
+* \oddsidemargin=-1.1381pt
+* \evensidemargin=-1.1381pt
+* \topmargin=-38.53812pt
+* \headheight=15.0pt
 * \headsep=20.40001pt
 * \topskip=11.0pt
 * \footskip=47.6pt
@@ -405,16 +405,16 @@ e
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Font Info:    Try loading font information for T1+cmss on input line 50.
+LaTeX Font Info:    Try loading font information for T1+cmss on input line 55.
 (/usr/share/texlive/texmf-dist/tex/latex/base/t1cmss.fd
 File: t1cmss.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    Try loading font information for U+msa on input line 50.
+LaTeX Font Info:    Try loading font information for U+msa on input line 55.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 50.
+LaTeX Font Info:    Try loading font information for U+msb on input line 55.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -423,26 +423,32 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 
 
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] (./ReportAG.aux) ) 
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+Underfull \hbox (badness 10000) in paragraph at lines 63--64
+
+ []
+
+[2
+
+] [3] (./ReportAG.aux) ) 
 Here is how much of TeX's memory you used:
- 5575 strings out of 494985
- 81316 string characters out of 6180356
- 284927 words of memory out of 5000000
- 8693 multiletter control sequences out of 15000+600000
- 17043 words of font info for 40 fonts, out of 8000000 for 9000
+ 5601 strings out of 494985
+ 81611 string characters out of 6180356
+ 286016 words of memory out of 5000000
+ 8711 multiletter control sequences out of 15000+600000
+ 22163 words of font info for 58 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 63i,10n,49p,256b,222s stack positions out of 5000i,500n,10000p,200000b,80000s
- </home/
-ik359/.texmf-var/fonts/pk/ljfour/jknappen/ec/eccc1200.600pk> </home/ik359/.texm
-f-var/fonts/pk/ljfour/jknappen/ec/ecrm1095.600pk> </home/ik359/.texmf-var/fonts
-/pk/ljfour/jknappen/ec/eccc1440.600pk> </home/ik359/.texmf-var/fonts/pk/ljfour/
-jknappen/ec/ecrm1440.600pk> </home/ik359/.texmf-var/fonts/pk/ljfour/jknappen/ec
-/ecrm2074.600pk> </home/ik359/.texmf-var/fonts/pk/ljfour/jknappen/ec/eccc1095.6
-00pk>
-Output written on ReportAG.pdf (1 page, 55295 bytes).
+ 63i,10n,49p,814b,372s stack positions out of 5000i,500n,10000p,200000b,80000s
+ </home/ik359/.texmf-var/fonts/pk/ljfour/jknappen/ec/ec
+cc1200.600pk> </home/ik359/.texmf-var/fonts/pk/ljfour/jknappen/ec/eccc1440.600p
+k> </home/ik359/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1095.600pk> </home/i
+k359/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1440.600pk> </home/ik359/.texmf
+-var/fonts/pk/ljfour/jknappen/ec/ecrm2488.600pk> </home/ik359/.texmf-var/fonts/
+pk/ljfour/jknappen/ec/eccc1095.600pk>
+Output written on ReportAG.pdf (3 pages, 64033 bytes).
 PDF statistics:
- 202 PDF objects out of 1000 (max. 8388607)
- 28 compressed objects within 1 object stream
+ 228 PDF objects out of 1000 (max. 8388607)
+ 32 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -8,7 +8,7 @@
 \usepackage{amsmath,amsfonts,amsthm} % Math packages
 \usepackage{mathtools}
 \usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
-\usepackage[margin=2.0cm]{geometry}
+\usepackage[margin=2.5cm]{geometry}
 
 \usepackage{sectsty} % Allows customizing section commands
 \allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
@@ -21,13 +21,13 @@
 \fancyfoot[R]{\thepage} % Page numbering for right footer
 \renewcommand{\headrulewidth}{0pt} % Remove header underlines
 \renewcommand{\footrulewidth}{0pt} % Remove footer underlines
-\setlength{\headheight}{9.0pt} % Customize the height of the header
+\setlength{\headheight}{15.0pt} % Customize the height of the header
 
 \numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
 \numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
 \numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
 
-\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+\setlength\parindent{20pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
 
 %----------------------------------------------------------------------------------------
 %	TITLE SECTION
@@ -37,19 +37,33 @@
 
 \title{	
 \normalfont \normalsize 
-\textsc{Department Of Computer Science, University of Bath} \\ [2pt] % Your university, school and/or department name(s)
-\horrule{0.5pt} \\[0.2cm] % Thin top horizontal rule
-\huge Inverse Kinematics Coursework \\ % The assignment title
-\horrule{0.5pt} \\[0.0cm] % Thick bottom horizontal rule
+\textsc{Department Of Computer Science, University of Bath} \\ [5pt] % Your university, school and/or department name(s)
+\horrule{0.7pt} \\[0.2cm] % Thin top horizontal rule
+\Huge Inverse Kinematics Coursework \\ % The assignment title
+\vspace{7 mm}
+\Large CM50244 \: Computer animation and games I \\
+\horrule{0.7pt} \\[0.0cm] % Thick bottom horizontal rule
 }
-\author{Garoe Dorta Perez, Dave Hibbitts, Ieva Kazlauskaite, Richard Shaw} % Your name
+\author{Garoe Dorta Perez, Dave Hibbitts, Ieva Kazlauskaite, Richard Shaw \\ \Large Unit Leader: Prof Phil Willis \\}  % Your name\\ 
 
 \begin{document}
+\vspace*{\fill}
+\begin{center}
+\begin{minipage}{1.0\textwidth}
 
 \maketitle % Print the title
 
-\section{Objective}
-aaa
+\end{minipage}
+\end{center}
+\vfill
+\clearpage
+
+
+\section{Introduction and Objective} 
+In this project we explore the application of inverse kinematics in three-dimensional space. First, we construct a simple composite object which contains long rigid parts that are connected so as to allow flexibility of movement. The joints connecting the rigid rods are restricted and can either rotate in plane and act like simple hinges. Second, the method of inverse kinematics is explored in order to determine the configuration of the object, i.e. the relevant angles of the joints, when the object is given a task. The method works by planning the motion towards a goal, which is a point in three-dimensional space subject to constraints. Finally, the movement of the object is animated, and a number of non-physical (?) parameters are adjusted to deliver a visually appealing performance. \\
+
+This report provides a brief account of the objectives of the project and the methods that were explored. Moreover, the issues that were encountered are discussed including problems concerning both the computations and the implementation. We discuss the implementation in Matlab and the computational method that we use for inverse kinematics. We proceed by explaining the operations and execution in OpenGL. The last section of this report includes a review of the performance and the limitations of the method, as well as a discussion of possible further improvements.
+
 
 %------------------------------------------------
 
