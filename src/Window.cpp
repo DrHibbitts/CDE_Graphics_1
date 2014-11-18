@@ -18,9 +18,6 @@ void Window::cleanUp() {
 
 	// Close OpenGL window and terminate GLFW
 	glfwTerminate();
-
-	delete renderer;
-	renderer = NULL;
 }
 
 Window::Window() :
@@ -42,9 +39,6 @@ void Window::init() {
 
 	//Window is required to be a pointer by GLFW
 	window = NULL;
-	//Renderer can only be initialised after calling glewInit, so instead of
-	//creating an init() method in Renderer is easier to have it as a pointer
-	renderer = NULL;
 }
 
 Window::~Window() {
@@ -81,7 +75,10 @@ void Window::createWindow(unsigned int height, unsigned int width,
 	// Ensure we can capture the escape key being pressed below
 	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
 
-	renderer = new Renderer();
+	//Renderer can only be initialised after calling glewInit, so instead of
+	//creating an init() method in Renderer is easier to have it as a pointer
+	//Also it is better to pass a pointer to InputHandler
+	renderer = RendererPtr(new Renderer());
 
 	fpsCounter.setWindow(window, windowTitle, maxFps);
 

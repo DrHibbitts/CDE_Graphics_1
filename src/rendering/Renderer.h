@@ -17,6 +17,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include <boost/shared_ptr.hpp>
+
 #include "ShaderLoader.h"
 
 class Renderer {
@@ -71,7 +73,8 @@ private:
 	float horizontalAngle;
 	// Initial vertical angle : none
 	float verticalAngle;
-
 };
+
+typedef boost::shared_ptr<Renderer> RendererPtr;
 
 #endif /* RENDERER_H_ */

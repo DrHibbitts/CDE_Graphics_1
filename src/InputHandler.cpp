@@ -105,7 +105,7 @@ void InputHandler::setGoalMarker(Point3DMarkerPtr goalMarker) {
 	this->goalMarker = goalMarker;
 }
 
-void InputHandler::setRenderer(Renderer* renderer) {
+void InputHandler::setRenderer(RendererPtr renderer) {
 	this->renderer = renderer;
 }
 

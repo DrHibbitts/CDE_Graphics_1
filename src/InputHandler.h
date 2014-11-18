@@ -29,7 +29,7 @@ public:
 
 	void keyCallback(int key, int scancode, int action, int mods);
 
-	void setRenderer(Renderer* renderer);
+	void setRenderer(RendererPtr renderer);
 	void setSimController(SimulationControllerPtr simController);
 	void setGoalMarker(Point3DMarkerPtr goalMarker);
 
@@ -39,7 +39,7 @@ private:
 	void getOffsetFromKey(int key, glm::vec3& offset);
 
 private:
-	Renderer* renderer;
+	RendererPtr renderer;
 	SimulationControllerPtr simController;
 	Point3DMarkerPtr goalMarker;
 

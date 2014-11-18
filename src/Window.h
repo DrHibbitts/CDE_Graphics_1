@@ -77,7 +77,7 @@ private:
 
 private:
 	GLFWwindow* window;
-	Renderer* renderer;
+	RendererPtr renderer;
 	SimulationControllerPtr simController;
 	InputHandler inputHandler;
 
