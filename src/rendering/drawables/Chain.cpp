@@ -64,8 +64,8 @@ void Chain::copyToModel(ChainModel& chainModel) const {
 void Chain::updateMatrices(glm::mat4& currentMat, unsigned int i) const {
 
 	//Update total transformation with current joint rotation
-	currentMat = currentMat * glm::rotate(joints[i]->getYRotAngle(), yAxis)
-			* glm::rotate(joints[i]->getZRotAngle(), zAxis);
+	currentMat = currentMat * glm::rotate(joints[i]->getZRotAngle(), zAxis)
+			* glm::rotate(joints[i]->getYRotAngle(), yAxis);
 
 	//Bone total transformation is current transformation
 	bones[i]->getDrawable()->setModelMat(currentMat);
