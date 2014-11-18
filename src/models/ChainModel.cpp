@@ -113,7 +113,5 @@ glm::vec3 ChainModel::costFun(const glm::vec3& goal) const {
 		penalty += 1.0 / std::abs(joints.at(i).getYRotAngle() - maxY + FLT_MIN);
 	}
 
-	float anglePenalty = -0.01 * penalty;
-
-	return (distanceVec + anglePenalty * glm::normalize(distanceVec));
+	return (distanceVec - (float)penalty * glm::normalize(distanceVec));
 }

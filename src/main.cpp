@@ -39,7 +39,7 @@ int main(void) {
 	ChainPtr chain(new Chain());
 
 	// Set minimum and maximum angles, MinZ, MaxZ, MinY, MaxY
-	chain->setAngleConstrains(-180, 180, -180, 180);
+	chain->setAngleConstrains(-180, 180, -0.001, 0.001);
 
 	//Add several bones with different lengths and joints rotations
 	//Bone of length 1
