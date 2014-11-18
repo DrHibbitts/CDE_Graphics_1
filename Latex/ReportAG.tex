@@ -9,6 +9,16 @@
 \usepackage{mathtools}
 \usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
 \usepackage[margin=2.8cm]{geometry}
+\usepackage{xcolor}
+\usepackage{listings}
+\lstset{language=C++,
+                basicstyle=\ttfamily,
+                keywordstyle=\color{blue}\ttfamily,
+                stringstyle=\color{red}\ttfamily,
+                commentstyle=\color{green}\ttfamily,
+                morecomment=[l][\color{magenta}]{\#}
+}
+\usepackage{mdframed}
 
 \usepackage{sectsty} % Allows customizing section commands
 \allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
@@ -97,33 +107,127 @@ Let us now consider the implementation in both Matlab and OpenGL in more detail.
     \item Why we use what we use (e.g. Inverse Jacobian)
   \end{enumerate}
 \subsection{ Port the code to C++, OpenGL}
-Our software was built on top of OpenGL version 4.3 so we can adopt the shaders introduced after 3.3 version, which uses a flexible pipeline. The following libraries are employed: GLFW for window managing, GLM  for including the matrix operations and matrix-vector data types, Boost provides smart pointers (which simplify the allocation of memory), GLEW which efficiently check which OpenGL extensions are supported on the platform that is used. The C++11 standard is used as it allows us to perform the threading (mutual exclusion objects). \\
+Our software was built on top of OpenGL version 4.3 so we can adopt the shaders introduced after 3.3 version, which uses a flexible pipeline. The following libraries are employed: GLFW for window managing, GLM  for including the matrix operations and matrix-vector data types, Boost provides smart pointers (which simplify memory management), GLEW which efficiently check which OpenGL extensions are supported on the platform that is used. The C++11 standard is used as it introduces better default thread and mutex libraries as well as other improvements. \\
 
-First, we consider all the necessary conversions that let us display the three-dimensional world on a two-dimensional screen surface. Initially we have the \(z\) value set to zero, and hence worked in a two-dimensional space. In our world model each object has it's own transformation matrix, called a model. Another transformation matrix, known as the projection matrix describes the mapping of a pinhole camera which plots the three-dimensional world onto a two-dimensional screen. In between the two aforementioned matrices, there is a camera matrix. For every object in the scene, pixel/screen coordinates \([u, v, 1]\) are defined by multiplying the vertices of each object by the Projection-View-Model (MVP) transformation matrix which gives the position of each pixel on the screen, i.e. transformed vertex = MVP *  object vertex. \\
+First, we consider all the necessary conversions that let us display the three-dimensional world on a two-dimensional screen surface. Initially we have the \(z\) value set to zero, and hence worked in a two-dimensional space. In our world model each object has it's own model transformation matrix M. We also have a camera matrix that defines the camera position and orientation. Lastly, a projection matrix describes the mapping of a pinhole camera which plots the three-dimensional world onto a two-dimensional screen. For every object in the scene, pixel/screen coordinates \([u, v, 1]\) are defined by multiplying the vertices of each object by the Model-View-Projection (MVP) transformation matrix which gives the position of each pixel on the screen, i.e. transformed vertex = MVP *  object vertex. \\
 
-In the first version of our software, we would create all the buffers for each object on each frame and destroy them at the end of each frame, which was inefficient. The problem was fixed by allocating buffer objects (that store unformatted memory on the GPU) for each object at the start of the simulation, and then binding the framework to allocated storage (setting as the active) and unbinding. \\
+\begin{mdframed}
+\begin{scriptsize}
+\begin{lstlisting}
+//Renderer MVP calculation
+viewProjection = projection * view;
+//Calculate Model View Projection matrix
+glm::mat4 MVP = viewProjection * modelMat;
+\end{lstlisting}
+\end{scriptsize}
+\end{mdframed}
 
-Next, we set up the necessary objects for rendering. We create a vertex object class that encapsulated the buffer objects used by OpenGL. The vertex specification is performed using the Vertex Array Object (VAO), and each vertex object has its own VAO attribute. For the two-dimensional model we adopt a simple shader program without lighting and we specify the colour directly. The actual implementation uses a vertex buffer object for vertices so that each object has only the vertices listed sequentially in the corresponding buffer, and we have a colour buffer of an identical size that contains the corresponding colours. The element buffer object (EBO) contains indices to a given vertex; it allows us to avoid replication of vertices and draw more efficiently. In particular, to define any rectangle (quad) that is a combination of two triangles, we only need to specify four vertices instead of using all six. \\
+In the first version of our software, we would create all the OpenGL buffers for each object on each frame and destroy them at the end of each frame, which was inefficient. The problem was fixed by preallocating buffer objects (that store unformatted memory on the GPU) for each object at the start of the simulation, and then binding the framework to allocated storage (setting as the active), rendering and unbinding. \\
 
-The initial implementation consisted of lines, squares and triangles, and an orthographic projection was used to represent the objects in two dimensions. To gain insight into the performance of our model, we included a frames per second counter which indicates how fast the scene is being rendered. In order to draw an objects, we implemented a class called \texttt{drawable} was implemented. All the objects that need to be displayed have to implement an interface defined by the \texttt{drawable} class and possess a function called \texttt{draw}. The window draws drawable objects and does not distinguish between them. The line, square and triangle are all subclass of the VertexObject class which itself is a subclass of drawable. At this point we added the chain of rectangles and lines where lines represented bones and rectangles were joints. A \(4 \times 4\) rotation and translation matrices were introduced, so for each joint and at each time step the following calculation is performed:  \(\prod_{i=0}^I R_i T_i\) where \(R_i\) stands for the rotation of the joint and \(T_i\) corresponds to the translation of each bone. \\
+Next, we set up the necessary objects for rendering. We create a vertex object class that encapsulated the buffer objects used by OpenGL. The vertex specification is performed using the Vertex Array Object (VAO), and each vertex object has its own VAO attribute. For the two-dimensional model we adopt a simple shader program without lighting and we specify the colour directly. The actual implementation uses a vertex buffer object (VBO) for vertices so that each object has only the vertices listed sequentially in the corresponding buffer, and we have a colour buffer (CBO) of an identical size that contains the corresponding colours. The element buffer object (EBO) contains indices to a given vertex; it allows us to avoid replication of vertices and draw more efficiently. In particular, to define any rectangle (quad) that is a combination of two triangles, we only need to specify four vertices instead of using all six. \\
 
-To get a better understanding of the simulation, we made the simulation process independent of rendering. The synchronisation of these two processes is encapsulated in simulation controller class which uses mutual exclusion (mutex). Simulation and rendering are performed on two different threads, and have to access a shared resource concurrently. The rendering process has access to all the chain data while the simulation only uses the angles (taken from the copy of the chain) to perform the numerical calculations which advance the motion in time. The simulation runs almost continuously, it stops only to allow the renderer to look up the angle values each time it finishes rendering. To make sure that the rendered gets relevant information, i.e. all of the values for angles were calculated at the same simulation step, we use locks. This synchronisation mechanism allows the simulation and the rendering to perform their respective tasks as quickly as possible. \\
+The initial implementation consisted of lines, squares and triangles, and an orthographic projection was used to represent the objects in two dimensions. To gain insight into the performance of our model, we included a frames per second counter which indicates how fast the scene is being rendered. In order to draw an objects, we implemented a \texttt{Drawable} class. All the objects that need to be displayed have to implement an interface defined by the \texttt{drawable} class and possess a function called \texttt{draw}. The window draws drawable objects and does not distinguish between them. The line, square and triangle are all subclass of the VertexObject class which itself is a subclass of Drawable. At this point we added the chain of rectangles and lines where lines represented bones and rectangles were joints. A \(4 \times 4\) rotation and translation matrices were introduced, so for each joint and at each time step the following calculation is performed:  \(\prod_{i=0}^I R_i T_i\) where \(R_i\) stands for the rotation of the joint and \(T_i\) corresponds to the translation of each bone. \\
 
-For visual appeal, we draw a trail that follows the moving objects. The most efficient rendering is achieved using a circular array; a array is allocated on the GPU at the beginning of the simulation and we are tracking the movement of the tip of the chain. Each time the tip moves a sufficient (predetermined) amount, we record the current position and include it in the circular array. Once we run out of space, we return to the start of the array and replace the first value with the new one. Then the rendering is performed sequentially with all remaining values unchanged until we again reach the end of the array. This let's us update the data in memory as little as possible making the use of a circular array fast and efficient. \\
+\begin{mdframed}
+\begin{scriptsize}
+\begin{lstlisting}
+class VertexObject: public Drawable {
+	//...
+protected:
+	//Model matrix
+	glm::mat4 modelMat;
+	//Model vertex related data
+	std::vector<glm::vec3> vertices, normals, colors;
+	std::vector<unsigned int> indices;
+	glm::vec3 centroid;
 
-At this stage we added the simulation code originally developed in Matlab to our the two-dimensional model. To allow user interface, we draw a triangle which could be moved using the mouse, and was used to mark the goal position. The mouse position was transformed using an inverse orthogonal projection. \\
+	//OpenGL parameters holder object
+	PrimitiveParameter primitivePar;
 
-One of the problems we faced had to do with the simulation thread accessing the rendering state, causing the software to fail if the frame rate was high (e.g. on the NVIDIA card). The problem was solved by allowing the simulation to access only the simulation data. Here we also used mutual exclusion; a new class, called chain model, was created that only had the simulation data. The chain class is a subclass of the chain model and adds the rendering data to the chain model. The same applies to bone and joint classes. \\
+	//Common object and buffers needed for OpenGL rendering
+	GLuint vao, vbo, nbo, ebo, cbo;
+};
+\end{lstlisting}
+\end{scriptsize}
+\end{mdframed}
 
-In order to create an infinite simulation (i.e. a simulation that does not come to a halt once it gets close to the goal), we included an infinite loop. The simulation checks when it's close to the goal and it stops at a given threshold, so update Jacobian loop is not called though the simulation thread is still running. The user can then input a new goal position, which causes the simulation to resume and reach for the new goal position. \\
+\begin{mdframed}
+\begin{scriptsize}
+\begin{lstlisting}
+//Common draw call for all VertexObjects
+void VertexObject::draw(Renderer& renderer) const {
+	// Bind VAO and Buffers as the active ones.
+	glBindVertexArray(vao);
 
-Our final improvement involved adapting the simulation and the display to work in a three-dimensional case. We construct the chain using rectangular parallelepipeds, and implemented Gouraud shading. First, we added surface normals to all vertices; they point outwards from every vertices that is on the surface of the object, and for the vertices which are on the edges we use the mean of the neighbouring surface normals. Local illumination model combines the ambient, diffuse and specular light to give the colour intensities of the reflections, and the  final shading is achieved by interpolating the colour at the vertices. \\
+	//Enable vertex buffer
+	glEnableVertexAttribArray(0);
+	glBindBuffer( GL_ARRAY_BUFFER, vbo);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*) 0);
+	
+	//Enable the other buffers 
+	//.... 
+		
+	//Draw count objects of mode type
+	glDrawElements(primitivePar.getMode(), primitivePar.getCount(),
+	GL_UNSIGNED_INT, (void*) 0);
+	
+}
+\end{lstlisting}
+\end{scriptsize}
+\end{mdframed}
 
-In addition, we included keyboard input control. In the final version the user is able to control the camera angle by moving the mouse, and change the distance from the camera to the scene using the keyboard. In particular, we use the mouse to change the angle of the camera with respect to the \texttt{LookAtVector} and use the keyboard to change the \texttt{lookAtVector} which corresponds to changing the position of the camera in the direction for the sight. The goal is moved using the camera position update (while right-clicking), where we update the position in the direction of the \texttt{lookAtVector}.\\
+
+
+In order to achieve a fluent and efficient rendering, we made the simulation process independent of rendering. Simulation and rendering are performed on two different threads, and have to access a shared resource concurrently. The synchronisation of these two processes is encapsulated in simulation controller class which uses a mutual exclusion lock variable. The rendering process has access to all the chain data while the simulation only uses the angles and lengths (taken from the copy of the chain) to perform the numerical calculations which advance the motion in time. The simulation runs almost continuously, it stops only to allow the renderer to look up the angle values each time it finishes rendering. This synchronisation mechanism allows the simulation and the rendering to perform their respective tasks as quickly as possible without any data corruption. \\
+
+For visual appeal, we draw a trail that follows the chain tip. A circular array is used for efficient rendering; a fixed buffer is allocated on the GPU at the beginning of the simulation and we are tracking the movement of the tip of the chain. Each time the tip moves a sufficient (predetermined) amount, we record the current position and include it in the circular array. Once we run out of space, we return to the start of the array and replace the first value with the new one. Then the rendering is performed sequentially with all remaining values unchanged until we again reach the end of the array. This let's us make only small uploads of data to he GPU. \\
+
+At this stage we added the simulation code originally developed in Matlab to our the two-dimensional model. To allow user input, we draw a triangle which could be moved using the mouse, and was used to mark the goal position. The mouse position was transformed using an inverse orthogonal projection. \\
+
+One of the problems we faced had to do with the simulation thread accessing the rendering state, causing the software to fail if the frame rate was high (e.g. on the NVIDIA card). The problem was solved by allowing the simulation to access only the simulation data. Here we also used data encapsulation; a new class, called ChainModel, was created that only had the simulation data. The Chain class is a subclass of the ChainModel and with added attributes and methods for rendering purposes. The same applies to bone and joint classes. \\
+
+\begin{mdframed}
+\begin{scriptsize}
+\begin{lstlisting}
+//Simulation controller thread synchronization		
+void SimulationController::executeSimulationLoop() {
+	while (simulating) {
+		lock.lock();
+		simSolver.solveForStep(goal, stepSize);
+		lock.unlock();
+		std::this_thread::sleep_for(sleepTime);
+	}
+}
+
+void SimulationController::updateChain() {
+	lock.lock();
+	simSolver.updateChain();
+	lock.unlock();
+}
+\end{lstlisting}
+\end{scriptsize}
+\end{mdframed}
+
+The simulation thread is in a loop either simulating or waiting for a new goal. It also checks when it's close to the goal and it stops at a given threshold, so update Jacobian loop is not called though the simulation thread is still running. The user can input a new goal position at any time, as the simulation loop will then solve for the new goal using the current chain state. \\
+
+Our final improvement involved adapting the simulation and the display to work in a three-dimensional case. We construct the chain using rectangular parallelepipeds, while the shaders implemented a Gouraud shading algorithm. First, we added normal vectors to each vertex in every object; they point outwards from every vertices that is on the surface of the object, and for the vertices which are on the edges we use the mean of the neighbouring planar normals. Local illumination model combines the ambient, diffuse and specular light to give the colour intensities of the reflections, and the final shading is achieved by interpolating the vertices and normals. \\
+
+In addition, we included keyboard input control. In the final version the user is able to control the camera angle by moving the mouse, and change the distance from the camera to the scene using the keyboard. In particular, we use the mouse to change the angle of the camera with respect to the \texttt{lookAtVector} and use the keyboard to move the camera position in a direction related to the \texttt{lookAtVector}, forward, backwards or side movements. The goal is moved using the camera position update (while right-clicking), where we update the position in the direction of the camera \texttt{lookAtVector}.\\
 
 At this stage the model was displayed in three dimensions but was still confined to moving in the plane. We added a second rotation angle resulting in a rotation with respect to the \(z\)-axis followed by a rotation with respect to the \(y\)-axis, i.e. \( \mathbf{R}_z \mathbf{R}_y \mathbf{T}\). The resulting solver is fully three-dimensional. \\
 
-Final, a maximum number of simulation steps was specified to ensure that the simulation eventually ended in case the goal was unreachable. Also, while the model is waiting for a new goal, it checks every half a second, and once a point goal is added, it goes back to simulating. We had to artificially increase the time in the simulation (now it performs a simulation step and then waits for 20 ms), because otherwise the time step had to be decreased to \(10^{-6}\) which resulted in unreasonably fast motion. Sleep time makes the computational load smaller on the CPU (i.e. we achieve the same accuracy with a lesser load on the CPU). 
+\begin{mdframed}
+\begin{scriptsize}
+\begin{lstlisting}
+//Update total transformation with current joint rotation and translation
+currentMat = currentMat * glm::rotate(joints[i].getZRotAngle(), zAxis)
+		* glm::rotate(joints[i].getYRotAngle(), yAxis)
+		* glm::translate(glm::vec3(bones[i].getLength(), 0, 0));
+\end{lstlisting}
+\end{scriptsize}
+\end{mdframed}
+
+Final, a maximum number of simulation steps was specified to ensure that the simulation was not wasting CPU in case the goal was unreachable. Also, while the model is waiting for a new goal, the simulation thread is stopped, and once a point goal is added, it goes back to simulating. We had to artificially increase the time in the simulation (now it performs a simulation step and then waits for 20 ms), because otherwise the time step had to be decreased to \(10^{-6}\) which resulted in order to achieved a normal motion. Sleep time makes the computational load smaller on the CPU (i.e. we achieve the same accuracy with a lesser load on the CPU). 
 
 
 
