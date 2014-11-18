@@ -4,6 +4,7 @@
  *  Created on: 12 Oct 2014
  *      Author: garoe
  */
+#define UNUSED(expr) (void)(expr);
 
 #include "Window.h"
 
@@ -16,7 +17,7 @@ void Window::cleanUp() {
 	//Terminate simulation thread
 	simController->killSimulation();
 
-	// Close OpenGL window and terminate GLFW
+	// Close OpenGL window, terminate GLFW and free the window* memory
 	glfwTerminate();
 }
 
@@ -178,15 +179,18 @@ glm::vec3 Window::getWorldCoordFromScreen(const glm::vec3& screenCoord) {
 
 void Window::keyCallback(GLFWwindow *window, int key, int scancode, int action,
 		int mods) {
+	UNUSED(window);
 	getInstance().inputHandler.keyCallback(key, scancode, action, mods);
 }
 
 void Window::mouseButtonCallback(GLFWwindow* window, int button, int actions,
 		int mods) {
+	UNUSED(window);
 	getInstance().inputHandler.mouseButtonCallback(button, actions, mods);
 }
 
 void Window::mousePosCallback(GLFWwindow *window, double xpos, double ypos) {
+	UNUSED(window);
 	getInstance().inputHandler.mousePositionCallback(xpos, ypos);
 }
 

@@ -110,5 +110,3 @@ int main(void) {
 //	window.addDrawable(square);
 //	window.addDrawable(triangle2);
 }
-
-//TODO Make introduce simulation and/or rendering controlled step size

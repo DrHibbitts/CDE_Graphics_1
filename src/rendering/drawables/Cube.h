@@ -13,7 +13,7 @@
 class Cube: public VertexObject {
 public:
 	Cube();
-	Cube(const glm::vec3& centre, double width, double height);
+	Cube(double width, double height);
 	virtual ~Cube();
 
 	void setWidth(double width, const glm::vec3& offset = glm::vec3());

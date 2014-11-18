@@ -5,6 +5,8 @@
  *      Author: gdp24
  */
 
+#define UNUSED(expr) (void)(expr);
+
 #include "InputHandler.h"
 
 InputHandler::InputHandler() {
@@ -17,19 +19,20 @@ InputHandler::InputHandler() {
 }
 
 InputHandler::~InputHandler() {
-	renderer = NULL;
 }
 
 void InputHandler::mouseButtonCallback(int button, int actions, int mods) {
-	//Mouse callback example
+	UNUSED(mods);
 	switch (actions) {
 	case GLFW_PRESS: {
 
 		switch (button) {
 		case GLFW_MOUSE_BUTTON_1:
+			//Left click move camera
 			inputState = cameraUpdate;
 			break;
 		case GLFW_MOUSE_BUTTON_2:
+			//Right click move goal marker
 			inputState = goalUpdate;
 			break;
 		default:
@@ -48,7 +51,8 @@ void InputHandler::mouseButtonCallback(int button, int actions, int mods) {
 }
 
 void InputHandler::keyCallback(int key, int scancode, int action, int mods) {
-
+	UNUSED(mods);
+	UNUSED(scancode);
 	if (action != GLFW_PRESS && action != GLFW_REPEAT) {
 		return;
 	}
@@ -69,6 +73,7 @@ void InputHandler::keyCallback(int key, int scancode, int action, int mods) {
 	}
 	}
 
+	//If user press enter send goal position to simulation controller
 	if (key == GLFW_KEY_ENTER) {
 		offset = goalMarker->getCurrentPosition();
 		simController->setGoal(offset);
@@ -82,6 +87,7 @@ void InputHandler::mousePositionCallback(double mouseX, double mouseY) {
 
 	switch (inputState) {
 	case cameraUpdate: {
+		//Move camera viewpoint
 		renderer->updateLookAt(camRotSpeed * (prevMouseX - mouseX),
 				camRotSpeed * (prevMouseY - mouseY));
 		break;
@@ -116,7 +122,7 @@ void InputHandler::updateGoalMarker(const glm::vec3& goal) {
 }
 
 void InputHandler::getOffsetFromKey(int key, glm::vec3& offset) {
-	//TODO Allow diagonal movement
+	//Move forward
 	if (key == GLFW_KEY_UP || key == GLFW_KEY_W) {
 		offset = renderer->getCamLookAtVector() * camTransSpeed;
 	}

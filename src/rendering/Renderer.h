@@ -63,7 +63,6 @@ private:
 
 	GLuint LightID;
 
-	//TODO Move camera code to Camera class
 	glm::vec3 camPosition;
 	glm::vec3 camLookAtVector;
 	glm::vec3 camRightVector;

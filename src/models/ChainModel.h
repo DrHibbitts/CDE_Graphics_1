@@ -44,8 +44,7 @@ public:
 	glm::vec3 costFun(const glm::vec3& goal) const;
 
 private:
-	void updateMatrices(glm::mat4& currentMat, unsigned int i,
-			bool updateBone) const;
+	void updateMatrices(glm::mat4& currentMat, unsigned int i) const;
 
 protected:
 	const static glm::vec3 zAxis;

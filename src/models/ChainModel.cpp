@@ -76,7 +76,7 @@ glm::vec3 ChainModel::getEndEfectorPos() const {
 	//Main loop consists of applying joint rotation and then bone translation
 	//For next bone do the same using the previous transformed coordinate system
 	for (unsigned int i = 0; i < bones.size(); i++) {
-		updateMatrices(currentMat, i, false);
+		updateMatrices(currentMat, i);
 	}
 
 	//Get chain end position
@@ -87,8 +87,7 @@ unsigned int ChainModel::getNumJoints() const {
 	return joints.size();
 }
 
-void ChainModel::updateMatrices(glm::mat4& currentMat, unsigned int i,
-		bool updateBone) const {
+void ChainModel::updateMatrices(glm::mat4& currentMat, unsigned int i) const {
 
 	//Update total transformation with current joint rotation and translation
 	currentMat = currentMat * glm::rotate(joints[i].getZRotAngle(), zAxis)

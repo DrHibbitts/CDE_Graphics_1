@@ -11,7 +11,7 @@ Cube::Cube() {
 	init();
 }
 
-Cube::Cube(const glm::vec3& centre, double width, double height) {
+Cube::Cube(double width, double height) {
 	init();
 	setWidth(width);
 	setHeight(height);
@@ -85,7 +85,6 @@ void Cube::resize(double newSize) {
 void Cube::init() {
 	generateBuffers();
 
-	centre = glm::vec3(0, 0, 0);
 	width = 0.2;
 	height = 0.2;
 
