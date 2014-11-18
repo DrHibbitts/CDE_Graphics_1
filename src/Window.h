@@ -28,7 +28,7 @@
 #include "simulation/SimulationController.h"
 #include "InputHandler.h"
 
-//TODO A better design is a general controller class that synchronises window,
+//A better design would be a general controller class that synchronises window,
 //simulation and input handling
 
 //Window class is a wrapper around GLFWwindow, it controls what objects

@@ -39,7 +39,7 @@ int main(void) {
 	ChainPtr chain(new Chain());
 
 	// Set minimum and maximum angles, MinZ, MaxZ, MinY, MaxY
-	chain->setAngleConstrains(-180, 180, -0.001, 0.001);
+	chain->setAngleConstrains(-180, 180, 180, 180);
 
 	//Add several bones with different lengths and joints rotations
 	//Bone of length 1
@@ -63,7 +63,7 @@ int main(void) {
 	//Draw chain
 	window.addDrawable(chain);
 
-	// This only changes the light marker, to change the position go to
+	//This only changes the light marker, to change the position go to
 	//the renderer class
 	glm::vec3 lightPosition(3, 3, -1);
 
@@ -73,40 +73,8 @@ int main(void) {
 
 	window.addDrawable(lightMarker);
 
-	CubePtr cube(new Cube());
-	cube->setUniformColor(glm::vec3(0, 1, 1));
-
-	//Start the input handling and rendering loop
+	//Start the rendering, simulation and input handling loop
 	window.executeMainLoop();
 
 	return 0;
-//
-//	TrianglePtr triangle2(
-//			new Triangle(glm::vec3(-2.0f, -2.0f, 0.0f),
-//					glm::vec3(0.0f, -2.0f, 0.0f),
-//					glm::vec3(-1.0f, 0.0f, 0.0f)));
-//
-//
-//	triangle2->setUniformColor(glm::vec3(0, 1, 1));
-//
-//	triangle->translate(glm::vec3(1, 0.8, 0));
-//
-//	LinePtr line(new Line(glm::vec3(-2, 0, 0), glm::vec3(2, 0, 0)));
-//	line->setUniformColor(glm::vec3(0, 1, 0));
-//
-//	//Indices should be provided as
-//	// 3 - 4
-//	// 1 - 2
-//	SquarePtr square(
-//			new Square(glm::vec3(-1.0f, -1.0f, 0.0f),
-//					glm::vec3(1.0f, -1.0f, 0.0f), glm::vec3(-1.0f, 1.0f, 0.0f),
-//					glm::vec3(1.0f, 1.0f, 0.0f)));
-//
-//	square->setUniformColor(glm::vec3(0, 0, 1));
-//
-
-//	window.addDrawable(line);
-//
-//	window.addDrawable(square);
-//	window.addDrawable(triangle2);
 }

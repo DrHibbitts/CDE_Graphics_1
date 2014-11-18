@@ -24,6 +24,4 @@ public:
 
 typedef boost::shared_ptr<Drawable> DrawablePtr;
 
-//TODO Add model matrix and getter and setters????
-
 #endif /* SRC_DRAWABLE_H_ */

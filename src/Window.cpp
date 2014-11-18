@@ -137,30 +137,17 @@ void Window::executeMainLoop() {
 			}
 		}
 
-		//Move the square a bit every frame
-//		DrawablePtr ob = toDrawObjects[0];
-//		SquarePtr sq = boost::static_pointer_cast<Square>(ob);
-//		sq->translate(glm::vec3(0.05, 0, 0));
-
-		// Swap buffers
+		//Draw for this frame
 		glfwSwapBuffers(window);
 
 		//Get user input
 		glfwPollEvents();
 
-		//Set
+		//Make sure we are not running faster than the max FPS
 		fpsCounter.sleepForFixedFPS();
 
 		//Display FPS
 		fpsCounter.setWindowFPS();
-
-		//Mouse polling example
-		//if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS) {
-		//Change angle on mouse click
-		//DrawablePtr ob = toDrawObjects[1];
-		//ChainPtr ch = boost::static_pointer_cast<Chain>(ob);
-		//chain->setJointAngle(2, chain->getJointAngle(2) + 1);
-		//}
 
 	} // Check if the ESC key was pressed or the window was closed
 	while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS
