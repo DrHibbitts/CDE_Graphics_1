@@ -38,12 +38,11 @@ private:
 
 	std::thread simulationThread;
 	std::mutex lock;
-	std::chrono::milliseconds sleepTime;
+	std::mutex waitForNewGoal;
 	std::chrono::milliseconds stepSleepTime;
-	std::chrono::milliseconds idleSleepTime;
 
 	enum SimulationState {
-		stepping, reachedGoal, reachedMaxIte, idle
+		stepping, reachedGoal, reachedMaxIte, idle, exitState
 	};
 
 	SimulationState simState;

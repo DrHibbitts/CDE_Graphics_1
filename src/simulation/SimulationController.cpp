@@ -14,8 +14,7 @@ SimulationController::SimulationController() {
 	maxIterations = 1000;
 	simState = idle;
 	stepSleepTime = std::chrono::milliseconds(20);
-	idleSleepTime = std::chrono::milliseconds(500);
-	sleepTime = idleSleepTime;
+	waitForNewGoal.lock();
 }
 
 SimulationController::~SimulationController() {
@@ -45,21 +44,27 @@ void SimulationController::executeSimulationLoop() {
 			std::cout << "Goal reached" << std::endl;
 			simState = idle;
 			//When switching to idle sleep for longer
-			sleepTime = idleSleepTime;
+			waitForNewGoal.lock();
 			break;
 		}
 		case reachedMaxIte: {
 			std::cout << "Max iterations reached" << std::endl;
 			simState = idle;
-			sleepTime = idleSleepTime;
+			waitForNewGoal.lock();
 			break;
 		}
 		case idle: {
+			std::cout << "Waiting for new goal" << std::endl;
+			waitForNewGoal.lock();
+			break;
+		}
+		case exitState: {
+			std::cout << "Exiting simulation loop" << std::endl;
 			break;
 		}
 		}
 		//Sleep the thread a bit, since is way too fast
-		std::this_thread::sleep_for(sleepTime);
+		std::this_thread::sleep_for(stepSleepTime);
 	}
 
 	std::cout << "SIMULATION THREAD EXIT" << std::endl;
@@ -67,7 +72,8 @@ void SimulationController::executeSimulationLoop() {
 
 void SimulationController::killSimulation() {
 	//Tell simulation thread to finish
-	simState = idle;
+	simState = exitState;
+	waitForNewGoal.unlock();
 	simulating = false;
 	if (simulationThread.joinable()) {
 		//Wait for the simulation thread to finish
@@ -88,9 +94,9 @@ const glm::vec3& SimulationController::getGoal() const {
 
 void SimulationController::setGoal(const glm::vec3& goal) {
 	this->goal = goal;
-	sleepTime = stepSleepTime;
 	numIterations = 0;
 	simState = stepping;
+	waitForNewGoal.unlock();
 }
 
 void SimulationController::startSimulation(ChainPtr chain) {
@@ -105,6 +111,9 @@ void SimulationController::startSimulation(ChainPtr chain) {
 
 	//Run new thread with simulation loop
 	simulating = true;
+	simState = idle;
+	waitForNewGoal.lock();
+
 	simulationThread = std::thread(&SimulationController::executeSimulationLoop,
 			this);
 }
