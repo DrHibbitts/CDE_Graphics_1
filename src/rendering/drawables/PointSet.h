@@ -17,6 +17,8 @@ public:
 
 	void addPoint(const glm::vec3& p);
 
+	void draw(Renderer& renderer) const;
+
 	void removeAllPoints();
 
 	const glm::vec3& getLastVertex() const;

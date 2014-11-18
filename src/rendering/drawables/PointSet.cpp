@@ -73,6 +73,13 @@ void PointSet::addPoint(const glm::vec3& p) {
 	primitivePar.setCount(totalSize);
 }
 
+void PointSet::draw(Renderer& renderer) const {
+	//Draw big points
+	glPointSize(3.0);
+	VertexObject::draw(renderer);
+	glPointSize(1.0);
+}
+
 void PointSet::removeAllPoints() {
 	currentIndex = 0;
 	totalSize = 0;
