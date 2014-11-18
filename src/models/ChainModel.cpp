@@ -74,12 +74,9 @@ unsigned int ChainModel::getNumJoints() const {
 void ChainModel::updateMatrices(glm::mat4& currentMat, unsigned int i,
 		bool updateBone) const {
 
-	//Update total transformation with current joint rotation
-	currentMat = currentMat * glm::rotate(joints[i].getYRotAngle(), yAxis)
-			* glm::rotate(joints[i].getZRotAngle(), zAxis);
-
-	//Update total transformation with current bone translation
-	currentMat = currentMat
+	//Update total transformation with current joint rotation and translation
+	currentMat = currentMat * glm::rotate(joints[i].getZRotAngle(), zAxis)
+			* glm::rotate(joints[i].getYRotAngle(), yAxis)
 			* glm::translate(glm::vec3(bones[i].getLength(), 0, 0));
 }
 
