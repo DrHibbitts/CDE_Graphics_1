@@ -27,8 +27,8 @@ void VertexObject::draw(Renderer& renderer) const {
 	glDrawElements(primitivePar.getMode(), primitivePar.getCount(),
 	GL_UNSIGNED_INT, (void*) 0);
 
-	//Left here for reference, ca be used for efficient rendering several
-	//of the same primitive object
+	//Left here for reference, alternative drawing method
+	//Used in earlier stages of the application
 	//glDrawArrays(param.getMode(), param.getFirst(), param.getCount());
 
 	//Clean up the binding

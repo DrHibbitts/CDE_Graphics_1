@@ -51,7 +51,7 @@ protected:
 	void destroyBuffers() const;
 
 protected:
-	//Model matrix defines the object transformation
+	//Model matrix
 	glm::mat4 modelMat;
 	std::vector<glm::vec3> vertices;
 	std::vector<glm::vec3> normals;
@@ -78,6 +78,7 @@ protected:
 	// CBO: Color buffer object
 	GLuint cbo;
 
+	// Hint OpenGL how we are going to use the buffer
 	GLenum bufferType;
 };
 
