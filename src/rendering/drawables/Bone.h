@@ -13,8 +13,7 @@
 #include "../../models/BoneModel.h"
 #include "Cube.h"
 
-//Bone class defines a bone of size length on the x axis
-class Bone: public BoneModel, public Drawable {
+class Bone: public Drawable, public BoneModel {
 public:
 	Bone();
 	Bone(float length);

@@ -17,6 +17,7 @@
 #include "JointModel.h"
 #include "BoneModel.h"
 
+//Chain of bones and joints
 class ChainModel {
 public:
 	ChainModel();

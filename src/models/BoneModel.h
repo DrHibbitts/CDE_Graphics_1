@@ -8,6 +8,7 @@
 #ifndef SRC_BONEMODEL_H_
 #define SRC_BONEMODEL_H_
 
+//Bone class defines a bone of size length on the x axis
 class BoneModel {
 public:
 	BoneModel();

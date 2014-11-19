@@ -17,7 +17,6 @@
 #include "Joint.h"
 #include "PointSet.h"
 
-//Chain of bones and joints
 class Chain: public Drawable, public ChainModel {
 public:
 	Chain();
@@ -32,6 +31,7 @@ public:
 	void setJointYAngle(unsigned int index, float zAngle);
 	void setJointAngles(unsigned int index, float zAngle, float yAngle);
 
+	//Copy current Chain data into chainModel
 	void copyToModel(ChainModel& chainModel) const;
 private:
 	std::vector<JointPtr> joints;
@@ -41,7 +41,7 @@ private:
 	double trailEpsilon;
 
 	void drawBonesJoints(Renderer& renderer, glm::mat4& currentMat) const;
-	void drawTrail(const glm::mat4& currentMat, Renderer& renderer) const;
+	void drawTrail(Renderer& renderer, const glm::mat4& currentMat) const;
 	void updateMatrices(glm::mat4& currentMat, unsigned int i) const;
 };
 

@@ -13,7 +13,7 @@
 #include "../../models/JointModel.h"
 #include "Cube.h"
 
-class Joint: public JointModel, public Drawable {
+class Joint: public Drawable, public JointModel {
 public:
 	Joint();
 	Joint(float zAngle, float yAngle);

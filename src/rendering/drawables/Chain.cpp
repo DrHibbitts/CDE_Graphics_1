@@ -29,7 +29,7 @@ void Chain::draw(Renderer& renderer) const {
 		return;
 	}
 
-	drawTrail(currentMat, renderer);
+	drawTrail(renderer, currentMat);
 }
 
 void Chain::addBone(float size) {
@@ -63,6 +63,9 @@ void Chain::copyToModel(ChainModel& chainModel) const {
 
 void Chain::updateMatrices(glm::mat4& currentMat, unsigned int i) const {
 
+	//Set joint position at the beginning of the current bone
+	joints[i]->getDrawable()->setModelMat(currentMat);
+
 	//Update total transformation with current joint rotation
 	currentMat = currentMat * glm::rotate(joints[i]->getZRotAngle(), zAxis)
 			* glm::rotate(joints[i]->getYRotAngle(), yAxis);
@@ -79,19 +82,16 @@ void Chain::drawBonesJoints(Renderer& renderer, glm::mat4& currentMat) const {
 	//Main loop consists of applying joint rotation and then bone translation
 	//For next bone do the same using the previous transformed coordinate system
 	for (unsigned int i = 0; i < bones.size(); i++) {
-		//Set joint position at the beginning of the current bone
-		joints[i]->getDrawable()->setModelMat(currentMat);
-
-		//Calculate rotation by the current joint
+		//Calculate joint rotations and bone translations
 		updateMatrices(currentMat, i);
 
-		//Render the joints later so the bones appear on the background
+		//Render the current bone and the current joint
 		bones[i]->draw(renderer);
 		joints[i]->draw(renderer);
 	}
 }
 
-void Chain::drawTrail(const glm::mat4& currentMat, Renderer& renderer) const {
+void Chain::drawTrail(Renderer& renderer, const glm::mat4& currentMat) const {
 	//Get chain end position
 	glm::vec3 currentEnd = glm::vec3(currentMat * glm::vec4(0, 0, 0, 1));
 
