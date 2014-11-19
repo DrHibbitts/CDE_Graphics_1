@@ -73,7 +73,7 @@ void InputHandler::keyCallback(int key, int scancode, int action, int mods) {
 	}
 	}
 
-	//If user press enter send goal position to simulation controller
+	//If user press enter, send goal position to simulation controller
 	if (key == GLFW_KEY_ENTER) {
 		offset = goalMarker->getCurrentPosition();
 		simController->setGoal(offset);
@@ -87,7 +87,7 @@ void InputHandler::mousePositionCallback(double mouseX, double mouseY) {
 
 	switch (inputState) {
 	case cameraUpdate: {
-		//Move camera viewpoint
+		//Rotate camera orientation
 		renderer->updateCameraOrientation(camRotSpeed * (prevMouseX - mouseX),
 				camRotSpeed * (prevMouseY - mouseY));
 		break;

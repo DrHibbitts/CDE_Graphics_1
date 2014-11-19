@@ -9,7 +9,6 @@ in vec3 Normal_cameraspace;
 in vec3 EyeDirection_cameraspace;
 in vec3 LightDirection_cameraspace;
 
-// Values that stay constant for the whole mesh.
 uniform mat4 MV;
 uniform vec3 LightPosition_worldspace;
 
@@ -18,7 +17,6 @@ out vec3 color;
 
 void main(){
 	// Light emission properties
-	// You probably want to put them as uniforms
 	vec3 LightColor = vec3(1,1,1);
 	float LightPower = 50.0f;
 	
@@ -56,6 +54,6 @@ void main(){
 		MaterialAmbientColor +
 		// Diffuse : "color" of the object
 		MaterialDiffuseColor * LightColor * LightPower * cosTheta / (distance*distance) +
-		// Specular : reflective highlight, like a mirror
+		// Specular : reflective highlight
 		MaterialSpecularColor * LightColor * LightPower * pow(cosAlpha,5) / (distance*distance);
 }
