@@ -31,7 +31,12 @@ public:
 
 	const glm::vec3& getGoal() const;
 	void setGoal(const glm::vec3& goal);
+private:
+	enum SimulationState {
+		stepping, reachedGoal, reachedMaxIte, idle, exitState
+	};
 
+	void setSimState(const SimulationState& simState);
 private:
 	ChainPtr chain;
 	SimulationSolver simSolver;
@@ -39,11 +44,8 @@ private:
 	std::thread simulationThread;
 	std::mutex lock;
 	std::mutex waitForNewGoal;
+	std::mutex stateLock;
 	std::chrono::milliseconds stepSleepTime;
-
-	enum SimulationState {
-		stepping, reachedGoal, reachedMaxIte, idle, exitState
-	};
 
 	SimulationState simState;
 

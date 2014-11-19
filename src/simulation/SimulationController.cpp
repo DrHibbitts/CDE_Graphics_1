@@ -24,8 +24,10 @@ void SimulationController::executeSimulationLoop() {
 	double stepSize = 0.01;
 
 	while (simulating) {
+		stateLock.lock();
 		switch (simState) {
 		case stepping: {
+			stateLock.unlock();
 			//Check distance to goal
 			if (glm::length(chain->getEndEfectorPos() - goal) > epsilon) {
 				lock.lock();
@@ -33,32 +35,36 @@ void SimulationController::executeSimulationLoop() {
 				lock.unlock();
 				numIterations++;
 				if (numIterations >= maxIterations) {
-					simState = reachedMaxIte;
+					setSimState(reachedMaxIte);
 				}
 			} else {
-				simState = reachedGoal;
+				setSimState(reachedGoal);
 			}
 			break;
 		}
 		case reachedGoal: {
-			std::cout << "Goal reached" << std::endl;
 			simState = idle;
-			//When switching to idle sleep for longer
+			stateLock.unlock();
+			std::cout << "Goal reached" << std::endl;
 			waitForNewGoal.lock();
 			break;
 		}
 		case reachedMaxIte: {
-			std::cout << "Max iterations reached" << std::endl;
 			simState = idle;
+			stateLock.unlock();
+			std::cout << "Max iterations reached" << std::endl;
+			std::cout << "Waiting for new goal" << std::endl;
 			waitForNewGoal.lock();
 			break;
 		}
 		case idle: {
+			stateLock.unlock();
 			std::cout << "Waiting for new goal" << std::endl;
 			waitForNewGoal.lock();
 			break;
 		}
 		case exitState: {
+			stateLock.unlock();
 			std::cout << "Exiting simulation loop" << std::endl;
 			break;
 		}
@@ -72,7 +78,7 @@ void SimulationController::executeSimulationLoop() {
 
 void SimulationController::killSimulation() {
 	//Tell simulation thread to finish
-	simState = exitState;
+	setSimState(exitState);
 	waitForNewGoal.unlock();
 	simulating = false;
 	if (simulationThread.joinable()) {
@@ -95,8 +101,14 @@ const glm::vec3& SimulationController::getGoal() const {
 void SimulationController::setGoal(const glm::vec3& goal) {
 	this->goal = goal;
 	numIterations = 0;
-	simState = stepping;
-	waitForNewGoal.unlock();
+
+	stateLock.lock();
+	if (simState != stepping) {
+		waitForNewGoal.unlock();
+	}
+	stateLock.unlock();
+
+	setSimState(stepping);
 }
 
 void SimulationController::startSimulation(ChainPtr chain) {
@@ -111,7 +123,7 @@ void SimulationController::startSimulation(ChainPtr chain) {
 
 	//Run new thread with simulation loop
 	simulating = true;
-	simState = idle;
+	setSimState(idle);
 	waitForNewGoal.lock();
 
 	simulationThread = std::thread(&SimulationController::executeSimulationLoop,
@@ -122,4 +134,10 @@ void SimulationController::updateChain() {
 	lock.lock();
 	simSolver.updateChain();
 	lock.unlock();
+}
+
+void SimulationController::setSimState(const SimulationState& simState) {
+	stateLock.lock();
+	this->simState = simState;
+	stateLock.unlock();
 }
