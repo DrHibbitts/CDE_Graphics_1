@@ -111,6 +111,7 @@ glm::vec3 ChainModel::costFun(const glm::vec3& goal) const {
 
 		penalty += 1.0 / std::abs(joints.at(i).getYRotAngle() - maxY + FLT_MIN);
 	}
-
+	// Deactivate constraints until we fix them
+	penalty = 0;
 	return (distanceVec - (float) penalty * glm::normalize(distanceVec));
 }

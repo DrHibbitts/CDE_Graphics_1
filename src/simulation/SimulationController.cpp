@@ -33,10 +33,13 @@ void SimulationController::executeSimulationLoop() {
 				lock.lock();
 				simSolver.solveForStep(goal, stepSize);
 				lock.unlock();
+
+				stateLock.lock();
 				numIterations++;
 				if (numIterations >= maxIterations) {
-					setSimState(reachedMaxIte);
+					simState = reachedMaxIte;
 				}
+				stateLock.unlock();
 			} else {
 				setSimState(reachedGoal);
 			}
@@ -46,6 +49,7 @@ void SimulationController::executeSimulationLoop() {
 			simState = idle;
 			stateLock.unlock();
 			std::cout << "Goal reached" << std::endl;
+			std::cout << "Waiting for new goal" << std::endl;
 			waitForNewGoal.lock();
 			break;
 		}
@@ -99,16 +103,14 @@ const glm::vec3& SimulationController::getGoal() const {
 }
 
 void SimulationController::setGoal(const glm::vec3& goal) {
+	stateLock.lock();
 	this->goal = goal;
 	numIterations = 0;
-
-	stateLock.lock();
 	if (simState != stepping) {
 		waitForNewGoal.unlock();
 	}
+	simState = stepping;
 	stateLock.unlock();
-
-	setSimState(stepping);
 }
 
 void SimulationController::startSimulation(ChainPtr chain) {
