@@ -103,8 +103,8 @@ Let us now consider the implementation in both Matlab and OpenGL in more detail.
 \subsection{Start with Matlab}
     \begin{enumerate}
     \item Issues
-    \item How we solve them
-    \item Why we use what we use (e.g. Inverse Jacobian)
+    \item How we solve them?
+    \item Why we use what we use? (e.g. Inverse Jacobian)
   \end{enumerate}
 \subsection{ Port the code to C++, OpenGL}
 Our software was built on top of OpenGL version 4.3 so we can adopt the shaders introduced after 3.3 version, which uses a flexible pipeline. The following libraries are employed: GLFW for window managing, GLM  for including the matrix operations and matrix-vector data types, Boost provides smart pointers (which simplify memory management), GLEW which efficiently check which OpenGL extensions are supported on the platform that is used. The C++11 standard is used as it introduces better default thread and mutex libraries as well as other improvements. \\
@@ -225,29 +225,35 @@ currentMat = currentMat * glm::rotate(joints[i].getZRotAngle(), zAxis)
 \end{mdframed}
 
 Final, a maximum number of simulation steps was specified to ensure that the simulation was not wasting CPU in case the goal was unreachable. Also, while the model is waiting for a new goal, the simulation thread is stopped, and once a point goal is added, it goes back to simulating. We had to artificially increase the time in the simulation (now it performs a simulation step and then waits for 20 ms), because otherwise the time step had to be decreased to \(10^{-6}\) which resulted in order to achieved a normal motion. Sleep time makes the computational load smaller on the CPU (i.e. we achieve the same accuracy with a lesser load on the CPU). 
-
-
-
-
-
-    \begin{enumerate}
-    \item Issues
-    \item How we solve them
-  \end{enumerate}
   
 \subsection{Exploration}
 The following properties are to be explored.\\
+
 1. Some way of indicating where the remote end of the linkage should move to in 3-space.\\
+We have explored this already, see procedures section.\\
+
 2. A way to change the physical properties such as rate at which the joints can change and the slow-out and slow-in of the movement of the end of the linkage as it leaves it current position and approaches the target position respectively.\\
+We explored the possibilities in matlab, and, if time permits, we would implement it in c++.\\
+
+
 3. Whether to model and thereby vary the flexibility of the rods.
+We explored the possibilities in matlab, and, if time permits, we would implement it in c++.\\
 
 
-We are allowed to work out something for one joint and explain how we'd apply it to other and so on.
 %------------------------------------------------
 
 \subsection{Summary and Conclusion}
-What the final thing would look like if we had more time to work on it?
 
+\begin{enumerate}
+\item Give a short summary of the project.
+\item What the final thing would look like if we had more time to work on it?
+
+\begin{itemize}
+	\item Load 3D mesh objects and textures instead of parallelepiped...
+	\item Add a better shading model
+	\item Add a GUI
+\end{itemize}
+\end{enumerate}
 %----------------------------------------------------------------------------------------
 
 \end{document}
