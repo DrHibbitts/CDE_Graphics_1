@@ -214,14 +214,13 @@ void SimulationController::updateChain() {
 
 The simulation thread is in a loop either simulating or waiting for a new goal. It also checks when it's close to the goal and it stops at a given threshold, so update Jacobian loop is not called though the simulation thread is still running. The user can input a new goal position at any time, as the simulation loop will then solve for the new goal using the current chain state.\\
 
+Our final improvement involved adapting the simulation and the display to work in a three-dimensional case. We construct the chain using rectangular parallelepipeds, while the shaders implemented a Gouraud shading algorithm. First, we added normal vectors to each vertex in every object; they point outwards from every vertices that is on the surface of the object, and for the vertices which are on the edges we use the mean of the neighbouring planar normals. Local illumination model combines the ambient, diffuse and specular light to give the colour intensities of the reflections, and the final shading is achieved by interpolating the vertices and normals. \\
 \begin{center}
-\begin{figure}
+\begin{figure}[h]
 \includegraphics[scale=0.4]{chain2Dv2}
 \caption{Final two dimensional simulation with the trace and a triangle showing the goal position.}
 \end{figure}
 \end{center}
-
-Our final improvement involved adapting the simulation and the display to work in a three-dimensional case. We construct the chain using rectangular parallelepipeds, while the shaders implemented a Gouraud shading algorithm. First, we added normal vectors to each vertex in every object; they point outwards from every vertices that is on the surface of the object, and for the vertices which are on the edges we use the mean of the neighbouring planar normals. Local illumination model combines the ambient, diffuse and specular light to give the colour intensities of the reflections, and the final shading is achieved by interpolating the vertices and normals. \\
 
 In addition, we included keyboard input control. In the final version the user is able to control the camera angle by moving the mouse, and change the distance from the camera to the scene using the keyboard. In particular, we use the mouse to change the angle of the camera with respect to the \texttt{lookAtVector} and use the keyboard to move the camera position in a direction related to the \texttt{lookAtVector}, forward, backwards or side movements. The goal is moved using the camera position update (while right-clicking), where we update the position in the direction of the camera \texttt{lookAtVector}.\\
 
