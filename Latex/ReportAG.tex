@@ -62,13 +62,14 @@
 \begin{center}
 \begin{minipage}{1.0\textwidth}
 
-\maketitle % Print the title
+\clearpage\maketitle % Print the title
+\thispagestyle{empty}
 
 \end{minipage}
 \end{center}
 \vfill
 \clearpage
-
+\setcounter{page}{1}
 
 \section{Introduction and Objective}
 
@@ -100,7 +101,7 @@ The main questions we faced at this point had to do with local behaviour of each
 
 We also note that the motion of the system is task-dependent, hence favouring the movement of a number of selected joints is reasonable. For example, if we assume that the object we are modelling is an arm, and the motion is defined as the arm reaching for a nearby object, it is logical to assume that the rotation of the elbow joint will be favoured against the rotation of the shoulder joint, etc. Therefore, we introduce a weight vector that is used to control the importance of the motion of each joint, and added constrains on the angles.\\
 
-We continued to work on the graphical implementation and improved it in a number of ways. The simulation and rendering were separated into two different threads so that the speed of rendering does not affect the speed of the simulation (paraphrase???) . What is more, we started displaying the trace left by the tip of the object which makes it easier to track the motion of the object and adds visual appeal. \\
+We continued to work on the graphical implementation and improved it in a number of ways. The simulation and rendering were separated into two different threads so that the speed of rendering does not affect the speed of the simulation. What is more, we started displaying the trace left by the tip of the object which makes it easier to track the motion of the object and adds visual appeal. \\
 
 At this stage the Matlab and the OpenGL implementations were still independent, so we started importing the numerical method from Matlab to OpenGL. The resulting model was two-dimensional, used inverse kinematics, could be adapted to any number of limbs/joints, and had a simple user interface. \\
 
