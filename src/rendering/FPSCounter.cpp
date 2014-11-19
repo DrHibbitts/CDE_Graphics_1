@@ -71,9 +71,13 @@ void FPSCounter::init() {
 }
 
 void FPSCounter::sleepForFixedFPS() {
+	//Cap the frame rate at maxFPS, so if there is still time left after the
+	//rendering is done. Then, sleep the current frame for the extra time
 	if (currentTime - prevTime < timePerFrame) {
+		//Get extra time in milliseconds
 		int duration = (timePerFrame - (currentTime - prevTime)) * 1000;
 		std::this_thread::sleep_for(std::chrono::milliseconds(duration));
 	}
+	//Update the previous time to be and the end of this frame
 	prevTime = glfwGetTime();
 }

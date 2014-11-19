@@ -11,7 +11,7 @@ PointSet::PointSet(const unsigned int capacity) {
 	generateBuffers();
 
 	//Point set is going to preallocate capacity size in buffer data
-	//to avoid buffer to many buffer reallocations
+	//to avoid buffer reallocation
 	vertices.resize(capacity);
 	colors.resize(capacity);
 	indices.resize(capacity);
@@ -42,13 +42,14 @@ void PointSet::updateDynamicBuffer() {
 	//Activate vbo
 	glBindBuffer( GL_ARRAY_BUFFER, vbo);
 
-	//Calculate next free position in the buffer
+	//Calculate next write position in the buffer
 	unsigned int byteOffset = currentIndex * sizeof(glm::vec3);
 
-	//Insert the new vertex at byteOffset position
+	//Insert/Replace with the new vertex at byteOffset position
 	glBufferSubData(GL_ARRAY_BUFFER, byteOffset, sizeof(glm::vec3),
 			&(vertices[currentIndex]));
 
+	//Deactivate the buffer
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
@@ -77,10 +78,12 @@ void PointSet::draw(Renderer& renderer) const {
 	//Draw big points
 	glPointSize(3.0);
 	VertexObject::draw(renderer);
+	//Set point size back to normal
 	glPointSize(1.0);
 }
 
 void PointSet::removeAllPoints() {
+	//Removing the points is only reseting the indices
 	currentIndex = 0;
 	totalSize = 0;
 	primitivePar.setCount(totalSize);
@@ -91,7 +94,8 @@ unsigned int PointSet::getSize() const {
 }
 
 void PointSet::resizeDataVectors() {
-	//We ran out of buffer space, resize everything and allocate bigger buffers
+	//In case we wanted to increment the buffer size this would be the code
+	//needed to do it
 	unsigned int currentSize = vertices.size();
 	totalSize = 2 * currentSize;
 

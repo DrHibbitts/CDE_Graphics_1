@@ -34,7 +34,8 @@ public:
 
 	void updateCameraPosition(const glm::vec3& offset);
 
-	void updateLookAt(float horizontalAngleOffset, float verticalAngleOffset);
+	void updateCameraOrientation(float horizontalAngleOffset,
+			float verticalAngleOffset);
 
 	void sendModelMatToShader(const glm::mat4& modelMat) const;
 
@@ -51,26 +52,30 @@ private:
 
 private:
 	ShaderLoader shaderLoader;
+	//Shader location in the GPU
 	GLuint programID;
 
+	//Matrices locations in the GPU
 	GLuint MVPlocation;
 	GLuint Vlocation;
 	GLuint Mlocation;
 
+	//Ligh position in the GPU
+	GLuint LightID;
+
+	//Model View Projection matrices
 	glm::mat4 view;
 	glm::mat4 projection;
 	glm::mat4 viewProjection;
 
-	GLuint LightID;
-
+	//Camera attributes
 	glm::vec3 camPosition;
 	glm::vec3 camLookAtVector;
 	glm::vec3 camRightVector;
 	glm::vec3 camUp;
-
-	// Initial horizontal angle : toward -Z
+	//Camera horizontal angle
 	float horizontalAngle;
-	// Initial vertical angle : none
+	//Camera vertical angle
 	float verticalAngle;
 };
 

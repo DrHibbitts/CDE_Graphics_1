@@ -51,6 +51,9 @@ void Renderer::resetScreen() {
 	//Update ViewProjection matrix
 	viewProjection = projection * view;
 
+	//Send updated View matrix to GPU
+	glUniformMatrix4fv(Vlocation, 1, GL_FALSE, &(view[0][0]));
+
 	glm::vec3 lightPos = glm::vec3(3, 3, -1);
 	glUniform3f(LightID, lightPos.x, lightPos.y, lightPos.z);
 }
@@ -73,7 +76,7 @@ void Renderer::updateCameraPosition(const glm::vec3& offset) {
 	view = glm::lookAt(camPosition, camPosition + camLookAtVector, camUp);
 }
 
-void Renderer::updateLookAt(float horizontalAngleOffset,
+void Renderer::updateCameraOrientation(float horizontalAngleOffset,
 		float verticalAngleOffset) {
 	horizontalAngle += horizontalAngleOffset;
 	verticalAngle += verticalAngleOffset;
@@ -101,14 +104,14 @@ void Renderer::sendModelMatToShader(const glm::mat4& modelMat) const {
 	//Calculate Model View Projection matrix
 	glm::mat4 MVP = viewProjection * modelMat;
 
-	//Send matrix to shader
+	//Send updated model Matrix and MVP matrix to GPU
 	glUniformMatrix4fv(MVPlocation, 1, GL_FALSE, &(MVP[0][0]));
-
-	glUniformMatrix4fv(Vlocation, 1, GL_FALSE, &(view[0][0]));
 	glUniformMatrix4fv(Mlocation, 1, GL_FALSE, &(modelMat[0][0]));
 }
 
 void Renderer::updateView() {
+	//Use vertical and horizontal angle to calculate camera LookAt vector,
+	//camera Right vector and camera Up vector
 	camLookAtVector = glm::vec3(cos(verticalAngle) * sin(horizontalAngle),
 			sin(verticalAngle), cos(verticalAngle) * cos(horizontalAngle));
 

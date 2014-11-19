@@ -23,7 +23,7 @@ VertexObject::~VertexObject() {
 void VertexObject::draw(Renderer& renderer) const {
 	sendDataToShader(renderer);
 
-	//Draw count objects of mode type
+	//Draw Count objects of Mode type
 	glDrawElements(primitivePar.getMode(), primitivePar.getCount(),
 	GL_UNSIGNED_INT, (void*) 0);
 

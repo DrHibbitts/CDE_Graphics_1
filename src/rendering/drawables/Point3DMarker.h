@@ -11,6 +11,8 @@
 #include "Drawable.h"
 #include "Cube.h"
 
+// 3 lines cross to mark a point in 3D space, it uses Cubes in order to
+// display better with lighting
 class Point3DMarker: public Drawable {
 public:
 	Point3DMarker();

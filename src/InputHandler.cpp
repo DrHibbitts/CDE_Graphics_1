@@ -88,7 +88,7 @@ void InputHandler::mousePositionCallback(double mouseX, double mouseY) {
 	switch (inputState) {
 	case cameraUpdate: {
 		//Move camera viewpoint
-		renderer->updateLookAt(camRotSpeed * (prevMouseX - mouseX),
+		renderer->updateCameraOrientation(camRotSpeed * (prevMouseX - mouseX),
 				camRotSpeed * (prevMouseY - mouseY));
 		break;
 	}
