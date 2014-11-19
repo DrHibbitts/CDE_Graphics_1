@@ -40,6 +40,11 @@
 
 \setlength\parindent{20pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
 
+% some more notation
+\newcommand{\vect}[1]{\mathbf{#1}}
+\newcommand{\params}{\boldsymbol{\theta}}
+\newcommand{\dn}[1]{\partial{#1}}
+
 %----------------------------------------------------------------------------------------
 %	TITLE SECTION
 %----------------------------------------------------------------------------------------
@@ -88,7 +93,9 @@ This report provides a brief account of the objectives of the project and the me
 %------------------------------------------------
 
 \section{Related Work}
-What People do?
+There are a number of well-established methods of approaching the inverse kinematics problem. Most inverse kinematics systems tend to use the Jacobian inverse/transpose method, despite the fact that these methods suffer from singularity problems. The reason these techniques remain in widespread use is due to their relative ease of implementation and speed for real-time applications. \\
+
+Another approach is Cyclic Coordinate Descent (CCD), which uses a greedy algorithm to solve for each joint in turn, and repeats this process until a satisfactory solution is found. Although this method is relatively simple and fast, it suffers from inaccuracies.
 
 %------------------------------------------------
 
@@ -116,6 +123,32 @@ Let us now consider the implementation in both Matlab and OpenGL in more detail.
     \item How we solve them?
     \item Why we use what we use? (e.g. Inverse Jacobian)
   \end{enumerate}
+  
+  We define the degrees of freedom of the system by a vector of angles $\params = [\theta_0, \theta_1...\theta_N]^T$, where each element in the vector is the relative angle in degrees from one joint to the next, for $N$ joints. All angles are measured positively in the anticlockwise direction and the first angle in the vector $\theta_0$ is measured from the positive horizontal axis. The end effector position in 3D space is denoted by the vector 
+$\vect{E} = [E_x, E_y, E_z]^T$. Using forward kinematics, we can compute the end effector position from the given joint angles:
+
+\begin{equation}
+\vect{E} = f(\params)
+\end{equation}
+
+The goal of the inverse kinematics problem is to compute the vector of joint angles $\params$ given a desired end effector position
+
+\begin{equation}
+\params = f^{-1}(\vect{E})
+\end{equation}
+
+To solve this we define the Jacobian
+
+\begin{equation}
+J = \left[
+\begin{array}{cccc}
+\frac{\dn{E_1}}{\dn{x}} & \frac{\dn{E_2}}{\dn{x}} & ... & \frac{\dn{E_2}}{\dn{x}} \\
+\\
+\frac{\dn{E_1}}{\dn{x}} & \frac{\dn{E_2}}{\dn{x}} & ... & \frac{\dn{E_2}}{\dn{x}} \\
+\end{array}
+\right]
+\end{equation}
+
 \subsection{ Port the code to C++, OpenGL}
 Our software was built on top of OpenGL version 4.3 so we can adopt the shaders introduced after 3.3 version, which uses a flexible pipeline. The following libraries are employed: GLFW for window managing, GLM  for including the matrix operations and matrix-vector data types, Boost provides smart pointers (which simplify memory management), GLEW which efficiently check which OpenGL extensions are supported on the platform that is used. The C++11 standard is used as it introduces better default thread and mutex libraries as well as other improvements. \\
 
