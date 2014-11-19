@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2014.9.29)  19 NOV 2014 12:06
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2014.9.29)  19 NOV 2014 13:32
 entering extended mode
 **ReportAG.tex
 
@@ -797,67 +797,57 @@ Underfull \hbox (badness 10000) in paragraph at lines 117--118
  []
 
 [3]
-Underfull \hbox (badness 10000) in paragraph at lines 153--154
+Underfull \hbox (badness 10000) in paragraph at lines 166--167
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 155--156
-
- []
-
-Package mdframed Info: mdframed detected package amsthm 
- changed the theorem header of amsthm
-(mdframed)              on input line 158.
-LaTeX Font Info:    Try loading font information for T1+cmtt on input line 159.
-
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\t1cmtt.fd"
-File: t1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
-)
-Underfull \hbox (badness 10000) in paragraph at lines 168--169
+Underfull \hbox (badness 10000) in paragraph at lines 183--184
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 170--171
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 172--173
+Underfull \hbox (badness 10000) in paragraph at lines 185--186
 
  []
 
 [4]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 175.
+(mdframed)              on input line 188.
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 189.
+
+ ("C:\Program Files\MiKTeX 2.9\tex\latex\base\t1cmtt.fd"
+File: t1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+Underfull \hbox (badness 10000) in paragraph at lines 198--199
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 200--201
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 202--203
+
+ []
+
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 195.
+(mdframed)              on input line 205.
 
-Underfull \hbox (badness 10000) in paragraph at lines 219--220
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 221--222
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 223--224
-
- []
+Package mdframed Warning: You got a bad break
+(mdframed)                because the last box will be empty
+(mdframed)                you have to change it manually
+(mdframed)                by changing the text, the space
+(mdframed)                or something else on input line 222.
 
 [5]
-Underfull \hbox (badness 10000) in paragraph at lines 225--226
-
- []
-
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 228.
+(mdframed)              on input line 225.
 
 Underfull \hbox (badness 10000) in paragraph at lines 249--250
 
@@ -868,70 +858,95 @@ Underfull \hbox (badness 10000) in paragraph at lines 251--252
 
  []
 
-<chain2Dv2.png, id=41, 1027.84pt x 798.985pt>
+
+Underfull \hbox (badness 10000) in paragraph at lines 253--254
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 255--256
+
+ []
+
+Package mdframed Info: mdframed detected package amsthm 
+ changed the theorem header of amsthm
+(mdframed)              on input line 258.
+[6]
+Package mdframed Info: Not enough space on this page on input line 277.
+
+Underfull \hbox (badness 10000) in paragraph at lines 279--280
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 281--282
+
+ []
+
+<chain2Dv2.png, id=46, 1027.84pt x 798.985pt>
 File: chain2Dv2.png Graphic file (type png)
  <use chain2Dv2.png>
-Package pdftex.def Info: chain2Dv2.png used on input line 254.
+Package pdftex.def Info: chain2Dv2.png used on input line 284.
 (pdftex.def)             Requested size: 411.12872pt x 319.58833pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 259--260
+Underfull \hbox (badness 10000) in paragraph at lines 289--290
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 261--262
+Underfull \hbox (badness 10000) in paragraph at lines 291--292
 
  []
 
-[6]
 Package mdframed Info: mdframed detected package amsthm 
  changed the theorem header of amsthm
-(mdframed)              on input line 264.
+(mdframed)              on input line 294.
+[7]
+Underfull \hbox (badness 10000) in paragraph at lines 307--308
 
-Underfull \hbox (badness 10000) in paragraph at lines 277--278
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 309--311
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 279--281
+Underfull \hbox (badness 10000) in paragraph at lines 312--314
 
  []
 
-[7 <C:/Users/Richard/Desktop/CDE/Semester 1/Computer Animation/CDE_Graphics_1/L
+
+Underfull \hbox (badness 10000) in paragraph at lines 316--318
+
+ []
+
+[8 <C:/Users/Richard/Desktop/CDE/Semester 1/Computer Animation/CDE_Graphics_1/L
 atex/chain2Dv2.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 282--284
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 329.
 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 286--288
-
- []
-
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 299.
-
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\omscmr.fd"
+ ("C:\Program Files\MiKTeX 2.9\tex\latex\base\omscmr.fd"
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 299.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 329.
 
 ("C:\Users\Richard\Desktop\CDE\Semester 1\Computer Animation\CDE_Graphics_1\Lat
-ex\ReportAG.bbl") [8]
+ex\ReportAG.bbl") [9]
 ("C:\Users\Richard\Desktop\CDE\Semester 1\Computer Animation\CDE_Graphics_1\Lat
 ex\ReportAG.aux") ) 
 Here is how much of TeX's memory you used:
  14357 strings out of 493921
  247680 string characters out of 3147276
- 469595 words of memory out of 3000000
+ 471595 words of memory out of 3000000
  17451 multiletter control sequences out of 15000+200000
  27013 words of font info for 71 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 48i,11n,58p,10418b,1213s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 48i,12n,58p,10418b,1211s stack positions out of 5000i,500n,10000p,200000b,50000s
  <C:\Users\Richard\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\
 jknappen\ec\dpi600\ecti1095.pk> <C:\Users\Richard\AppData\Local\MiKTeX\2.9\font
 s\pk\ljfour\jknappen\ec\dpi600\ectt1095.pk> <C:\Users\Richard\AppData\Local\MiK
@@ -946,15 +961,16 @@ four\jknappen\ec\dpi600\ecrm2488.pk> <C:\Users\Richard\AppData\Local\MiKTeX\2.9
 nts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type
 1/public/amsfonts/cm/cmex10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public
 /amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfont
-s/cm/cmmi8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi
-b10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><
-C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Program
- Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Program Files/MiK
-TeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/
-fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on ReportAG.pdf (9 pages, 261921 bytes).
+s/cm/cmmi6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi
+8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmib10.pfb><
+C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Progra
+m Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Program Files/Mi
+KTeX 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/f
+onts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/typ
+e1/public/amsfonts/cm/cmsy8.pfb>
+Output written on ReportAG.pdf (10 pages, 274978 bytes).
 PDF statistics:
- 434 PDF objects out of 1000 (max. 8388607)
+ 441 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  11 words of extra memory for PDF output out of 10000 (max. 10000000)
 
