@@ -95,9 +95,13 @@ This report provides a brief account of the objectives of the project and the me
 \section{Related Work}
 The subject of inverse kinematics has been much researched over the past 60 years. Initially, it was primarily used in the robotics industry, for example for the control of robotic arms, particularly in car manufacturing, and the problem was first formulated in mechanical engineering literature \cite{Crai55}. But it has since been adopted by the computer graphics community as a means for animating a character's pose and movement through the control of an underlying moveable skeleton. An animator will often adjoin a three-dimensional deformable model of a character to an articulated skeleton structure, with defined bones and joints with certain physical constraints, which can be moved interactively into the desired positions. This process is known as 'rigging' in animation. The issue that inverse kinematics attempts to solve is to find the set of joint configurations that produce a plausible skeleton or linkage configuration based upon a desired end-effector position. For example, in character animation, the end-effector may be the position of a hand or foot, and we want to know the required joint angles of the arm or leg which allow the end-effector to be in this position, whilst remaining physically plausible. \\
 
-There are a number of well-established methods of approaching the inverse kinematics problem which can be divided into four main categories of solver: Most inverse kinematics systems tend to use the Jacobian inverse method, despite the fact that this method suffers from singularity problems. The reason these techniques remain in widespread use is due to their relative ease of implementation and speed for real-time applications. \\
+There are a number of well-established methods of approaching the inverse kinematics problem which can be divided into four main categories of solver: geometrical/analytical algorithms, cyclic coordinate descent (CCD), differential algorithms, and hybrid methods which combine together various aspects of the first three techniques. Geometrical/analytical algorithms, such as by ... tend to be very quick because the inverse kinematics problem is essentially reduced to a single mathematical equation that only needs to be evaluated in a single step to produce a result. However, such methods have limitations, particularly for linkages with a large number of links, and so in these situations it is impractical to reduce the problem to a single-step mathematical equation. This means that in the field of character animation, geometrical/analytical techniques are less useful, but for this project where we are dealing with only a few links and a single end-effector, this is perhaps an appropriate method. \\
 
-Another approach is Cyclic Coordinate Descent (CCD), which uses a greedy algorithm to solve for each joint in turn, and repeats this process until a satisfactory solution is found. Although this method is relatively simple and fast, it suffers from inaccuracies.
+Another approach is cyclic coordinate descent (CCD), which uses a greedy algorithm to solve for each joint in turn, and repeats this process until a satisfactory solution is found. Solvers based on this method include those by ... Although this method is relatively simple and fast, it suffers from inaccuracies. Another issue with this technique is that the joint angles are updated one at a time, which has the undesirable and unrealistic result of earlier joints moving much more than later links in the linkage. \\
+
+Differential-based techniques utilise an iterative approach that requires multiple step to reach a solution, such as those by ... Most inverse kinematics systems tend to use the Jacobian inverse method, despite the fact that this method suffers from singularity problems. The reason these techniques remain in widespread use is due to their relative ease of implementation and speed for real-time applications. Since all joint angles are updated in a single step, the linkage movements are dissipated over all the links, which results in a more realistic and pleasing movement. \\
+
+
 
 %------------------------------------------------
 
@@ -119,14 +123,8 @@ Naturally, the next step was to transform the model to the three-dimensional spa
 Let us now consider the implementation in both Matlab and OpenGL in more detail. The following two sections give a detailed account of the issues encountered during the implementation process, the solution methods we employed and the explanation of why we chose to use the particular approaches. \\
 
 
-\subsection{Start with Matlab}
-    \begin{enumerate}
-    \item Issues
-    \item How we solve them?
-    \item Why we use what we use? (e.g. Inverse Jacobian)
-  \end{enumerate}
-  
-  We define the degrees of freedom of the system by a vector of angles $\params = [\theta_0, \theta_1...\theta_N]^T$, where each element in the vector is the relative angle in degrees from one joint to the next, for $N$ joints. All angles are measured positively in the anticlockwise direction and the first angle in the vector $\theta_0$ is measured from the positive horizontal axis. The end effector position in 3D space is denoted by the vector 
+\subsection{Start with Matlab} 
+We define the degrees of freedom of the system by a vector of angles $\params = [\theta_0, \theta_1...\theta_N]^T$, where each element in the vector is the relative angle in degrees from one joint to the next, for $N$ joints. All angles are measured positively in the anticlockwise direction and the first angle in the vector $\theta_0$ is measured from the positive horizontal axis. The end effector position in 3D space is denoted by the vector 
 $\vect{E} = [E_x, E_y, E_z]^T$. Using forward kinematics, we can compute the end effector position from the given joint angles:
 
 \begin{equation}
@@ -173,14 +171,75 @@ Once we have the inverse or transpose of the Jacobian, we can compute the requir
 \partial \params = J^{-1} \partial E
 \end{equation}
 
-And perform a simple Euler integration to obtain the joint angles at the next time step $\Delta t$
+And then we perform a simple Euler integration to obtain the joint angles at the next time step $\Delta t$
 
 \begin{equation}
 \params^{t+\Delta t} = \params^t + \Delta t \partial \params
 \end{equation}
 
-We must ensure the time step is sufficiently small to avoid numerical integration errors.
- 
+We must ensure the time step is sufficiently small to avoid numerical integration errors. The complete Jacobian inverse/transpose algorithm is summarised below:
+
+\begin{enumerate}
+\item
+Calculate the difference between the goal position and the position of the end effector
+
+\begin{equation}
+\Delta E = G - E
+\end{equation}
+
+\item
+Calculate the Jacobian matrix $J$ using the current joint angles
+
+\item
+Calculate the pseudo-inverse of the Jacobian $J^+$
+
+\item
+Determine the error of the pseudo-inverse
+
+\begin{equation}
+error = ||(I - JJ^{-1})\Delta E||
+\end{equation}
+
+\item
+If $error > \epsilon$ then
+
+\begin{equation}
+\Delta E = \Delta E / 2
+\end{equation}  
+repeat step 4
+
+\item
+Update the joint angles and use these as the new current values.
+A simple way to add constraints and to prevent unnatural poses being computed is to cap the joint angles to upper or lower bounds. This requires the following additional step:
+
+\item
+\begin{equation*}
+\params = \left\{
+\begin{array}{rl}
+lowerbound & \text{if } x < lowerbound\\
+upperbound & \text{if } x > upperbound\\
+\params + J^{-1}\Delta E & \text{otherwise}
+\end{array} \right.
+\end{equation*}
+
+\end{enumerate}
+
+\subsubsection{Scaling considerations}
+
+In practice, the simple algorithm above does not always produce satisfying results. Even if the Jacobian is normalised, we can observe unnatural behaviour in the movement of the linkage, for example certain joints seem to move more freely than others. Welman suggests the following modification. We can attempt to compensate for this behaviour by introducing a scaling matrix $\vect{K}$, which is a constant diagonal matrix, whose $i \text{th}$ diagonal entry $\vect{K}_i$ acts as a weighting factor for the computed joint velocity $\vect{q}_i$. The following term is suggested:
+
+\begin{equation}
+\vect{K}_i = \frac{1}{w_i \alpha_i}
+\end{equation}
+
+where $w_i$ is proportional to the length of link $i$, and is intended to offset the effects of the overall scale of the world. The $\alpha_i$ is a weighting factor for joint $i$, which can be thought as the responsiveness of the joint to an applied force. This parameter could be made available to the user to allow modification of the a joint's perceived "stiffness". \\
+
+Although Welman's proposed scaling matrix is currently a constant gain matrix, it would be relatively easy to make this into a time-varying matrix $\vect{K}(t)$. A very basic implementation could be to simply vary the $ith$ scaling parameters in the matrix when the $ith$ joint gets within a certain threshold distance from the goal position.
+
+\subsubsection{Incorporating constraints}
+
+
+
 \subsection{ Port the code to C++, OpenGL}
 Our software was built on top of OpenGL version 4.3 so we can adopt the shaders introduced after 3.3 version, which uses a flexible pipeline. The following libraries are employed: GLFW for window managing, GLM  for including the matrix operations and matrix-vector data types, Boost provides smart pointers (which simplify memory management), GLEW which efficiently check which OpenGL extensions are supported on the platform that is used. The C++11 standard is used as it introduces better default thread and mutex libraries as well as other improvements. \\
 
