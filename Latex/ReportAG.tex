@@ -179,15 +179,9 @@ void VertexObject::draw(Renderer& renderer) const {
 \end{scriptsize}
 \end{mdframed}
 
-
-
 In order to achieve a fluent and efficient rendering, we made the simulation process independent of rendering. Simulation and rendering are performed on two different threads, and have to access a shared resource concurrently. The synchronisation of these two processes is encapsulated in simulation controller class which uses a mutual exclusion lock variable. The rendering process has access to all the chain data while the simulation only uses the angles and lengths (taken from the copy of the chain) to perform the numerical calculations which advance the motion in time. The simulation runs almost continuously, it stops only to allow the renderer to look up the angle values each time it finishes rendering. This synchronisation mechanism allows the simulation and the rendering to perform their respective tasks as quickly as possible without any data corruption. \\
 
 For visual appeal, we draw a trail that follows the chain tip. A circular array is used for efficient rendering; a fixed buffer is allocated on the GPU at the beginning of the simulation and we are tracking the movement of the tip of the chain. Each time the tip moves a sufficient (predetermined) amount, we record the current position and include it in the circular array. Once we run out of space, we return to the start of the array and replace the first value with the new one. Then the rendering is performed sequentially with all remaining values unchanged until we again reach the end of the array. This let's us make only small uploads of data to he GPU. \\
-
-\begin{center}
-\includegraphics[scale=0.4]{chain2Dexample}
-\end{center}
 
 At this stage we added the simulation code originally developed in Matlab to our the two-dimensional model. To allow user input, we draw a triangle which could be moved using the mouse, and was used to mark the goal position. The mouse position was transformed using an inverse orthogonal projection. \\
 
@@ -215,7 +209,14 @@ void SimulationController::updateChain() {
 \end{scriptsize}
 \end{mdframed}
 
-The simulation thread is in a loop either simulating or waiting for a new goal. It also checks when it's close to the goal and it stops at a given threshold, so update Jacobian loop is not called though the simulation thread is still running. The user can input a new goal position at any time, as the simulation loop will then solve for the new goal using the current chain state. \\
+The simulation thread is in a loop either simulating or waiting for a new goal. It also checks when it's close to the goal and it stops at a given threshold, so update Jacobian loop is not called though the simulation thread is still running. The user can input a new goal position at any time, as the simulation loop will then solve for the new goal using the current chain state.\\
+
+\begin{center}
+\begin{figure}
+\includegraphics[scale=0.4]{chain2Dv2}
+\caption{Final two dimensional simulation with the trace and a triangle showing the goal position.}
+\end{figure}
+\end{center}
 
 Our final improvement involved adapting the simulation and the display to work in a three-dimensional case. We construct the chain using rectangular parallelepipeds, while the shaders implemented a Gouraud shading algorithm. First, we added normal vectors to each vertex in every object; they point outwards from every vertices that is on the surface of the object, and for the vertices which are on the edges we use the mean of the neighbouring planar normals. Local illumination model combines the ambient, diffuse and specular light to give the colour intensities of the reflections, and the final shading is achieved by interpolating the vertices and normals. \\
 
