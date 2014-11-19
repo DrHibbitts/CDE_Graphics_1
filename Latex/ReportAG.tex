@@ -132,7 +132,7 @@ The initial implementation consisted of lines, squares and triangles, and an ort
 \begin{scriptsize}
 \begin{lstlisting}
 class VertexObject: public Drawable {
-	//...
+	<...>
 protected:
 	//Model matrix
 	glm::mat4 modelMat;
@@ -140,9 +140,6 @@ protected:
 	std::vector<glm::vec3> vertices, normals, colors;
 	std::vector<unsigned int> indices;
 	glm::vec3 centroid;
-
-	//OpenGL parameters holder object
-	PrimitiveParameter primitivePar;
 
 	//Common object and buffers needed for OpenGL rendering
 	GLuint vao, vbo, nbo, ebo, cbo;
@@ -165,7 +162,7 @@ void VertexObject::draw(Renderer& renderer) const {
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*) 0);
 	
 	//Enable the other buffers 
-	//.... 
+	<...>
 		
 	//Draw count objects of mode type
 	glDrawElements(primitivePar.getMode(), primitivePar.getCount(),
