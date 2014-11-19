@@ -20,7 +20,7 @@ public:
 	Bone(float length);
 	virtual ~Bone();
 
-	void draw(Renderer& renderer) const;
+	virtual void draw(Renderer& renderer) const;
 
 	void setLength(float length);
 

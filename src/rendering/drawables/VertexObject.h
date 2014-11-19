@@ -20,13 +20,13 @@
 #include "PrimitiveParameter.h"
 
 //Abstract class that agglutinates all the common methods and attributes of
-//simple objects: Line, Triangle, Square
+//simple objects: Line, Triangle, Square, Cube
 class VertexObject: public Drawable {
 public:
 	VertexObject();
 	virtual ~VertexObject() = 0;
 
-	void draw(Renderer& renderer) const;
+	virtual void draw(Renderer& renderer) const;
 
 	void translate(const glm::vec3& translation);
 	void rotate(float angle, const glm::vec3& rotationAxis);

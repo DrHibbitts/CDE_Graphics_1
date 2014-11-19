@@ -16,7 +16,7 @@ public:
 	Axis();
 	virtual ~Axis();
 
-	void draw(Renderer& renderer) const;
+	virtual void draw(Renderer& renderer) const;
 
 	const LinePtr getXAxis() const;
 	const LinePtr getYAxis() const;

@@ -19,7 +19,7 @@ public:
 	Joint(float zAngle, float yAngle);
 	virtual ~Joint();
 
-	void draw(Renderer& renderer) const;
+	virtual void draw(Renderer& renderer) const;
 
 	void setAngles(float zAngle, float yAngle);
 

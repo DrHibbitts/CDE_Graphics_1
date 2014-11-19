@@ -16,7 +16,7 @@ public:
 	Point3DMarker();
 	virtual ~Point3DMarker();
 
-	void draw(Renderer& renderer) const;
+	virtual void draw(Renderer& renderer) const;
 
 	void translate(const glm::vec3& translation);
 	void rotate(float angle, const glm::vec3& rotationAxis);

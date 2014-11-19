@@ -17,7 +17,7 @@ public:
 
 	void addPoint(const glm::vec3& p);
 
-	void draw(Renderer& renderer) const;
+	virtual void draw(Renderer& renderer) const;
 
 	void removeAllPoints();
 

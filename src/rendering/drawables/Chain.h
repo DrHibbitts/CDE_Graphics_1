@@ -23,7 +23,7 @@ public:
 	Chain();
 	virtual ~Chain();
 
-	void draw(Renderer& renderer) const;
+	virtual void draw(Renderer& renderer) const;
 
 	//When a bone is added a new joint is created in the end of the previous
 	//last bone
