@@ -19,11 +19,11 @@ public:
 	SimulationController();
 	virtual ~SimulationController();
 
+	//Launches new thread that will execute the simulation
 	void startSimulation(ChainPtr chain);
 
+	//Updates rendering Chain with the new simulated data
 	void updateChain();
-
-	void executeSimulationLoop();
 
 	void killSimulation();
 
@@ -32,6 +32,9 @@ public:
 	const glm::vec3& getGoal() const;
 	void setGoal(const glm::vec3& goal);
 private:
+	//Method executed by the simulation thread
+	void executeSimulationLoop();
+
 	enum SimulationState {
 		stepping, reachedGoal, reachedMaxIte, idle, exitState
 	};
@@ -42,8 +45,11 @@ private:
 	SimulationSolver simSolver;
 
 	std::thread simulationThread;
-	std::mutex lock;
+	//Lock to protect the chain data
+	std::mutex chainDataLock;
+	//Lock to sleep simulation thread until a new goal a set
 	std::mutex waitForNewGoal;
+	//Lock to protect simulation controller state
 	std::mutex stateLock;
 	std::chrono::milliseconds stepSleepTime;
 

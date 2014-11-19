@@ -30,9 +30,9 @@ void SimulationController::executeSimulationLoop() {
 			stateLock.unlock();
 			//Check distance to goal
 			if (glm::length(chain->getEndEfectorPos() - goal) > epsilon) {
-				lock.lock();
+				chainDataLock.lock();
 				simSolver.solveForStep(goal, stepSize);
-				lock.unlock();
+				chainDataLock.unlock();
 
 				stateLock.lock();
 				numIterations++;
@@ -133,9 +133,9 @@ void SimulationController::startSimulation(ChainPtr chain) {
 }
 
 void SimulationController::updateChain() {
-	lock.lock();
+	chainDataLock.lock();
 	simSolver.updateChain();
-	lock.unlock();
+	chainDataLock.unlock();
 }
 
 void SimulationController::setSimState(const SimulationState& simState) {
