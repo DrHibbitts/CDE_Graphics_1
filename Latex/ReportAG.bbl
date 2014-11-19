@@ -1,5 +1,10 @@
 \begin{thebibliography}{1}
 
+\bibitem{Crai55}
+J.~Craig.
+\newblock {\em Introduction to Robotics: Mechanics and Control}.
+\newblock Addison-Wesley, 1955.
+
 \bibitem{Fedor2003}
 Martin Fedor.
 \newblock Application of inverse kinematics for skeleton manipulation in
