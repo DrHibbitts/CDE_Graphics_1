@@ -35,6 +35,7 @@ public:
 
 	void updateGoalMarker(const glm::vec3& goal);
 
+	const std::string& getStateString() const;
 private:
 	void getOffsetFromKey(int key, glm::vec3& offset);
 
@@ -52,6 +53,8 @@ private:
 	enum InputState {
 		cameraUpdate, goalUpdate, idle
 	};
+
+	std::vector<std::string> inputStateName;
 
 	InputState inputState;
 };

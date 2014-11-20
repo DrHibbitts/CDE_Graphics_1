@@ -28,6 +28,8 @@ public:
 	void setWindow(GLFWwindow* window, const std::string& windowTitle,
 			double maxFps);
 
+	void updatewindowTitle(const std::string& windowTitle);
+
 	void sleepForFixedFPS();
 
 private:

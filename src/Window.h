@@ -75,6 +75,10 @@ private:
 	}
 	; // prevent assignments
 
+	const std::string& getWindowTitle() const;
+
+	void updateWindowTitle();
+
 private:
 	GLFWwindow* window;
 	RendererPtr renderer;
@@ -86,6 +90,9 @@ private:
 	FPSCounter fpsCounter;
 
 	typedef std::vector<DrawablePtr>::iterator DrawableIte;
+
+	std::string windowName;
+	std::string windowTitle;
 };
 
 #endif /* WINDOW_H_ */

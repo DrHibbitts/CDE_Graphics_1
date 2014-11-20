@@ -81,3 +81,7 @@ void FPSCounter::sleepForFixedFPS() {
 	//Update the previous time to be and the end of this frame
 	prevTime = glfwGetTime();
 }
+
+void FPSCounter::updatewindowTitle(const std::string& windowTitle) {
+	this->windowTitle = windowTitle;
+}

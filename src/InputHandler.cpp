@@ -10,12 +10,13 @@
 #include "InputHandler.h"
 
 InputHandler::InputHandler() {
-	prevMouseX = 0;
-	prevMouseY = 0;
+	prevMouseX = 1024 / 2;
+	prevMouseY = 768 / 2;
 	renderer = NULL;
 	camTransSpeed = 0.1;
-	camRotSpeed = 0.005;
-	inputState = idle;
+	camRotSpeed = 0.002;
+	inputState = cameraUpdate;
+	inputStateName = {"cameraUpdate", "goalUpdate", "idle"};
 }
 
 InputHandler::~InputHandler() {
@@ -97,21 +98,16 @@ void InputHandler::keyCallback(int key, int scancode, int action, int mods) {
 void InputHandler::mousePositionCallback(double mouseX, double mouseY) {
 
 	switch (inputState) {
+	case goalUpdate:
 	case cameraUpdate: {
 		//Rotate camera orientation
 		renderer->updateCameraOrientation(camRotSpeed * (prevMouseX - mouseX),
 				camRotSpeed * (prevMouseY - mouseY));
 		break;
 	}
-	case goalUpdate:
-		break;
 	case idle:
 		break;
 	}
-
-	prevMouseX = mouseX;
-	prevMouseY = mouseY;
-
 }
 
 void InputHandler::setSimController(SimulationControllerPtr simController) {
@@ -157,4 +153,9 @@ void InputHandler::getOffsetFromKey(int key, glm::vec3& offset) {
 	if (key == GLFW_KEY_F) {
 		offset = -renderer->getCamUpVector() * camTransSpeed;
 	}
+}
+
+const std::string& InputHandler::getStateString() const {
+	return inputStateName.at(inputState);
+
 }

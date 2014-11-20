@@ -50,6 +50,14 @@ Window::~Window() {
 	std::cout << "MAIN THREAD EXIT" << std::endl;
 }
 
+const std::string& Window::getWindowTitle() const {
+	return windowTitle;
+}
+
+void Window::updateWindowTitle() {
+	windowTitle = windowName + " |  State: " + inputHandler.getStateString();
+}
+
 void Window::createWindow(unsigned int height, unsigned int width,
 		const std::string& windowTitle, double maxFps) {
 	//If this is not a first call close the previous windows and free the memory
@@ -75,16 +83,20 @@ void Window::createWindow(unsigned int height, unsigned int width,
 
 	// Ensure we can capture the escape key being pressed below
 	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
+	glfwSetCursorPos(window, 1024 / 2, 768 / 2);
 
 	//Renderer can only be initialised after calling glewInit, so instead of
 	//creating an init() method in Renderer is easier to have it as a pointer
 	//Also it is better to pass a pointer to InputHandler
 	renderer = RendererPtr(new Renderer());
 
-	fpsCounter.setWindow(window, windowTitle, maxFps);
-
 	inputHandler.setRenderer(renderer);
 	inputHandler.setSimController(simController);
+
+	windowName = windowTitle;
+	updateWindowTitle();
+
+	fpsCounter.setWindow(window, getWindowTitle(), maxFps);
 
 	setCallbacks();
 }
@@ -168,16 +180,21 @@ void Window::keyCallback(GLFWwindow *window, int key, int scancode, int action,
 		int mods) {
 	UNUSED(window);
 	getInstance().inputHandler.keyCallback(key, scancode, action, mods);
+	getInstance().updateWindowTitle();
+	getInstance().fpsCounter.updatewindowTitle(getInstance().getWindowTitle());
 }
 
 void Window::mouseButtonCallback(GLFWwindow* window, int button, int actions,
 		int mods) {
 	UNUSED(window);
 	getInstance().inputHandler.mouseButtonCallback(button, actions, mods);
+	getInstance().updateWindowTitle();
+	getInstance().fpsCounter.updatewindowTitle(getInstance().getWindowTitle());
 }
 
 void Window::mousePosCallback(GLFWwindow *window, double xpos, double ypos) {
 	UNUSED(window);
+	glfwSetCursorPos(window, 1024 / 2, 768 / 2);
 	getInstance().inputHandler.mousePositionCallback(xpos, ypos);
 }
 
