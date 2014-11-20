@@ -48,18 +48,27 @@ public:
 
 	glm::vec3 costFun(const glm::vec3& goal) const;
 
+	double getMaxY() const;
+	void setMaxY(double maxY);
+	double getMaxZ() const;
+	void setMaxZ(double maxZ);
+	double getMinY() const;
+	void setMinY(double minY);
+	double getMinZ() const;
+	void setMinZ(double minZ);
+
 private:
 	void updateMatrices(glm::mat4& currentMat, unsigned int i) const;
 
 protected:
 	const static glm::vec3 zAxis;
 	const static glm::vec3 yAxis;
+	double minZ, maxZ, minY, maxY;
+	std::vector<double> stiffness;
 
 private:
 	std::vector<JointModel> joints;
 	std::vector<BoneModel> bones;
-	double minZ, maxZ, minY, maxY;
-	std::vector<double> stiffness;
 };
 
 #endif /* SRC_MODELS_CHAINMODEL_H_ */

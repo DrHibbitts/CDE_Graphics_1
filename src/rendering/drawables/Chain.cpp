@@ -55,6 +55,11 @@ void Chain::setJointAngles(unsigned int index, float zAngle, float yAngle) {
 void Chain::copyToModel(ChainModel& chainModel) const {
 	chainModel.clear();
 
+	chainModel.setMaxY(maxY);
+	chainModel.setMaxZ(maxZ);
+	chainModel.setMinY(minY);
+	chainModel.setMinZ(minZ);
+
 	for (unsigned int i = 0; i < joints.size(); i++) {
 		chainModel.addBone(getBoneLength(i));
 		chainModel.setJointAngles(i, getJointZAngle(i), getJointYAngle(i));

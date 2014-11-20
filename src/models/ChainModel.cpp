@@ -115,3 +115,35 @@ glm::vec3 ChainModel::costFun(const glm::vec3& goal) const {
 	penalty = 0;
 	return (distanceVec - (float) penalty * glm::normalize(distanceVec));
 }
+
+double ChainModel::getMaxY() const {
+	return maxY;
+}
+
+void ChainModel::setMaxY(double maxY) {
+	this->maxY = maxY;
+}
+
+double ChainModel::getMaxZ() const {
+	return maxZ;
+}
+
+void ChainModel::setMaxZ(double maxZ) {
+	this->maxZ = maxZ;
+}
+
+double ChainModel::getMinY() const {
+	return minY;
+}
+
+void ChainModel::setMinY(double minY) {
+	this->minY = minY;
+}
+
+double ChainModel::getMinZ() const {
+	return minZ;
+}
+
+void ChainModel::setMinZ(double minZ) {
+	this->minZ = minZ;
+}
