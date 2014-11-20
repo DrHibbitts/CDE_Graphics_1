@@ -100,24 +100,7 @@ void ChainModel::updateMatrices(glm::mat4& currentMat, unsigned int i) const {
 }
 
 glm::vec3 ChainModel::costFun(const glm::vec3& goal) const {
-
-	glm::vec3 distanceVec(goal - getEndEfectorPos());
-
-	double penalty = 0;
-	for (unsigned int i = 0; i < joints.size(); i++) {
-		// If the angle gets close to the constraint then the penalty is increased
-		// FLT_MIN is added to avoid 1 \ 0
-		penalty += 1.0 / std::abs(joints.at(i).getZRotAngle() - minZ + FLT_MIN);
-
-		penalty += 1.0 / std::abs(joints.at(i).getZRotAngle() - maxZ + FLT_MIN);
-
-		penalty += 1.0 / std::abs(joints.at(i).getYRotAngle() - minY + FLT_MIN);
-
-		penalty += 1.0 / std::abs(joints.at(i).getYRotAngle() - maxY + FLT_MIN);
-	}
-	// Deactivate constraints until we fix them
-	penalty = 0;
-	return (distanceVec - (float) penalty * glm::normalize(distanceVec));
+	return goal - getEndEfectorPos();
 }
 
 double ChainModel::getMaxY() const {

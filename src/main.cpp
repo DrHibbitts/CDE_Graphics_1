@@ -62,7 +62,7 @@ int main(void) {
 
 	chain->addBone(1);
 	chain->setJointAngles(4, 0, 0);
-	chain->setBoneStiffness(4, 1);
+	chain->setBoneStiffness(4, 5);
 
 	//Draw chain
 	window.addDrawable(chain);

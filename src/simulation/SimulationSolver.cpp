@@ -41,7 +41,7 @@ void SimulationSolver::setGoal(const glm::vec3& goal) {
 	journey = glm::length(cGoal - startPos);
 	journeyLower = journey * 0.2;
 	journeyUpper = journey * 0.8;
-	scaleFactor = 1;
+	scaleFactor = initialSpeed;
 }
 
 void SimulationSolver::solveForStep(const glm::vec3 goal, double stepSize) {
@@ -83,14 +83,14 @@ void SimulationSolver::finiteDiffJacobian() {
 	for (unsigned int i = 0; i < mid; i++) {
 		wChain.setJointZAngle(i, wChain.getJointZAngle(i) + h);
 		jacobian[i] = (1 / h) * (wChain.costFun(cGoal) - costVal);
-		jacobian[i] = (1 / glm::length(jacobian[i])) * jacobian[i];
+		jacobian[i] = glm::normalize(jacobian[i]);
 		wChain.setJointZAngle(i, wChain.getJointZAngle(i) - h);
 	}
 
 	for (unsigned int i = mid; i < jacobian.size(); i++) {
 		wChain.setJointYAngle(i - mid, wChain.getJointYAngle(i - mid) + h);
 		jacobian[i] = (1 / h) * (wChain.costFun(cGoal) - costVal);
-		jacobian[i] = (1 / glm::length(jacobian[i])) * jacobian[i];
+		jacobian[i] = glm::normalize(jacobian[i]);
 		wChain.setJointYAngle(i - mid, wChain.getJointYAngle(i - mid) - h);
 	}
 }
@@ -112,6 +112,8 @@ void SimulationSolver::updateAngles(double stepSize) {
 
 	//Precalculate all angle updates
 	for (unsigned int i = 0; i < mid; i++) {
+		//Multiply jacobian inverse transpose by f(x), negative because
+		//we want to go in negative gradient direction
 		angleUpdate = glm::dot(-jacobian[i], costVal) * TO_DEG
 				* wChain.getBoneStiffness(i);
 		normalizedAngles.at(i) = angleUpdate;
@@ -123,7 +125,7 @@ void SimulationSolver::updateAngles(double stepSize) {
 		normalizedAngles.at(i) = angleUpdate;
 	}
 
-	//Normalise
+	//Normalise the angle update
 	double angleSum = 0;
 	for (unsigned int i = 0; i < normalizedAngles.size(); i++) {
 		angleSum += normalizedAngles.at(i) * normalizedAngles.at(i);
@@ -136,7 +138,7 @@ void SimulationSolver::updateAngles(double stepSize) {
 				* scaleFactor;
 	}
 
-	//Actual update
+	//If it is within the permitted values, update the angle
 	for (unsigned int i = 0; i < mid; i++) {
 		double nextZAngle = wChain.getJointZAngle(i)
 				+ normalizedAngles.at(i) * stepSize;
