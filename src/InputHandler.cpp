@@ -138,4 +138,12 @@ void InputHandler::getOffsetFromKey(int key, glm::vec3& offset) {
 	if (key == GLFW_KEY_LEFT || key == GLFW_KEY_A) {
 		offset = -renderer->getCamLookAtRightVector() * camTransSpeed;
 	}
+	//Move up
+	if (key == GLFW_KEY_R) {
+		offset = renderer->getCamUpVector() * camTransSpeed;
+	}
+	//Move down
+	if (key == GLFW_KEY_F) {
+		offset = -renderer->getCamUpVector() * camTransSpeed;
+	}
 }

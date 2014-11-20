@@ -32,6 +32,8 @@ public:
 
 	const glm::vec3& getCamLookAtRightVector() const;
 
+	const glm::vec3& getCamUpVector() const;
+
 	void updateCameraPosition(const glm::vec3& offset);
 
 	void updateCameraOrientation(float horizontalAngleOffset,

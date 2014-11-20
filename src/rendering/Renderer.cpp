@@ -70,6 +70,10 @@ const glm::vec3& Renderer::getCamLookAtRightVector() const {
 	return camRightVector;
 }
 
+const glm::vec3& Renderer::getCamUpVector() const{
+	return camUp;
+}
+
 void Renderer::updateCameraPosition(const glm::vec3& offset) {
 	camPosition += offset;
 
