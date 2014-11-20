@@ -93,9 +93,11 @@ In this project we explore the application of inverse kinematics to the control 
 \label{fig:3Dpicture}
 \end{figure}
 
-Kinematics refers to the methodological study of movement including the geometric properties of motion. The motion of an object can be described using either forward or inverse kinematics. The former uses known angles between parts of the object to find the coordinates of the object after the motion while the latter uses a known final position to find the angles between the parts which ensure that the object reaches the goal position. Why is IK interesting? Why is it hard?\\
+Kinematics refers to the methodological study of movement, encompassing all the geometrical properties of motion. The motion or trajectory of an object in space can be described using either forward or inverse kinematics. The former uses known angles between parts of the object to determine the coordinates of the end-effector, while the latter uses a known final position of the end-effector to calculate the angles between the parts which ensure that the object reaches this desired target position. \\
 
-This report provides a brief account of the objectives of the project and the methods that were explored. Moreover, the issues that were encountered are discussed, including problems concerning both the computational and the implementation aspects, and how these problems were addressed. We discuss the simulation implementation in Matlab and the computational methods used for solving the inverse kinematics problem. We proceed by explaining the operations and execution in OpenGL. The last section of this report includes a review of the performance and the limitations of the method, as well as a discussion of possible further improvements.
+Whilst the subject of inverse kinematics is applicable to many diverse areas, including astrophysics and robotics, this project is primarily concerned with its application to the fields of animation and computer graphics. Why is IK interesting? Why is it hard?\\
+
+This report begins with a brief account of the main objectives of the project and then proceeds to discuss important previous related work, including an overview of some of the most commonly used methods of approaching the inverse kinematics problem. Following this, the procedure of our investigation is explained, describing the different methods that were explored. Moreover, some of the issues that were encountered are discussed, including problems concerning both the computational and the implementation aspects, and how these problems were addressed. We then go on to discuss the simulation implementation of the proposed linkage system in Matlab, and the computational methods that were explored for solving the inverse kinematics problem. Carrying out an initial simulation in Matlab enabled us to be able to set up the equations quickly, test out different methods, and discover what worked and what didn't in a simplified two-dimensional system before porting the code to the final fully three-dimensional environment in OpenGL. We then continue by explaining in detail the operations and execution in OpenGL. The last section of this report includes a review of the performance and the limitations of the method, as well as a discussion of possible further improvements.
 
 \subsection{Objectives}
 
@@ -405,10 +407,14 @@ We explored the possibilities in matlab, and, if time permits, we would implemen
 
 %------------------------------------------------
 
-\subsection{Conclusion and Future Work}
+\subsection{Conclusion}
 
 \begin{enumerate}
 \item What has been achieved? Refer to requirements and goals.
+\end{enumerate}
+
+\subsection{Future Work}
+\begin{enumerate}
 \item What the final thing would look like if we had more time to work on it?
 
 \begin{itemize}
@@ -417,6 +423,7 @@ We explored the possibilities in matlab, and, if time permits, we would implemen
 	\item Add a GUI
 \end{itemize}
 \end{enumerate}
+
 %----------------------------------------------------------------------------------------
 \nocite{Fedor2003}
 \nocite{Welman1993}
