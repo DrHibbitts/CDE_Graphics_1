@@ -124,7 +124,7 @@ Let us now consider the implementation in both Matlab and OpenGL in more detail.
 
 
 \subsection{Start with Matlab} 
-We define the degrees of freedom of the system by a vector of angles $\params = [\theta_0, \theta_1...\theta_N]^T$, where each element in the vector is the relative angle in degrees from one joint to the next, for $N$ joints. All angles are measured positively in the anticlockwise direction and the first angle in the vector $\theta_0$ is measured from the positive horizontal axis. The end effector position in 3D space is denoted by the vector 
+We define the degrees of freedom of the system by a vector of angles $\params = [\theta_1, \theta_2...\theta_N]^T$, where each element in the vector is the relative angle in degrees from one joint to the next, for $N$ joints. All angles are measured positively in the anticlockwise direction and the first angle in the vector $\theta_1$ is measured from the positive horizontal axis. The end effector position in 3D space is denoted by the vector 
 $\vect{E} = [E_x, E_y, E_z]^T$. Using forward kinematics, we can compute the end effector position from the given joint angles:
 
 \begin{equation}
@@ -137,21 +137,27 @@ The goal of the inverse kinematics problem is to compute the vector of joint ang
 \params = f^{-1}(\vect{E})
 \end{equation}
 
-To solve this using the Jacobian method, first we define the Jacobian matrix as the matrix of partial derivatives
+However this is difficult to solve because the equations are usually nonlinear and multiple possible solutions can often exist, or sometimes maybe no solutions. It is also challenging to solve analytically for more complex linkages with large numbers of links, so to solve this iteratively, we can employ the Jacobian method. First we define the Jacobian matrix as the matrix of partial derivatives
 
 \begin{equation}
 J = \left[
 \begin{array}{cccc}
-\frac{\dn{E_1}}{\dn{x}} & \frac{\dn{E_2}}{\dn{x}} & ... & \frac{\dn{E_N}}{\dn{x}} 
+\frac{\dn{E_x}}{\dn{\theta_1}} & \frac{\dn{E_x}}{\dn{\theta_2}} & ... & \frac{\dn{E_x}}{\dn{\theta_N}} 
 \\[0.2cm]
-\frac{\dn{E_1}}{\dn{y}} & \frac{\dn{E_2}}{\dn{y}} & ... & \frac{\dn{E_N}}{\dn{y}} 
+\frac{\dn{E_y}}{\dn{\theta_1}} & \frac{\dn{E_y}}{\dn{\theta_2}} & ... & \frac{\dn{E_y}}{\dn{y}} 
 \\[0.2cm]
-\frac{\dn{E_1}}{\dn{z}} & \frac{\dn{E_2}}{\dn{z}} & ... & \frac{\dn{E_N}}{\dn{z}}
+\frac{\dn{E_z}}{\dn{\theta_1}} & \frac{\dn{E_z}}{\dn{\theta_2}} & ... & \frac{\dn{E_z}}{\dn{\theta_N}}
 \end{array}
 \right]
 \end{equation}
 
-There are a number of ways to compute the Jacobian, and one common way of evaluating it is to use the cross product of the axis of rotation (which for a 2D system is simply the z axis out of screen) with the vector of the joint to goal position. However we opt for a simple central difference approximation of the partial derivatives, which we found actually worked much better.
+There are a number of ways to compute the Jacobian, and one common way of evaluating it is to use the cross product of the axis of rotation (which for a 2D system is simply the z-axis out of screen) with the vector from the joint position to the target end effector position. Therefore each column in the Jacobian, corresponding to the $i$th joint in the linkage, is given by
+
+\begin{equation}
+\frac{\dn{\vect{E}}}{\dn{\theta_i}} = \vect{v}_i \times (\vect{E} - \vect{P}_i)
+\end{equation}
+
+Where $\vect{v}_i$ is the axis of rotation for the $i$th joint, and $\vect{P}_i$ is the position of the joint. However, in our implementation, we opt for a simple central difference approximation to the partial derivatives, which we found actually worked much better because it offered a more stable solution
 
 \begin{equation}
 \frac{\dn{f}}{\dn{x}} \approx \frac{f(x+\delta) - f(x-\delta)}{2\delta} 
