@@ -15,7 +15,7 @@ InputHandler::InputHandler() {
 	renderer = NULL;
 	camTransSpeed = 0.1;
 	camRotSpeed = 0.002;
-	inputState = cameraUpdate;
+	inputState = idle;
 	inputStateName = {"cameraUpdate", "goalUpdate", "idle"};
 }
 
@@ -89,7 +89,7 @@ void InputHandler::keyCallback(int key, int scancode, int action, int mods) {
 	if (key == GLFW_KEY_ENTER) {
 		offset = goalMarker->getCurrentPosition();
 		simController->setGoal(offset);
-
+		inputState = cameraUpdate;
 		std::cout << "Goal is " << offset.x << ", " << offset.y << ", "
 				<< offset.z << std::endl;
 	}
