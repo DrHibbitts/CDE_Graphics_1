@@ -26,14 +26,7 @@ Renderer::Renderer() {
 	//Orthographic projection, left, right, bottom, top, zNear, zFar
 	//Projection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, 0.0f, 100.0f);
 
-	// Camera is looking towards Z, and up vector is Y
-	horizontalAngle = 0.0f;
-	verticalAngle = 0.0f;
-
-	// Camera matrix, camera position, look at position, normalised up vector
-	camPosition = glm::vec3(2, 2, -6);
-
-	updateView();
+	resetCamera();
 
 	// Enable depth test
 	glEnable(GL_DEPTH_TEST);
@@ -70,7 +63,7 @@ const glm::vec3& Renderer::getCamLookAtRightVector() const {
 	return camRightVector;
 }
 
-const glm::vec3& Renderer::getCamUpVector() const{
+const glm::vec3& Renderer::getCamUpVector() const {
 	return camUp;
 }
 
@@ -111,6 +104,17 @@ void Renderer::sendModelMatToShader(const glm::mat4& modelMat) const {
 	//Send updated model Matrix and MVP matrix to GPU
 	glUniformMatrix4fv(MVPlocation, 1, GL_FALSE, &(MVP[0][0]));
 	glUniformMatrix4fv(Mlocation, 1, GL_FALSE, &(modelMat[0][0]));
+}
+
+void Renderer::resetCamera() {
+	// Camera is looking towards Z, and up vector is Y
+	horizontalAngle = 0.0f;
+	verticalAngle = 0.0f;
+
+	// Camera matrix, camera position, look at position, normalised up vector
+	camPosition = glm::vec3(2, 2, -6);
+
+	updateView();
 }
 
 void Renderer::updateView() {

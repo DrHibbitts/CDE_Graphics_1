@@ -28,6 +28,8 @@ public:
 
 	void resetScreen();
 
+	void resetCamera();
+
 	const glm::vec3& getCamLookAtVector() const;
 
 	const glm::vec3& getCamLookAtRightVector() const;

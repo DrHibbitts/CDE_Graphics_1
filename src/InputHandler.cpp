@@ -57,6 +57,10 @@ void InputHandler::keyCallback(int key, int scancode, int action, int mods) {
 		return;
 	}
 
+	if (key == GLFW_KEY_SPACE) {
+		renderer->resetCamera();
+	}
+
 	glm::vec3 offset;
 	getOffsetFromKey(key, offset);
 
