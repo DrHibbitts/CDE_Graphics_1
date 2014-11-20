@@ -18,6 +18,7 @@ ChainModel::ChainModel() {
 	maxZ = 180;
 	minY = -180;
 	maxY = 180;
+	maximumRadius = 0;
 }
 
 ChainModel::~ChainModel() {
@@ -32,6 +33,7 @@ void ChainModel::addBone(float size) {
 	bones.push_back(BoneModel(size));
 	joints.push_back(JointModel());
 	stiffness.push_back(1);
+	maximumRadius += size;
 }
 
 void ChainModel::setJointZAngle(unsigned int index, float zAngle) {
@@ -133,4 +135,8 @@ double ChainModel::getMinZ() const {
 
 void ChainModel::setMinZ(double minZ) {
 	this->minZ = minZ;
+}
+
+double ChainModel::getMaximumRadius() const {
+	return maximumRadius;
 }

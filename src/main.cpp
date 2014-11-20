@@ -46,7 +46,7 @@ int main(void) {
 	chain->addBone(1);
 	//Change the angle of joint 0 to Z degrees and Y degrees
 	chain->setJointAngles(0, 0, 0);
-	chain->setBoneStiffness(0, 10);
+	chain->setBoneStiffness(0, 15);
 
 	chain->addBone(0.5);
 	chain->setJointAngles(1, 0, 0);

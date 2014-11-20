@@ -56,6 +56,7 @@ private:
 	SimulationState simState;
 
 	bool simulating;
+	bool realGoal;
 	glm::vec3 goal;
 	unsigned int numIterations;
 	unsigned int maxIterations;

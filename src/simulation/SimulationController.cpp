@@ -9,12 +9,13 @@
 
 SimulationController::SimulationController() {
 	simulating = false;
-	epsilon = 0.003;
+	epsilon = 0.01;
 	numIterations = 0;
 	maxIterations = 1000;
 	simState = idle;
 	stepSleepTime = std::chrono::milliseconds(20);
 	waitForNewGoal.lock();
+	realGoal = true;
 }
 
 SimulationController::~SimulationController() {
@@ -47,8 +48,14 @@ void SimulationController::executeSimulationLoop() {
 		}
 		case reachedGoal: {
 			simState = idle;
-			stateLock.unlock();
-			std::cout << "Goal reached" << std::endl;
+			if (realGoal) {
+				stateLock.unlock();
+				std::cout << "Goal reached" << std::endl;
+			} else {
+				realGoal = true;
+				stateLock.unlock();
+				std::cout << "Goal out of reach" << std::endl;
+			}
 			std::cout << "Waiting for new goal" << std::endl;
 			waitForNewGoal.lock();
 			break;
@@ -103,8 +110,20 @@ const glm::vec3& SimulationController::getGoal() const {
 }
 
 void SimulationController::setGoal(const glm::vec3& goal) {
+	float goalDistance = glm::length(goal);
 	stateLock.lock();
-	this->goal = goal;
+	if (!chain || goalDistance < chain->getMaximumRadius()) {
+		this->goal = goal;
+		epsilon = 0.01;
+	} else {
+		//Out of reach goals can cause instabilities, set the goal to be within
+		//reach and with high error threshold
+		this->goal = (float) (0.99999 * chain->getMaximumRadius())
+				* glm::normalize(goal);
+		realGoal = false;
+		epsilon = 0.2;
+	}
+
 	numIterations = 0;
 	if (simState != stepping) {
 		waitForNewGoal.unlock();

@@ -57,6 +57,7 @@ public:
 	void setMinY(double minY);
 	double getMinZ() const;
 	void setMinZ(double minZ);
+	double getMaximumRadius() const;
 
 private:
 	void updateMatrices(glm::mat4& currentMat, unsigned int i) const;
@@ -66,6 +67,7 @@ protected:
 	const static glm::vec3 yAxis;
 	double minZ, maxZ, minY, maxY;
 	std::vector<float> stiffness;
+	double maximumRadius;
 
 private:
 	std::vector<JointModel> joints;
