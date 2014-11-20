@@ -1,0 +1,21 @@
+\begin{thebibliography}{1}
+
+\bibitem{Crai55}
+J.~Craig.
+\newblock {\em Introduction to Robotics: Mechanics and Control}.
+\newblock Addison-Wesley, 1955.
+
+\bibitem{Fedor2003}
+Martin Fedor.
+\newblock Application of inverse kinematics for skeleton manipulation in
+  real-time.
+\newblock In {\em Proceeding of Spring Conference on Computer Graphics 2003},
+  pages 201--210. Slovak University of Technology in Bratislava, 2003.
+
+\bibitem{Welman1993}
+Chris Welman.
+\newblock Inverse kinematics and geometric constraints for articulated figure
+  manipulation.
+\newblock Master's thesis, Simon Fraser University, September 1993.
+
+\end{thebibliography}

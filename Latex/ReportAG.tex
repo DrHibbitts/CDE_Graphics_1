@@ -45,8 +45,6 @@
 \newcommand{\params}{\boldsymbol{\theta}}
 \newcommand{\dn}[1]{\partial{#1}}
 
-
-
 %----------------------------------------------------------------------------------------
 %	TITLE SECTION
 %----------------------------------------------------------------------------------------
@@ -86,7 +84,6 @@
 \caption{Final three dimensional simulation with the trace and a star showing the goal position.}
 \label{fig:3Dpicture}
 \end{figure}
-
 Project requirements???? \\
 
 In this project we explore the application of inverse kinematics to the control of a linkage in three-dimensional space. Kinematics refers to the methodological study of movement including the geometric properties of motion. The motion of an object is defined using either forward or inverse kinematics. The former one uses known angles between parts of the object to find the coordinates of the object after the motion while the latter uses a known final position to find the angles between the parts which ensure that the object reaches the goal position. Why is IK interesting? Why is it hard?\\
@@ -219,7 +216,9 @@ If $error > \epsilon$ then
 \begin{equation}
 \Delta E = \Delta E / 2
 \end{equation}  
+
 repeat step 4.
+
 
 \item
 Update the joint angles and use these as the new current values.
@@ -251,6 +250,7 @@ Although Welman's proposed scaling matrix is currently a constant gain matrix, i
 
 \subsubsection{Incorporating constraints}
 
+
 \subsection{ OpenGL}
 Our software was built on top of OpenGL version 4.3 so we can adopt the shaders introduced after 3.3 version, which uses a flexible pipeline. The following libraries are employed: 
 \begin{itemize}
@@ -260,6 +260,7 @@ Our software was built on top of OpenGL version 4.3 so we can adopt the shaders 
 \item GLEW which efficiently check which OpenGL extensions are supported on the platform that is used. 
 \end{itemize}
 The C++11 standard is used as it introduces better default thread and mutex libraries as well as other improvements. \\
+
 
 First, we consider all the necessary conversions that let us display the three-dimensional world on a two-dimensional screen surface. Initially we have the \(z\) value set to zero, and hence worked in a two-dimensional space. In our world model each object has it's own model transformation matrix M. We also have a camera matrix that defines the camera position and orientation. Lastly, a projection matrix describes the mapping of a pinhole camera which plots the three-dimensional world onto a two-dimensional screen. For every object in the scene, pixel/screen coordinates \([u, v, 1]\) are defined by multiplying the vertices of each object by the Model-View-Projection (MVP) transformation matrix which gives the position of each pixel on the screen, i.e. transformed vertex = MVP *  object vertex. \\
 
@@ -280,6 +281,7 @@ In the first version of our software, we would create all the OpenGL buffers for
 Next, we set up the necessary objects for rendering. We create a vertex object class that encapsulated the buffer objects used by OpenGL. The vertex specification is performed using the Vertex Array Object (VAO), and each vertex object has its own VAO attribute. For the two-dimensional model we adopt a simple shader program without lighting and we specify the colour directly. The actual implementation uses a vertex buffer object (VBO) for vertices so that each object has only the vertices listed sequentially in the corresponding buffer, and we have a colour buffer (CBO) of an identical size that contains the corresponding colours. The element buffer object (EBO) contains indices to a given vertex; it allows us to avoid replication of vertices and draw more efficiently. In particular, to define any rectangle (quad) that is a combination of two triangles, we only need to specify four vertices instead of using all six. \\
 
 The initial implementation consisted of lines, squares and triangles, and an orthographic projection was used to represent the objects in two dimensions. To gain insight into the performance of our model, we included a frames per second counter which indicates how fast the scene is being rendered. In order to draw an objects, we implemented a \texttt{Drawable} class. All the objects that need to be displayed have to implement an interface defined by the \texttt{Drawable} class and possess a function called \texttt{draw}. The window draws drawable objects and does not distinguish between them. The line, square and triangle are all subclass of the VertexObject class which itself is a subclass of \texttt{Drawable}. At this point we added the chain of rectangles and lines where lines represented bones and rectangles were joints. A \(4 \times 4\) rotation and translation matrices were introduced, so for each joint and at each time step the following calculation is performed:  \(\prod_{i=0}^I R_i T_i\) where \(R_i\) stands for the rotation of the joint and \(T_i\) corresponds to the translation of each bone. \\
+
 
 \begin{mdframed}
 \begin{scriptsize}
@@ -417,5 +419,10 @@ We explored the possibilities in matlab, and, if time permits, we would implemen
 \end{itemize}
 \end{enumerate}
 %----------------------------------------------------------------------------------------
+\nocite{Fedor2003}
+\nocite{Welman1993}
+\nocite{Crai55}
+\bibliography{ReportAG}{}
+\bibliographystyle{plain}
 
 \end{document}
