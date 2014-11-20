@@ -58,11 +58,11 @@
 \title{	
 \normalfont \normalsize 
 \textsc{Department Of Computer Science, University of Bath} \\ [5pt] % Your university, school and/or department name(s)
-\textsc{Name of Programme: EngD in Digital Entertainment} \\ [5pt] 
+\textsc{EngD in Digital Entertainment} \\ [5pt] 
 \horrule{0.7pt} \\[0.2cm] % Thin top horizontal rule
 \Huge Inverse Kinematics Coursework \\ % The assignment title
 \vspace{7 mm}
-\Large CM50244 \: Computer animation and games I \\
+\Large CM50244 \: Computer Animation and Games I \\
 \horrule{0.7pt} \\[0.0cm] % Thick bottom horizontal rule
 }
 \author{Garoe Dorta Perez, Dave Hibbitts, Ieva Kazlauskaite, Richard Shaw \\ \Large Unit Leader: Prof Phil Willis \\}  % Your name\\ 
@@ -88,13 +88,27 @@
 \caption{Final three dimensional simulation with the trace and a star showing the goal position.}
 \label{fig:3Dpicture}
 \end{figure}
-Project requirements???? \\
 
-In this project we explore the application of inverse kinematics to the control of a linkage in three-dimensional space. Kinematics refers to the methodological study of movement including the geometric properties of motion. The motion of an object is defined using either forward or inverse kinematics. The former one uses known angles between parts of the object to find the coordinates of the object after the motion while the latter uses a known final position to find the angles between the parts which ensure that the object reaches the goal position. Why is IK interesting? Why is it hard?\\
+In this project we explore the application of inverse kinematics to the control of a linkage in three-dimensional space. Kinematics refers to the methodological study of movement including the geometric properties of motion. The motion of an object can be described using either forward or inverse kinematics. The former uses known angles between parts of the object to find the coordinates of the object after the motion while the latter uses a known final position to find the angles between the parts which ensure that the object reaches the goal position. Why is IK interesting? Why is it hard?\\
 
 First, we construct a simple composite object which contains rigid rods of user-adjustable lengths, that are connected by joints so as to allow full flexibility of movement. The joints connecting the rigid rods can be restricted to either rotate in a particular two-dimensional plane in three-dimensional space, acting like simple hinges, or constrained to only move within user-defined limits. Second, the method of inverse kinematics is explored in order to determine the configuration of the linkage, i.e. the relevant angles of the joints when the linkage is given the task of reaching a specified target point. The method works by planning the motion towards a goal, which is defined by point in three-dimensional space, subject to constraints that ensure the target point is in a reachable region of the linkage; dependent on the overall length of the linkage and the maximum and minimum angles of the joints. Finally, the movement of the object is animated, and a number of non-physical parameters can be adjusted to deliver a visually appealing performance. \\
 
 This report provides a brief account of the objectives of the project and the methods that were explored. Moreover, the issues that were encountered are discussed, including problems concerning both the computational and the implementation aspects, and how these problems were addressed. We discuss the simulation implementation in Matlab and the computational methods used for solving the inverse kinematics problem. We proceed by explaining the operations and execution in OpenGL. The last section of this report includes a review of the performance and the limitations of the method, as well as a discussion of possible further improvements.
+
+\subsection{Objectives}
+
+The main objectives of this investigation into the problem of inverse kinematics were:
+
+\begin{enumerate}
+\item
+To implement a user-interactive way of choosing the target position for the end-effector of the linkage to reach in three-dimensional space.
+
+\item
+A way to change the physical properties of the linkage, such as the rate at which the joints can move, any specified constraints on the joints, and the slow-in and slow-out movement of the linkage as it leaves it's current position and approaches the target position respectively.
+
+\item
+To investigate whether to model the and thereby vary the flexibility of the rods.
+\end{enumerate} 
 
 %------------------------------------------------
 
