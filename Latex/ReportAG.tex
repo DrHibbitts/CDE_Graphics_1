@@ -21,6 +21,8 @@
 \usepackage{mdframed}
 \usepackage{graphicx}
 
+\usepackage{caption}
+
 \usepackage{sectsty} % Allows customizing section commands
 \allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
 
@@ -39,6 +41,8 @@
 \numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
 
 \setlength\parindent{20pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+
 
 % some more notation
 \newcommand{\vect}[1]{\mathbf{#1}}
@@ -264,17 +268,17 @@ The C++11 standard is used as it introduces better default thread and mutex libr
 
 First, we consider all the necessary conversions that let us display the three-dimensional world on a two-dimensional screen surface. Initially we have the \(z\) value set to zero, and hence worked in a two-dimensional space. In our world model each object has it's own model transformation matrix M. We also have a camera matrix that defines the camera position and orientation. Lastly, a projection matrix describes the mapping of a pinhole camera which plots the three-dimensional world onto a two-dimensional screen. For every object in the scene, pixel/screen coordinates \([u, v, 1]\) are defined by multiplying the vertices of each object by the Model-View-Projection (MVP) transformation matrix which gives the position of each pixel on the screen, i.e. transformed vertex = MVP *  object vertex. \\
 
-\begin{mdframed}
-\begin{scriptsize}
-\begin{lstlisting}
-//Renderer MVP calculation
+
+\lstset{
+  frame=top,frame=bottom,
+  basicstyle=\small\normalfont\sffamily,
+  }
+\begin{lstlisting}[float,caption=Renderer MVP calculation, label={lst:renderer}]
 viewProjection = projection * view;
 //Calculate Model View Projection matrix
 glm::mat4 MVP = viewProjection * modelMat;
 \end{lstlisting}
-\label{lst:renderer}
-\end{scriptsize}
-\end{mdframed}
+
 
 In the first version of our software, we would create all the OpenGL buffers for each object on each frame and destroy them at the end of each frame, which was inefficient. The problem was fixed by preallocating buffer objects (that store unformatted memory on the graphics processing unit (GPU)) for each object at the start of the simulation, and then binding the framework to allocated storage (setting as the active), rendering and unbinding. \\
 
@@ -282,10 +286,7 @@ Next, we set up the necessary objects for rendering. We create a vertex object c
 
 The initial implementation consisted of lines, squares and triangles, and an orthographic projection was used to represent the objects in two dimensions. To gain insight into the performance of our model, we included a frames per second counter which indicates how fast the scene is being rendered. In order to draw an objects, we implemented a \texttt{Drawable} class. All the objects that need to be displayed have to implement an interface defined by the \texttt{Drawable} class and possess a function called \texttt{draw}. The window draws drawable objects and does not distinguish between them. The line, square and triangle are all subclass of the VertexObject class which itself is a subclass of \texttt{Drawable}. At this point we added the chain of rectangles and lines where lines represented bones and rectangles were joints. A \(4 \times 4\) rotation and translation matrices were introduced, so for each joint and at each time step the following calculation is performed:  \(\prod_{i=0}^I R_i T_i\) where \(R_i\) stands for the rotation of the joint and \(T_i\) corresponds to the translation of each bone. \\
 
-
-\begin{mdframed}
-\begin{scriptsize}
-\begin{lstlisting}
+\begin{lstlisting}[float,caption=Drawable Class., label={lst:drawable}]
 class VertexObject: public Drawable {
 	<...>
 protected:
@@ -300,14 +301,9 @@ protected:
 	GLuint vao, vbo, nbo, ebo, cbo;
 };
 \end{lstlisting}
-\label{lst:drawable} % Use Code Listing~ref{lst: ...}
-\end{scriptsize}
-\end{mdframed}
 
-\begin{mdframed}
-\begin{scriptsize}
-\begin{lstlisting}
-//Common draw call for all VertexObjects
+
+\begin{lstlisting}[float,caption=Common draw call for all VertexObjects., label={lst:draw}]
 void VertexObject::draw(Renderer& renderer) const {
 	// Bind VAO and Buffers as the active ones.
 	glBindVertexArray(vao);
@@ -326,9 +322,6 @@ void VertexObject::draw(Renderer& renderer) const {
 	
 }
 \end{lstlisting}
-\label{lst:draw} % Use Code Listing~ref{lst: ...}
-\end{scriptsize}
-\end{mdframed}
 
 In order to achieve a fluent and efficient rendering, we made the simulation process independent of rendering. Simulation and rendering are performed on two different threads, and have to access a shared resource concurrently. The synchronisation of these two processes is encapsulated in simulation controller class which uses a mutual exclusion lock variable. The rendering process has access to all the chain data while the simulation only uses the angles and lengths (taken from the copy of the chain) to perform the numerical calculations which advance the motion in time. The simulation runs almost continuously, it stops only to allow the renderer to look up the angle values each time it finishes rendering. This synchronisation mechanism allows the simulation and the rendering to perform their respective tasks as quickly as possible without any data corruption. \\
 
@@ -345,10 +338,7 @@ At this stage we added the simulation code originally developed in Matlab to our
 
 One of the problems we faced had to do with the simulation thread accessing the rendering state, causing the software to fail if the frame rate was high (???) The problem was solved by allowing the simulation to access only the simulation data. Here we also used data encapsulation; a new class, called ChainModel, was created that only had the simulation data. The Chain class is a subclass of the ChainModel and with added attributes and methods for rendering purposes. The same applies to bone and joint classes. \\
 
-\begin{mdframed}
-\begin{scriptsize}
-\begin{lstlisting}
-//Simulation controller thread synchronisation		
+\begin{lstlisting}[float,caption=Simulation controller thread synchronisation., label={lst:synchronisation}]		
 void SimulationController::executeSimulationLoop() {
 	while (simulating) {
 		lock.lock();
@@ -364,9 +354,6 @@ void SimulationController::updateChain() {
 	lock.unlock();
 }
 \end{lstlisting}
-\label{lst:synchronisation} % Use Code Listing~ref{lst: ...}
-\end{scriptsize}
-\end{mdframed}
 
 The simulation thread is either simulating or waiting for a new goal. It also checks when it's close to the goal and it stops at a given threshold, so the loop that updates the Jacobian matrix is not called though the simulation thread is still running. The user can input a new goal position at any time, as the simulation loop will then solve for the new goal using the current chain state.\\
 
@@ -376,17 +363,13 @@ In addition, we included keyboard input control. In the final version the user i
 
 At this stage the model was displayed in three dimensions but was still confined to moving in the plane. We added a second rotation angle resulting in a rotation with respect to the \(z\)-axis followed by a rotation with respect to the \(y\)-axis, i.e. \( \mathbf{R}_z \mathbf{R}_y \mathbf{T}\). The resulting solver is fully three-dimensional. \\
 
-\begin{mdframed}
-\begin{scriptsize}
-\begin{lstlisting}
-//Update total transformation with current joint rotation and translation
+
+\begin{lstlisting}[float,caption=Update total transformation with current joint rotation and translation., label={lst:transformation}]
 currentMat = currentMat * glm::rotate(joints[i].getZRotAngle(), zAxis)
 		* glm::rotate(joints[i].getYRotAngle(), yAxis)
 		* glm::translate(glm::vec3(bones[i].getLength(), 0, 0));
 \end{lstlisting}
-\label{lst:transformation} % Use Code Listing~ref{lst: ...}
-\end{scriptsize}
-\end{mdframed}
+
 
 Finally, a maximum number of simulation steps was specified to ensure that the simulation was not wasting central processing unit (CPU) in case the goal was unreachable. Also, while the model is waiting for a new goal, the simulation thread is stopped, and once a point goal is added, it goes back to simulating. We had to artificially increase the time in the simulation (now it performs a simulation step and then waits for 20 ms), because otherwise the time step had to be decreased to \(10^{-6}\) which resulted in order to achieved a normal motion. Sleep time makes the computational load smaller on the CPU (i.e. we achieve the same accuracy with a lesser load on the CPU). 
   
