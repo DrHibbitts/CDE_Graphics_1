@@ -38,7 +38,8 @@ public:
 	void setJointAngles(unsigned int index, float zAngle, float yAngle);
 
 	void setAngleConstrains(double minZ, double maxZ, double minY, double maxY);
-	void setBoneStiffness(unsigned int index, double stiffness);
+	void setBoneStiffness(unsigned int index, float stiffness);
+	float getBoneStiffness(unsigned int index) const;
 
 	float getBoneLength(unsigned int index) const;
 
@@ -64,7 +65,7 @@ protected:
 	const static glm::vec3 zAxis;
 	const static glm::vec3 yAxis;
 	double minZ, maxZ, minY, maxY;
-	std::vector<double> stiffness;
+	std::vector<float> stiffness;
 
 private:
 	std::vector<JointModel> joints;

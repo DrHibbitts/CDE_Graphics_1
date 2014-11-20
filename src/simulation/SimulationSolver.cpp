@@ -78,7 +78,8 @@ void SimulationSolver::updateAngles(double stepSize) {
 
 	for (unsigned int i = 0; i < mid; i++) {
 		angleUpdate = glm::dot(-jacobian[i], costVal) * TO_DEG * stepSize;
-		double nextZAngle = wChain.getJointZAngle(i) + angleUpdate;
+		double nextZAngle = wChain.getJointZAngle(i)
+				+ angleUpdate * wChain.getBoneStiffness(i);
 
 		if (nextZAngle < wChain.getMaxZ() && nextZAngle > wChain.getMinZ()) {
 			wChain.setJointZAngle(i, nextZAngle);
@@ -88,7 +89,8 @@ void SimulationSolver::updateAngles(double stepSize) {
 
 	for (unsigned int i = mid; i < jacobian.size(); i++) {
 		angleUpdate = glm::dot(-jacobian[i], costVal) * TO_DEG * stepSize;
-		double nextYAngle = wChain.getJointYAngle(i - mid) + angleUpdate;
+		double nextYAngle = wChain.getJointYAngle(i - mid)
+				+ angleUpdate * wChain.getBoneStiffness(i - mid);
 
 		if (nextYAngle < wChain.getMaxY() && nextYAngle > wChain.getMinY()) {
 			wChain.setJointYAngle(i - mid, nextYAngle);

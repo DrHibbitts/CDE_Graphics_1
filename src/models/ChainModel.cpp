@@ -54,8 +54,12 @@ void ChainModel::setAngleConstrains(double minZ, double maxZ, double minY,
 	this->minY = minY;
 	this->maxY = maxY;
 }
-void ChainModel::setBoneStiffness(unsigned int index, double stiffness) {
+void ChainModel::setBoneStiffness(unsigned int index, float stiffness) {
 	this->stiffness.at(index) = stiffness;
+}
+
+float ChainModel::getBoneStiffness(unsigned int index) const {
+	return stiffness.at(index);
 }
 
 float ChainModel::getJointZAngle(unsigned int index) const {

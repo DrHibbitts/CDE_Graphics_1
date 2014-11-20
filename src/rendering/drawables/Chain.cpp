@@ -63,6 +63,7 @@ void Chain::copyToModel(ChainModel& chainModel) const {
 	for (unsigned int i = 0; i < joints.size(); i++) {
 		chainModel.addBone(getBoneLength(i));
 		chainModel.setJointAngles(i, getJointZAngle(i), getJointYAngle(i));
+		chainModel.setBoneStiffness(i, stiffness.at(i));
 	}
 }
 
