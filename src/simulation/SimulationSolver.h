@@ -17,7 +17,7 @@ public:
 
 	virtual ~SimulationSolver();
 
-	void solveForStep(const glm::vec3 goal, double stepSize = 0.00001);
+	void solveForStep(const glm::vec3 goal, double stepSize = 0.034);
 
 	void setChain(ChainPtr chain);
 
@@ -27,9 +27,11 @@ public:
 	void setH(float h);
 
 private:
-	void finiteDiffJacobian(const glm::vec3& goal);
+	void finiteDiffJacobian();
 	void resetWorkingChain();
 	void updateAngles(double stepSize);
+	void setCurrentSpeed();
+	void setGoal(const glm::vec3& goal);
 
 	ChainPtr chain;
 	ChainModel wChain;
@@ -37,7 +39,14 @@ private:
 	std::vector<glm::vec3> jacobian;
 	float h;
 	double scaleFactor;
+	double journey;
+	double journeyLower;
+	double journeyUpper;
+	double maxSpeed;
+	double initialSpeed;
 	glm::vec3 costVal;
+	glm::vec3 cGoal;
+	glm::vec3 startPos;
 };
 
 #endif /* SRC_SIMULATIONSOLVER_H_ */
