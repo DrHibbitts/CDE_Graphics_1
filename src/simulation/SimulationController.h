@@ -11,6 +11,7 @@
 #include <thread>
 #include <chrono>
 #include <mutex>
+#include <iostream>
 
 #include "SimulationSolver.h"
 
