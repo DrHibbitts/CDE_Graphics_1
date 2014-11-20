@@ -38,15 +38,8 @@ void InputHandler::mouseButtonCallback(int button, int actions, int mods) {
 		default:
 			break;
 		}
-
 		break;
 	}
-	case GLFW_RELEASE: {
-		inputState = idle;
-		break;
-	}
-	default:
-		break;
 	}
 }
 
@@ -59,6 +52,20 @@ void InputHandler::keyCallback(int key, int scancode, int action, int mods) {
 
 	if (key == GLFW_KEY_SPACE) {
 		renderer->resetCamera();
+		return;
+	}
+
+	if (key == GLFW_KEY_LEFT_SHIFT) {
+		switch (inputState) {
+		case idle:
+		case goalUpdate:
+			inputState = cameraUpdate;
+			break;
+		case cameraUpdate:
+			inputState = goalUpdate;
+			break;
+		}
+		return;
 	}
 
 	glm::vec3 offset;
