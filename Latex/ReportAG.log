@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2014.9.29)  20 NOV 2014 19:58
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2014.9.29)  20 NOV 2014 20:46
 entering extended mode
 **ReportAG.tex
 
@@ -761,15 +761,10 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 <chain3Dexample.png, id=8, 1027.84pt x 798.985pt>
 File: chain3Dexample.png Graphic file (type png)
  <use chain3Dexample.png>
-Package pdftex.def Info: chain3Dexample.png used on input line 87.
+Package pdftex.def Info: chain3Dexample.png used on input line 91.
 (pdftex.def)             Requested size: 411.12872pt x 319.58833pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 92--93
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 94--95
+Underfull \hbox (badness 10000) in paragraph at lines 96--97
 
  []
 
@@ -777,11 +772,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 94--95
 
  <C:/Users/Richard/Desktop/CDE/Semester 1/Computer Animation/CDE_Graphics_1/Lat
 ex/chain3Dexample.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 116--117
-
- []
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 118--119
 
  []
@@ -797,7 +787,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 122--123
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 129--130
+Underfull \hbox (badness 10000) in paragraph at lines 124--125
 
  []
 
@@ -816,12 +806,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 135--136
 
  []
 
-
+[3]
 Underfull \hbox (badness 10000) in paragraph at lines 137--138
 
  []
 
-[3]
+
 Underfull \hbox (badness 10000) in paragraph at lines 139--140
 
  []
@@ -836,51 +826,51 @@ Underfull \hbox (badness 10000) in paragraph at lines 143--144
 
  []
 
+
+Underfull \hbox (badness 10000) in paragraph at lines 145--146
+
+ []
+
 [4]
-Underfull \hbox (badness 10000) in paragraph at lines 194--195
+Underfull \hbox (badness 10000) in paragraph at lines 196--197
 
  []
 
 [5]
-Underfull \hbox (badness 10000) in paragraph at lines 265--266
+Underfull \hbox (badness 10000) in paragraph at lines 267--268
 
  []
 
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 275.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 277.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\base\omscmr.fd"
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 275.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 277.
 
-Underfull \hbox (badness 10000) in paragraph at lines 280--281
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 283--284
-
- []
-
-LaTeX Font Info:    Try loading font information for OMS+cmss on input line 291
-.
-LaTeX Font Info:    No file OMScmss.fd. on input line 291.
-
-LaTeX Font Warning: Font shape `OMS/cmss/m/n' undefined
-(Font)              using `OMS/cmsy/m/n' instead
-(Font)              for symbol `textasteriskcentered' on input line 291.
-
-LaTeX Font Info:    Try loading font information for T1+cmtt on input line 292.
-
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\t1cmtt.fd"
-File: t1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
-)
-Underfull \hbox (badness 10000) in paragraph at lines 297--298
+Underfull \hbox (badness 10000) in paragraph at lines 282--283
 
  []
 
 [6]
+Underfull \hbox (badness 10000) in paragraph at lines 285--286
+
+ []
+
+LaTeX Font Info:    Try loading font information for OMS+cmss on input line 293
+.
+LaTeX Font Info:    No file OMScmss.fd. on input line 293.
+
+LaTeX Font Warning: Font shape `OMS/cmss/m/n' undefined
+(Font)              using `OMS/cmsy/m/n' instead
+(Font)              for symbol `textasteriskcentered' on input line 293.
+
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 294.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\t1cmtt.fd"
+File: t1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
 Underfull \hbox (badness 10000) in paragraph at lines 299--300
 
  []
@@ -891,40 +881,37 @@ Underfull \hbox (badness 10000) in paragraph at lines 301--302
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 340--341
+Underfull \hbox (badness 10000) in paragraph at lines 303--304
 
  []
 
-[7]
+
 Underfull \hbox (badness 10000) in paragraph at lines 342--343
 
  []
 
-
+[7] [8]
 Underfull \hbox (badness 10000) in paragraph at lines 344--345
 
  []
 
-<chain2Dv2.png, id=50, 1027.84pt x 798.985pt>
+
+Underfull \hbox (badness 10000) in paragraph at lines 346--347
+
+ []
+
+<chain2Dv2.png, id=53, 1027.84pt x 798.985pt>
 File: chain2Dv2.png Graphic file (type png)
  <use chain2Dv2.png>
-Package pdftex.def Info: chain2Dv2.png used on input line 348.
+Package pdftex.def Info: chain2Dv2.png used on input line 350.
 (pdftex.def)             Requested size: 411.12872pt x 319.58833pt.
 
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 353--354
+Underfull \hbox (badness 10000) in paragraph at lines 355--356
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 372--373
-
- []
-
-[8]
+[9 <C:/Users/Richard/Desktop/CDE/Semester 1/Computer Animation/CDE_Graphics_1/L
+atex/chain2Dv2.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 374--375
 
  []
@@ -939,28 +926,32 @@ Underfull \hbox (badness 10000) in paragraph at lines 378--379
 
  []
 
-[9 <C:/Users/Richard/Desktop/CDE/Semester 1/Computer Animation/CDE_Graphics_1/L
-atex/chain2Dv2.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 391--392
 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 393--395
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 396--398
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 400--402
+Underfull \hbox (badness 10000) in paragraph at lines 380--381
 
  []
 
 [10]
+Underfull \hbox (badness 10000) in paragraph at lines 393--394
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 395--397
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 398--400
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 402--404
+
+ []
+
+
 ("C:\Users\Richard\Desktop\CDE\Semester 1\Computer Animation\CDE_Graphics_1\Lat
 ex\ReportAG.bbl") [11]
 ("C:\Users\Richard\Desktop\CDE\Semester 1\Computer Animation\CDE_Graphics_1\Lat
@@ -972,7 +963,7 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 Here is how much of TeX's memory you used:
  15385 strings out of 493921
  266481 string characters out of 3147276
- 494951 words of memory out of 3000000
+ 495951 words of memory out of 3000000
  18468 multiletter control sequences out of 15000+200000
  29303 words of font info for 74 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
@@ -999,9 +990,9 @@ es/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Program Files/MiKTeX
 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/
 type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/pu
 blic/amsfonts/cm/cmsy8.pfb>
-Output written on ReportAG.pdf (12 pages, 305611 bytes).
+Output written on ReportAG.pdf (12 pages, 307257 bytes).
 PDF statistics:
- 494 PDF objects out of 1000 (max. 8388607)
+ 497 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  11 words of extra memory for PDF output out of 10000 (max. 10000000)
 
