@@ -36,6 +36,7 @@ private:
 
 	std::vector<glm::vec3> jacobian;
 	float h;
+	double scaleFactor;
 	glm::vec3 costVal;
 };
 

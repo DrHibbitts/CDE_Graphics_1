@@ -11,6 +11,7 @@
 
 SimulationSolver::SimulationSolver(float h) {
 	this->h = h;
+	scaleFactor = 1;
 }
 
 SimulationSolver::~SimulationSolver() {
@@ -76,22 +77,46 @@ void SimulationSolver::updateAngles(double stepSize) {
 	double angleUpdate;
 	unsigned int mid = jacobian.size() * 0.5;
 
+	std::vector<double> normalizedAngles(jacobian.size(), 0);
+
+	//Precalculate all angle updates
 	for (unsigned int i = 0; i < mid; i++) {
-		angleUpdate = glm::dot(-jacobian[i], costVal) * TO_DEG * stepSize;
-		double nextZAngle = wChain.getJointZAngle(i)
-				+ angleUpdate * wChain.getBoneStiffness(i);
-
-		if (nextZAngle < wChain.getMaxZ() && nextZAngle > wChain.getMinZ()) {
-			wChain.setJointZAngle(i, nextZAngle);
-		}
-
+		angleUpdate = glm::dot(-jacobian[i], costVal) * TO_DEG
+				* wChain.getBoneStiffness(i);
+		normalizedAngles.at(i) = angleUpdate;
 	}
 
 	for (unsigned int i = mid; i < jacobian.size(); i++) {
-		angleUpdate = glm::dot(-jacobian[i], costVal) * TO_DEG * stepSize;
-		double nextYAngle = wChain.getJointYAngle(i - mid)
-				+ angleUpdate * wChain.getBoneStiffness(i - mid);
+		angleUpdate = glm::dot(-jacobian[i], costVal) * TO_DEG
+				* wChain.getBoneStiffness(i - mid);
+		normalizedAngles.at(i) = angleUpdate;
+	}
 
+	//Normalise
+	double angleSum = 0;
+	for (unsigned int i = 0; i < normalizedAngles.size(); i++) {
+		angleSum += normalizedAngles.at(i) * normalizedAngles.at(i);
+	}
+
+	angleSum = 1.0 / std::sqrt(angleSum);
+
+	for (unsigned int i = 0; i < normalizedAngles.size(); i++) {
+		normalizedAngles.at(i) = normalizedAngles.at(i) * angleSum
+				* scaleFactor;
+	}
+
+	//Actual update
+	for (unsigned int i = 0; i < mid; i++) {
+		double nextZAngle = wChain.getJointZAngle(i)
+				+ normalizedAngles.at(i) * stepSize;
+		if (nextZAngle < wChain.getMaxZ() && nextZAngle > wChain.getMinZ()) {
+			wChain.setJointZAngle(i, nextZAngle);
+		}
+	}
+
+	for (unsigned int i = mid; i < jacobian.size(); i++) {
+		double nextYAngle = wChain.getJointYAngle(i - mid)
+				+ normalizedAngles.at(i) * stepSize;
 		if (nextYAngle < wChain.getMaxY() && nextYAngle > wChain.getMinY()) {
 			wChain.setJointYAngle(i - mid, nextYAngle);
 		}

@@ -21,7 +21,7 @@ SimulationController::~SimulationController() {
 }
 
 void SimulationController::executeSimulationLoop() {
-	double stepSize = 0.01;
+	double stepSize = 0.4;
 
 	while (simulating) {
 		stateLock.lock();
