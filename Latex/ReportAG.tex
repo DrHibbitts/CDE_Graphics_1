@@ -8,7 +8,7 @@
 \usepackage{amsmath,amsfonts,amsthm} % Math packages
 \usepackage{mathtools}
 \usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
-\usepackage[margin=2.5cm]{geometry}
+\usepackage[margin=2.4cm]{geometry}
 \usepackage{xcolor}
 \usepackage{listings}
 \usepackage{url}
@@ -130,21 +130,21 @@ Differential-based techniques utilise an iterative approach that requires multip
 %------------------------------------------------
 
 \section{Procedure}
-In this section we discuss our approach to solving the inverse kinematics problem. We start by implementing the methods in Matlab as we wanted to ensure that the method works as desired before exporting it to the OpenGL framework. We started with a simplified case, by considering the two-dimensional situation where a planar object with a predetermined number of links is reaching towards a point in the plane. Our first attempt at a solution was to calculate the angles of the linkage for the end position, and to use linear interpolation to calculate the intermediate angles. The next step was to apply inverse kinematics in the case of our two-dimensional problem. We chose to use the Inverse Jacobian technique and implemented the method with both full inverse of the Jacobian matrix as well as the pseudoinverse. The motion of the object was displayed graphically, and we altered the number of limbs in order to test the performance of our method. At this stage the method still had a number of shortcomings even though it was restricted to motion in a plane. Firstly, the motion was not stable when the object was reaching towards a point that was outside the circular region. Secondly, the method favoured the movement of certain limbs without us explicitly specifying the constraints. We also improved the OpenGL user interface by adding mouse capture, and added chain class with bones and joints. In both Matlab and OpenGL the system is described using relative angles, i.e. starting at the origin, each subsequent angle is defined in the coordinate system of the previous one. \\
+In this section we discuss our approach to solving the inverse kinematics problem. We start by implementing the methods in Matlab as we wanted to ensure that the methods worked as desired before transferring the equations to OpenGL. We started with a simplified case, by considering the two-dimensional situation with a planar linkage, consisting of a predetermined number of links, which is reaching towards a point in the plane. Our first attempt at a solution was to compute the angles of the linkage given a desired end position, and to use a simple linear interpolation to calculate the intermediate angles. \\
 
-The main questions we faced at this point had to do with local behaviour of each joint and the numerical method used to solve the optimisation problem. The movement of the first few joints (those closest to the origin) appeared significantly more restricted than the movement of the end joints. To solve this issue, we normalise the change in position with respect to each angle to get global behaviour of the whole system as opposed to local behaviour of each joint. In addition, the simulation slows down as it gets very close to the destination due to the nature of the numerical method (gradient descent) which tends to oscillate around the minimum point. This slow-down motion can be advantageous, especially in robotics, so as to avoid a severe collision, for example, when grabbing an object or touching a surface. \\
+The next step was to apply inverse kinematics to obtain all the intermediate steps in the motion, utilising the inverse Jacobian technique, detailed in section 3.1. This was implemented in Matlab using both full inverse of the Jacobian matrix, as well as the pseudoinverse and transpose variants. The motion of the object was displayed graphically, and we made the number of links a parameter in order to test the performance of our method with different numbers of links and of different lengths. At this stage the method still had a number of shortcomings, even though it was restricted to motion in a two-dimensional plane. Firstly, the motion was not stable when the linkage was moving towards a point that was outside its maximum reach, shown by the blue circle in \ref{fig:Matlabpicture}. Secondly, the method appeared to favour the movement of certain joints. \\
 
-We also note that the motion of the system is task-dependent, hence favouring the movement of a number of selected joints is reasonable. For example, if we assume that the object we are modelling is an arm, and the motion is defined as the arm reaching for a nearby object, it is logical to assume that the rotation of the elbow joint will be favoured against the rotation of the shoulder joint, etc. Therefore, we introduce a weight vector that is used to control the importance of the motion of each joint, and added constrains on the angles.\\
+The main questions we faced at this point concerned the local behaviour of each joint and the numerical method used to solve the optimisation problem. The movement of the first few joints (those closest to the origin) appeared significantly more restricted than the movement of the end joints. To solve this issue, we decided to normalise the change in position with respect to each angle to get global behaviour of the whole system as opposed to local behaviour of each joint. In addition, the simulation slows down as it gets very close to the destination due to the nature of the numerical method (gradient descent) which tends to oscillate around the minimum point. This slow-down motion can be advantageous, especially in robotics, so as to avoid a severe collision, for example, when grabbing an object or touching a surface. \\
 
-We continued to work on the graphical implementation and improved it in a number of ways. The simulation and rendering were separated into two different threads so that the speed of the simulation did not affect the speed of rendering. What is more, we started displaying the trace left by the tip of the object which makes it easier to track the motion of the object and adds visual appeal. \\
+We note that the motion of the system is task-dependent, and also dependent on the initial state of the linkage; hence favouring the movement of certain joints is reasonable. For example, if we assume that the object we are modelling is an arm, and the motion is defined as the arm reaching for a nearby object, it is logical to assume that the rotation of the elbow joint will be favoured against the rotation of the shoulder joint, etc. Therefore, to replicate this effect, we introduce a weighting matrix that is used to control the importance of the motion of each joint. We also added constrains on the angles.\\
 
-At this stage the Matlab and the OpenGL implementations were still independent, so we started importing the numerical method from Matlab to OpenGL. The resulting model was two-dimensional, used inverse kinematics, could be adapted to any number of limbs/joints, and had a simple user interface. Finally, the model was extended to the three-dimensional space. \\
+At this stage the Matlab and the OpenGL implementations were still independent, so we started importing the numerical method from Matlab to OpenGL. The resulting model was two-dimensional, used inverse kinematics, could be adapted to any number of links/joints, and had basic user controls. The system was extended to three-dimensional space and we also improved the OpenGL user interface by adding mouse capture, and added a chain class with bones and joints. We continued to work on the graphical implementation and improved it in a number of ways. The simulation and rendering were separated into two different threads so that the speed of the simulation did not affect the speed of rendering. We started displaying the trace left by the tip of the linkage, which makes it easier to track the motion of the end-effector and adds significant visual appeal. \\
 
-Let us now consider the implementation in both Matlab and OpenGL in more detail. The following two sections give a detailed account of the issues encountered during the implementation process, the solution methods we employed and the explanation of why we chose to use the particular approaches.
+Let us now consider the implementation of the inverse kinematics system in both Matlab and OpenGL in more detail. The following two sections give an account of some of the issues encountered during the implementation process, the methods we employed, and explanations of why we chose to use particular approaches.
 
-\subsection{Matlab}
+\subsection{Matlab Implementation}
 
-We began by implementing a simplified two-dimensional linkage system in Matlab, as shown in \ref{fig:Matlabpicture}. This enabled us to simulate the motion of the linkage and experiment with different techniques before porting the final version of the code to OpenGL. \\
+We began by implementing a simplified two-dimensional linkage system in Matlab, as shown in Figure \ref{fig:Matlabpicture}. This enabled us to simulate the motion of the linkage and experiment with different techniques before porting the final version of the code to OpenGL. \\
 
 \begin{figure}
 \centering
@@ -187,13 +187,13 @@ Where the Jacobian relates a small change in angle to a small change in the posi
 \end{equation}
 
 There are a number of ways to compute the Jacobian, and one common way of evaluating it is to use the cross product of the axis of rotation (which for a two-dimensional system is simply the z-axis out of screen) with the vector from the joint position to the target end-effector position \cite{Buss09}. Therefore each column in the Jacobian, corresponding to the $i$th joint in the linkage, is given by
-
+\vspace{3mm}
 \begin{equation}
 \frac{\dn{\vect{E}}}{\dn{\theta_i}} = \vect{v}_i \times (\vect{E} - \vect{P}_i)
 \end{equation}
 
 Where $\vect{v}_i$ is the axis of rotation for the $i$th joint, and $\vect{P}_i$ is the position of the joint. This is implemented in the function calcJacobian.m. However, in our final implementation, we opt for a simple central difference approximation to the partial derivatives, which we found actually worked much better because it offered a more stable solution. This is implemented in the function fdJacobian.m
-
+\vspace{3mm}
 \begin{equation}
 \frac{\dn{f}}{\dn{\theta_i}} \approx \frac{f(\theta_i+\delta) - f(\theta_i-\delta)}{2\delta} 
 \end{equation}
@@ -378,7 +378,6 @@ At this stage we added the simulation code originally developed in Matlab to our
 
 One of the problems we faced had to do with the simulation thread accessing the rendering state, causing the software to fail if the frame rate was too high. The problem was solved by allowing the simulation to access only the simulation data. Here we also used data encapsulation; a new class, called ChainModel, was created that only had the simulation data. The Chain class is a subclass of the ChainModel and with added attributes and methods for rendering purposes. The same applies to bone and joint classes. The communication protocol between the simulation thread and the rendering thread is displayed in Figure~\ref{fig:treadhDiagram}.  \\
 
-\vspace{-8mm}
 The simulation thread is either simulating or waiting for a new goal. It also checks when the end-effector is close to the goal and it stops at a given threshold. The user can input a new goal position at any time, as the simulation loop will then solve for the new goal using the current chain state.\\
 
 \begin{figure}[h]
@@ -388,13 +387,10 @@ The simulation thread is either simulating or waiting for a new goal. It also ch
 \label{fig:treadhDiagram}
 \end{figure}
 
-Our final improvement involved adapting the simulation and the display to work in a three-dimensional case, as shown in Figure~\ref{fig:3Dpicture}. We construct the chain using rectangular parallelepipeds, while the shaders implement a Gouraud shading algorithm. 
+Our final improvement involved adapting the simulation and the display to work in a three-dimensional case, as shown in Figure~\ref{fig:3Dpicture}. We construct the chain using rectangular parallelepipeds, while the shaders implement a Gouraud shading algorithm. At this stage the model was displayed in three dimensions but was still confined to moving in a two-dimensional plane. We added a second rotation angle resulting in a rotation with respect to the \(z\)-axis followed by a rotation with respect to the \(y\)-axis as shown in Listing~\ref{lst:transformation}, i.e. \( \mathbf{R}_z \times \mathbf{R}_y \times \mathbf{T}\). The resulting solver is fully three-dimensional. \\
 % First, we added normal vectors to each vertex of every object; they point outwards from every vertices that is on the surface of the object, and for the vertices which are on the edges we use the mean of the neighbouring planar normals. Local illumination model combines the ambient, diffuse and specular light to give the colour intensities of the reflections, and the final shading is achieved by interpolating the vertices and normals. \\
 
 % In addition, we included keyboard input control. In the final version the user is able to control the camera angle by moving the mouse, and change the distance from the camera to the scene using the keyboard. In particular, we use the mouse to change the angle of the camera with respect to the \texttt{lookAtVector} and use the keyboard to move the camera position in a direction related to the \texttt{lookAtVector}, forward, backwards or side movements. The goal is moved using the camera position update (while right-clicking), where we update the position in the direction of the camera \texttt{lookAtVector}.\\
-
-At this stage the model was displayed in three dimensions but was still confined to moving in a two-dimensional plane. We added a second rotation angle resulting in a rotation with respect to the \(z\)-axis followed by a rotation with respect to the \(y\)-axis as shown in Listing~\ref{lst:transformation}, i.e. \( \mathbf{R}_z \times \mathbf{R}_y \times \mathbf{T}\). The resulting solver is fully three-dimensional. \\
-
 
 \begin{lstlisting}[float,caption=Update total transformation with current joint rotation and translation., label={lst:transformation}]
 currentMat = currentMat * glm::rotate(joints[i].getZRotAngle(), zAxis)
