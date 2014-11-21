@@ -11,28 +11,36 @@ SimulationController::SimulationController() {
 	simulating = false;
 	epsilon = 0.01;
 	numIterations = 0;
-	maxIterations = 1000;
+	maxIterations = 750;
 	simState = idle;
 	stepSleepTime = std::chrono::milliseconds(20);
 	waitForNewGoal.lock();
 	realGoal = true;
+	stepSize = 0.4;
 }
 
 SimulationController::~SimulationController() {
 }
 
 void SimulationController::executeSimulationLoop() {
-	double stepSize = 0.4;
-
 	while (simulating) {
 		stateLock.lock();
 		switch (simState) {
 		case stepping: {
 			stateLock.unlock();
+
+			chainDataLock.lock();
+			double distToGoal = glm::length(
+					simSolver.getChain().getEndEfectorPos() - goal);
+			chainDataLock.unlock();
+
+			stateLock.lock();
 			//Check distance to goal
-			if (glm::length(chain->getEndEfectorPos() - goal) > epsilon) {
+			if (distToGoal > epsilon) {
+			stateLock.unlock();
+
 				chainDataLock.lock();
-				simSolver.solveForStep(goal, stepSize);
+				simSolver.solveForStep(stepSize);
 				chainDataLock.unlock();
 
 				stateLock.lock();
@@ -42,7 +50,8 @@ void SimulationController::executeSimulationLoop() {
 				}
 				stateLock.unlock();
 			} else {
-				setSimState(reachedGoal);
+				simState = reachedGoal;
+				stateLock.unlock();
 			}
 			break;
 		}
@@ -96,13 +105,6 @@ void SimulationController::killSimulation() {
 		//Wait for the simulation thread to finish
 		simulationThread.join();
 	}
-
-	//Delete chain pointer
-	chain.reset();
-}
-
-const ChainPtr SimulationController::getChain() const {
-	return chain;
 }
 
 const glm::vec3& SimulationController::getGoal() const {
@@ -112,13 +114,14 @@ const glm::vec3& SimulationController::getGoal() const {
 void SimulationController::setGoal(const glm::vec3& goal) {
 	float goalDistance = glm::length(goal);
 	stateLock.lock();
-	if (!chain || goalDistance < chain->getMaximumRadius()) {
+	if (!renderChain
+			|| goalDistance < simSolver.getChain().getMaximumRadius()) {
 		this->goal = goal;
 		epsilon = 0.01;
 	} else {
 		//Out of reach goals can cause instabilities, set the goal to be within
 		//reach and with high error threshold
-		this->goal = (float) (0.99999 * chain->getMaximumRadius())
+		this->goal = (float) (0.99 * simSolver.getChain().getMaximumRadius())
 				* glm::normalize(goal);
 		realGoal = false;
 		epsilon = 0.2;
@@ -128,8 +131,14 @@ void SimulationController::setGoal(const glm::vec3& goal) {
 	if (simState != stepping) {
 		waitForNewGoal.unlock();
 	}
+
 	simState = stepping;
+
 	stateLock.unlock();
+
+	chainDataLock.lock();
+	simSolver.setGoal(this->goal);
+	chainDataLock.unlock();
 }
 
 void SimulationController::startSimulation(ChainPtr chain) {
@@ -138,9 +147,9 @@ void SimulationController::startSimulation(ChainPtr chain) {
 	killSimulation();
 
 	//Save chain pointer
-	this->chain = chain;
+	renderChain = chain;
 
-	simSolver.setChain(chain);
+	simSolver.setChain(*renderChain);
 
 	//Run new thread with simulation loop
 	simulating = true;
@@ -153,7 +162,13 @@ void SimulationController::startSimulation(ChainPtr chain) {
 
 void SimulationController::updateChain() {
 	chainDataLock.lock();
-	simSolver.updateChain();
+	if (renderChain) {
+		for (unsigned int i = 0; i < simSolver.getChain().getNumJoints(); i++) {
+			renderChain->setJointAngles(i,
+					simSolver.getChain().getJointZAngle(i),
+					simSolver.getChain().getJointYAngle(i));
+		}
+	}
 	chainDataLock.unlock();
 }
 

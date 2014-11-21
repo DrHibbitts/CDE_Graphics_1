@@ -28,8 +28,6 @@ public:
 
 	void killSimulation();
 
-	const ChainPtr getChain() const;
-
 	const glm::vec3& getGoal() const;
 	void setGoal(const glm::vec3& goal);
 private:
@@ -42,7 +40,8 @@ private:
 
 	void setSimState(const SimulationState& simState);
 private:
-	ChainPtr chain;
+	ChainPtr renderChain;
+
 	SimulationSolver simSolver;
 
 	std::thread simulationThread;
@@ -61,6 +60,7 @@ private:
 	glm::vec3 goal;
 	unsigned int numIterations;
 	unsigned int maxIterations;
+	double stepSize;
 
 	double epsilon;
 };

@@ -17,23 +17,35 @@ public:
 
 	virtual ~SimulationSolver();
 
-	void solveForStep(const glm::vec3 goal, double stepSize = 0.034);
+	void setGoal(const glm::vec3& goal);
 
-	void setChain(ChainPtr chain);
-
-	void updateChain();
+	void solveForStep(double stepSize);
 
 	float getH() const;
 	void setH(float h);
 
+	ChainModel& getChain();
+	void setChain(const ChainModel& simulationChain);
+
 private:
 	void finiteDiffJacobian();
 	void resetWorkingChain();
-	void updateAngles(double stepSize);
-	void setCurrentSpeed();
-	void setGoal(const glm::vec3& goal);
 
-	ChainPtr chain;
+	void setCurrentSpeed();
+
+	void updateAngles(double stepSize);
+
+	void calculateAngleUpdates(unsigned int mid,
+			std::vector<double>& normalizedAngles);
+
+	void normalizeAngleUpdates(std::vector<double>& normalizedAngles);
+
+	void updateWorkingChain(unsigned int mid,
+			const std::vector<double>& normalizedAngles, double stepSize);
+
+	void updateSimulationChain();
+
+	ChainModel simulationChain;
 	ChainModel wChain;
 
 	std::vector<glm::vec3> jacobian;

@@ -111,9 +111,7 @@ void Window::addDrawable(DrawablePtr drawable) {
 		glm::vec3 goal = newChain->getEndEfectorPos();
 		inputHandler.updateGoalMarker(goal);
 		simController->setGoal(goal);
-
 		simController->startSimulation(newChain);
-
 	}
 }
 
@@ -126,8 +124,9 @@ void Window::removeDrawable(DrawablePtr drawable) {
 		}
 	}
 
+	ChainPtr newChain = boost::dynamic_pointer_cast<Chain>(drawable);
 	//Check if the object is a chain
-	if (drawable == simController->getChain()) {
+	if (newChain) {
 		simController->killSimulation();
 	}
 }
