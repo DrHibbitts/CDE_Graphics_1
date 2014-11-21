@@ -130,7 +130,7 @@ Differential-based techniques utilise an iterative approach that requires multip
 %------------------------------------------------
 
 \section{Procedure}
-In this section we discuss our approach to solving the kinematics problem. We started by considering the two-dimensional situation where a planar object with a predetermined number of links is reaching towards a point in the plane. Our first attempt at a solution was to use forward kinematics where at each time-step we calculated the subsequent position using the current state and the desired position of the end-point. Our discussion starts with our Matlab implementation as we wanted to ensure that the method works as desired before exporting it to the OpenGL framework. In the meantime, we started working on the basic structure in OpenGL, for instance we drew the necessary primitives, such as triangles, squares and lines in two-dimensions, and proceeded by including some appropriate data structures and some primitive user interface. \\
+In this section we discuss our approach to solving the kinematics problem. We started with a simplified case, by considering the two-dimensional situation where a planar object with a predetermined number of links is reaching towards a point in the plane. Our first attempt at a solution was to use forward kinematics where at each time-step we calculated the subsequent position using the current state and the desired position of the end-point. Our discussion starts with our Matlab implementation as we wanted to ensure that the method works as desired before exporting it to the OpenGL framework. In the meantime, we started working on the basic structure in OpenGL, for instance we drew the necessary primitives, such as triangles, squares and lines in two-dimensions, and proceeded by including some appropriate data structures and some primitive user interface. \\
 
 The next step was to apply inverse kinematics in the case of our two-dimensional problem. We chose to use the Inverse Jacobian technique and implemented the method with both full inverse of the Jacobian matrix as well as the pseudoinverse. The motion of the object was displayed graphically, and we altered the number of limbs in order to test the performance of our method. At this stage the method still had a number of shortcomings even though it was restricted to motion in a plane. Firstly, the motion was not stable when the object was reaching towards a point that was outside the circular region. Secondly, the method favoured the movement of certain limbs without us explicitly specifying the constraints. We also improved the OpenGL user interface by adding mouse capture, and added chain class with bones and joints. In both Matlab and OpenGL the system is described using relative angles, i.e. starting at the origin, each subsequent angle is defined in the coordinate system of the previous one (picture???). \\
 
@@ -175,11 +175,11 @@ However this is difficult to solve because the equations are usually nonlinear a
 \begin{equation}
 J = \left[
 \begin{array}{cccc}
-\frac{\dn{E_x}}{\dn{\theta_1}} & \frac{\dn{E_x}}{\dn{\theta_2}} & ... & \frac{\dn{E_x}}{\dn{\theta_N}} 
+\frac{\dn{f_x}}{\dn{\theta_1}} & \frac{\dn{f_x}}{\dn{\theta_2}} & ... & \frac{\dn{f_x}}{\dn{\theta_N}} 
 \\[0.2cm]
-\frac{\dn{E_y}}{\dn{\theta_1}} & \frac{\dn{E_y}}{\dn{\theta_2}} & ... & \frac{\dn{E_y}}{\dn{y}} 
+\frac{\dn{f_y}}{\dn{\theta_1}} & \frac{\dn{f_y}}{\dn{\theta_2}} & ... & \frac{\dn{f_y}}{\dn{y}} 
 \\[0.2cm]
-\frac{\dn{E_z}}{\dn{\theta_1}} & \frac{\dn{E_z}}{\dn{\theta_2}} & ... & \frac{\dn{E_z}}{\dn{\theta_N}}
+\frac{\dn{f_z}}{\dn{\theta_1}} & \frac{\dn{f_z}}{\dn{\theta_2}} & ... & \frac{\dn{f_z}}{\dn{\theta_N}}
 \end{array}
 \right]
 \end{equation}
@@ -190,13 +190,13 @@ Where the Jacobian relates a small change in angle to a small change in the posi
 \partial \vect{E} \approx J(\params) \partial \params
 \end{equation}
 
-There are a number of ways to compute the Jacobian, and one common way of evaluating it is to use the cross product of the axis of rotation (which for a 2D system is simply the z-axis out of screen) with the vector from the joint position to the target end-effector position \cite{Buss09}. Therefore each column in the Jacobian, corresponding to the $i$th joint in the linkage, is given by
+There are a number of ways to compute the Jacobian, and one common way of evaluating it is to use the cross product of the axis of rotation (which for a two-dimensional system is simply the z-axis out of screen) with the vector from the joint position to the target end-effector position \cite{Buss09}. Therefore each column in the Jacobian, corresponding to the $i$th joint in the linkage, is given by
 
 \begin{equation}
 \frac{\dn{\vect{E}}}{\dn{\theta_i}} = \vect{v}_i \times (\vect{E} - \vect{P}_i)
 \end{equation}
 
-Where $\vect{v}_i$ is the axis of rotation for the $i$th joint, and $\vect{P}_i$ is the position of the joint. This is implemented in the function calcJacobian.m. However, in our final implementation, we opt for a simple central difference approximation to the partial derivatives, which we found actually worked much better because it offered a more stable solution
+Where $\vect{v}_i$ is the axis of rotation for the $i$th joint, and $\vect{P}_i$ is the position of the joint. This is implemented in the function calcJacobian.m. However, in our final implementation, we opt for a simple central difference approximation to the partial derivatives, which we found actually worked much better because it offered a more stable solution. This is implemented in the function fdJacobian.m
 
 \begin{equation}
 \frac{\dn{f}}{\dn{\theta_i}} \approx \frac{f(\theta_i+\delta) - f(\theta_i-\delta)}{2\delta} 
@@ -220,67 +220,79 @@ And then we perform a simple Euler integration to obtain the joint angles at the
 \params^{t+\Delta t} = \params^t + \Delta t \partial \params
 \end{equation}
 
-We must ensure the time step is sufficiently small to avoid numerical integration errors. The Euler method is also not the most stable of techniques, so perhaps Verlet or Runge-Kutta integration methods would be better. The complete Jacobian inverse/transpose algorithm implemented in Matlab is summarised below:
+We must ensure the time step is sufficiently small to avoid numerical integration errors. The Euler method is also not the most stable of techniques, so perhaps Verlet or Runge-Kutta integration methods would work better. The complete Jacobian inverse/transpose algorithm implemented in Matlab is summarised below:
+\vspace{-2mm}
+\begin{center}
+\line(1,0){400}
+\end{center}
 
 \begin{enumerate}
 \item
 Calculate the difference between the goal position and the position of the end-effector
 
 \begin{equation}
-\Delta E = G - E
+\Delta \vect{E} = \vect{G} - \vect{E}
 \end{equation}
 
 \item
-Calculate the Jacobian matrix $J$ using the current joint angles
+Compute the Jacobian matrix $J$ using the current joint angles and the appropriate method
 
 \item
-Calculate the pseudo-inverse of the Jacobian $J^+$
+Calculate the pseudo-inverse of the Jacobian $J^+$, or alternatively the transpose $J^T$
 
 \item
-Determine the error of the pseudo-inverse
-
-\begin{equation}
-error = ||(I - JJ^{-1})\Delta E||
-\end{equation}
+Determine $error = ||(I - JJ^{-1})\Delta \vect{E}||$
 
 \item
 If $error > \epsilon$ then
+\vspace{1mm}
+\begin{equation}
+\Delta \vect{E} = \Delta \vect{E} / 2
+\end{equation}  
+\vspace{1mm}
+and repeat step 4
+
+\item
+Update the joint angles at each time step and use these as the new current values
 
 \begin{equation}
-\Delta E = \Delta E / 2
-\end{equation}  
+\params := \params + \Delta t J^{-1} \Delta \vect{E}
+\end{equation}
 
-repeat step 4.
-
-
-\item
-Update the joint angles and use these as the new current values.
-A simple way to add constraints and to prevent unnatural poses being computed is to cap the joint angles to upper or lower bounds. This requires the following additional step:
+A simple way to add constraints and to prevent unnatural poses being computed is to cap the joint angles to upper or lower bounds. This requires the following additional step \cite{Madd04}:
 
 \item
-\begin{equation*}
+\begin{equation}
 \params = \left\{
 \begin{array}{rl}
 lowerbound & \text{if } x < lowerbound\\
 upperbound & \text{if } x > upperbound\\
-\params + J^{-1}\Delta E & \text{otherwise}
+\params + J^{-1}\Delta \vect{E} & \text{otherwise}
 \end{array} \right.
-\end{equation*}
+\label{eq:constraint}
+\end{equation}
+
 \end{enumerate}
 
 \subsubsection{Scaling considerations}
 
-In practice, the simple algorithm above does not always produce satisfying results. Even if the Jacobian is normalised, we can observe unnatural behaviour in the movement of the linkage, for example certain joints seem to move more freely than others. Welman suggests the following modification. We can attempt to compensate for this behaviour by introducing a scaling matrix $\vect{K}$, which is a constant diagonal matrix, whose $i \text{th}$ diagonal entry $\vect{K}_i$ acts as a weighting factor for the computed joint velocity $\vect{q}_i$. The following term is suggested:
+In practice, the simple algorithm above does not always produce satisfying results. Even if the Jacobian, or angle steps are normalised, we can observe unnatural behaviour in the movement of the linkage. For example certain joints seem to move more freely than others, or at different times to others. Welman \cite{Welman1993} suggests the following modification. We can attempt to compensate for this unnatural behaviour by introducing a scaling matrix $\vect{K}$, which is a constant diagonal matrix, whose $i \text{th}$ diagonal entry $\vect{K}_i$ acts as a weighting factor for the computed joint velocity $\vect{q}_i$. The following term is suggested:
 
 \begin{equation}
 \vect{K}_i = \frac{1}{w_i \alpha_i}
 \end{equation}
 
-where $w_i$ is proportional to the length of link $i$, and is intended to offset the effects of the overall scale of the world. The $\alpha_i$ is a weighting factor for joint $i$, which can be thought as the responsiveness of the joint to an applied force. This parameter could be made available to the user to allow modification of the a joint's perceived "stiffness". \\
+where $w_i$ is proportional to the length of link $i$, and is intended to offset the effects of the overall scale of the world. The $\alpha_i$ is a weighting factor for joint $i$, which can be thought as the responsiveness of the joint to an applied force. In future implementations, this parameter could be made available to the user to allow modification of the a joint's perceived stiffness. \\
 
-Although Welman's proposed scaling matrix is currently a constant gain matrix, it would be relatively easy to make this into a time-varying matrix $\vect{K}(t)$. A very basic implementation could be to simply vary the $ith$ scaling parameters in the matrix when the $ith$ joint gets within a certain threshold distance from the goal position.
+Although Welman's proposed scaling matrix is currently a constant gain matrix, it would be relatively easy to make this into a time-varying matrix $\vect{K}(t)$. A very basic implementation could be to simply vary the $i$th scaling parameters in the matrix when the $i$th joint gets within a certain threshold distance from the goal position.
 
 \subsubsection{Incorporating constraints}
+
+Implementing constraints in an inverse kinematics system is very important if we want to provide some context to the system, rather than just dealing with an abstract robotic arm. For example, for a human skeleton, we would want to constrain the amount of rotation for specific joints, such as an elbow joint which doesn't have full flexibility of movement. \\
+
+The current method of limiting the allowable joint angles simply by capping them when the angle update $\params^{t+\Delta t}$ exceeds the upper and lower bounds works reasonably well in practice, but is perhaps not the most elegant solution. It successfully prevents the joint angles from exceeding their limits, but it does not discourage the joints from reaching these limits. Another way to implement constraints would be to use a variant of the penalty method, which simply applies a restoring when the joint constraints are violated, to push the system back into a legal state in which all constraints are satisfied. This method was briefly explored in the Matlab implementation and implemented in the function evalF\_constraints.m. A penalty term for each joint constraint is simply added to the cost function, which is the distance between the end-effector and the target position. \\
+
+Perhaps the best way to incorporate constraints would be to use the Lagrange multiplier method, as we are essentially solving a nonlinear optimisation problem. This could be an interesting avenue in future work. In the final implementation of our system, we decided to stick with the simple constraint method explained in equation~\ref{eq:constraint}.
 
 \subsection{ OpenGL}
 
@@ -421,9 +433,11 @@ One of the objectives was to have controllable slow in and slow out motion at th
   
 \section{Conclusion}
 
-\begin{enumerate}
-\item What has been achieved? Refer to requirements and goals.
-\end{enumerate}
+We have used the method of inverse kinematics to create a three-dimensional linkage that moves towards a specified goal position. The location of the goal in three-dimensional space can be adjusted by the user through keyboard input, and it's position can be changed mid-way through the simulation so that the linkage reacts accordingly. Although the rendering and lighting of the linkage is relatively simplistic in it's current implementation, it does effectively display the three-dimensional nature of the dynamic model. The inclusion of the tracer that describes the path of the end-effector is an effective addition, which emphasises the movement of the linkage and provides a visually pleasing result. \\
+
+A number of parameters have been included that enable the user to control the physical properties of the linkage. The parameters must be hard set within the source code, prior to the simulation, but ideally we would prefer to set them in run-time through the use of a gui. For example, the rate at which the joints move can be altered so that certain joints appear to be more flexible than others. Constraints on the joints can be included by specifying the maximum and minimum allowable angles for the whole chain. In addition, the speed of the linkage can be tuned to provide a more organic behaviour; so that the linkage accelerates at the start of its motion and decelerates towards the end. \\
+
+We provide a real-time OpenGL implementation of the inverse kinematics problem for an arbitrary number of joints, which runs smoothly, and solves for any target position within the range of the linkage. However, the system can suffer from oscillations when the target point is just inside the boundary. The system is also slower to solve when the target point is placed in certain positions, for example if it is placed at a location incident with the chain when the chain is fully stretched.
 
 \subsection{Future Work}
 
