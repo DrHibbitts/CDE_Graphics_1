@@ -3,17 +3,17 @@ The style file: plain.bst
 Database file #1: ReportAG.bib
 Warning--entry type for "Chin96" isn't style-file defined
 --line 37 of file ReportAG.bib
+Too many commas in name 1 of "Engell-Nørregård, M.P , Niebe, S.M. , Bonding, M.B" for entry Bonding07
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Engell-Nørregård, M.P , Niebe, S.M. , Bonding, M.B" for entry Bonding07
+while executing---line 1049 of file plain.bst
+Too many commas in name 1 of "Engell-Nørregård, M.P , Niebe, S.M. , Bonding, M.B" for entry Bonding07
+while executing---line 1049 of file plain.bst
 Too many commas in name 1 of "Wang, L., Chen, C." for entry Wang91
 while executing---line 1049 of file plain.bst
 Too many commas in name 1 of "Watt, A. , Watt, M." for entry Watt92
 while executing---line 1049 of file plain.bst
 Too many commas in name 1 of "Zhao, J. , Badler, N. I." for entry Zhao94
-while executing---line 1049 of file plain.bst
-Too many commas in name 1 of "Engell-Nørregård, M.P , Niebe, S.M. , Bonding, M.B" for entry Bonding07
-while executing---line 1049 of file plain.bst
-Too many commas in name 1 of "Engell-Nørregård, M.P , Niebe, S.M. , Bonding, M.B" for entry Bonding07
-while executing---line 1049 of file plain.bst
-Too many commas in name 1 of "Engell-Nørregård, M.P , Niebe, S.M. , Bonding, M.B" for entry Bonding07
 while executing---line 1049 of file plain.bst
 Warning--empty journal in Eber01
 Too many commas in name 1 of "Engell-Nørregård, M.P , Niebe, S.M. , Bonding, M.B" for entry Bonding07
