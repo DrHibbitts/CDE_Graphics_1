@@ -1,4 +1,4 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
 \bibitem{Buss09}
 S.R. Buss.
@@ -15,6 +15,16 @@ K.W. Chin.
 J.~Craig.
 \newblock {\em Introduction to Robotics: Mechanics and Control}.
 \newblock Addison-Wesley, 1955.
+
+\bibitem{Eber01}
+D.~H. Eberly.
+\newblock 3d game engine design.
+\newblock 2001.
+
+\bibitem{Bonding07}
+Niebe S.M. Bonding~M.B Engell-Nørregård, M.P.
+\newblock Inverse kinematics with constraints.
+\newblock Master's thesis, University of Copenhagen, 2007.
 
 \bibitem{Fedor2003}
 M.~Fedor.
@@ -35,10 +45,28 @@ M.~Meredith and S.~C. Maddock.
 \newblock {\em Department of Computer Science Research Memorandum CS-04-06},
   2004.
 
+\bibitem{Wang91}
+Chen~C. Wang, L.
+\newblock A combined optimisation method for solving the inverse kinematics
+  problem of mechanical manipulators.
+\newblock {\em IEEE Transactions on Robotics \& Applications}, pages
+  p.489--499, 1991.
+
+\bibitem{Watt92}
+Watt~M. Watt, A.
+\newblock Advanced animation and rendering techniques.
+\newblock {\em Addison-Wesley}, 1992.
+
 \bibitem{Welman1993}
 C.~Welman.
 \newblock Inverse kinematics and geometric constraints for articulated figure
   manipulation.
 \newblock Master's thesis, Simon Fraser University, September 1993.
+
+\bibitem{Zhao94}
+Badler N.~I. Zhao, J.
+\newblock Inverse kinematics positioning using nonlinear programming for highly
+  articulated figures.
+\newblock {\em ACM Transactions on Graphics}, pages 313--336, 1994.
 
 \end{thebibliography}
