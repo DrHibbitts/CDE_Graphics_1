@@ -379,6 +379,13 @@ void SimulationController::updateChain() {
 
 The simulation thread is either simulating or waiting for a new goal. It also checks when it's close to the goal and it stops at a given threshold, so the loop that updates the Jacobian matrix is not called though the simulation thread is still running. The user can input a new goal position at any time, as the simulation loop will then solve for the new goal using the current chain state.\\
 
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.4]{threadDiagram}
+\caption{Diagram showing the data communication among the simulation and the rendering thread.}
+\label{fig:scaling}
+\end{figure}
+
 Our final improvement involved adapting the simulation and the display to work in a three-dimensional case, see Figure~\ref{fig:3Dpicture}. We construct the chain using rectangular parallelepipeds, while the shaders implemented a Gouraud shading algorithm. 
 % First, we added normal vectors to each vertex of every object; they point outwards from every vertices that is on the surface of the object, and for the vertices which are on the edges we use the mean of the neighbouring planar normals. Local illumination model combines the ambient, diffuse and specular light to give the colour intensities of the reflections, and the final shading is achieved by interpolating the vertices and normals. \\
 
@@ -397,7 +404,7 @@ One of the objectives was to have controllable slow in and slow out motion at th
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.5]{SpeedDiagram}
-\caption{Final two dimensional simulation with the trace and a triangle showing the goal position.}
+\caption{Diagram illustrating the linear scaling that results in slow in and slow out motion of the chain.}
 \label{fig:scaling}
 \end{figure}
 
