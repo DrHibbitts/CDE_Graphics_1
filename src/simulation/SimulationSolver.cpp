@@ -60,7 +60,7 @@ void SimulationSolver::setChain(ChainPtr chain) {
 
 	if (chain) {
 		//wChain is a real copy of chain, not just another pointer to it
-		chain->copyToModel(wChain);
+		wChain = *chain;
 		jacobian.resize(chain->getNumJoints() * 2);
 	} else {
 		wChain.clear();
@@ -70,6 +70,7 @@ void SimulationSolver::setChain(ChainPtr chain) {
 void SimulationSolver::resetWorkingChain() {
 	for (unsigned int i = 0; i < wChain.getNumJoints(); i++) {
 		wChain.setJointZAngle(i, chain->getJointZAngle(i));
+		wChain.setJointYAngle(i, chain->getJointYAngle(i));
 	}
 }
 

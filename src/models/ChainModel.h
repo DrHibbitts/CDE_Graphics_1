@@ -23,6 +23,9 @@ public:
 	ChainModel();
 	virtual ~ChainModel();
 
+	//Assign operator
+	ChainModel& operator=(const ChainModel& otherChain);
+
 	void clear();
 
 	//When a bone is added a new joint is created in the end of the previous

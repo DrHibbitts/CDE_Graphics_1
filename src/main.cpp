@@ -46,23 +46,23 @@ int main(void) {
 	chain->addBone(1);
 	//Change the angle of joint 0 to Z degrees and Y degrees
 	chain->setJointAngles(0, 0, 0);
-	chain->setBoneStiffness(0, 15);
+	chain->setBoneStiffness(0, 0.3);
 
-	chain->addBone(0.5);
+	chain->addBone(1);
 	chain->setJointAngles(1, 0, 0);
 	chain->setBoneStiffness(1, 1);
 
-	chain->addBone(2);
+	chain->addBone(1);
 	chain->setJointAngles(2, 0, 0);
 	chain->setBoneStiffness(2, 1);
 
 	chain->addBone(1);
 	chain->setJointAngles(3, 0, 0);
-	chain->setBoneStiffness(3, 1);
+	chain->setBoneStiffness(3, 0.3);
 
 	chain->addBone(1);
 	chain->setJointAngles(4, 0, 0);
-	chain->setBoneStiffness(4, 5);
+	chain->setBoneStiffness(4, 0.2);
 
 	//Draw chain
 	window.addDrawable(chain);

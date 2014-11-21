@@ -31,8 +31,6 @@ public:
 	void setJointYAngle(unsigned int index, float zAngle);
 	void setJointAngles(unsigned int index, float zAngle, float yAngle);
 
-	//Copy current Chain data into chainModel
-	void copyToModel(ChainModel& chainModel) const;
 private:
 	std::vector<JointPtr> joints;
 	std::vector<BonePtr> bones;

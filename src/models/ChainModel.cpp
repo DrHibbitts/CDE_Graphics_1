@@ -27,6 +27,7 @@ ChainModel::~ChainModel() {
 void ChainModel::clear() {
 	bones.clear();
 	joints.clear();
+	stiffness.clear();
 }
 
 void ChainModel::addBone(float size) {
@@ -57,7 +58,7 @@ void ChainModel::setAngleConstrains(double minZ, double maxZ, double minY,
 	this->maxY = maxY;
 }
 void ChainModel::setBoneStiffness(unsigned int index, float stiffness) {
-	this->stiffness.at(index) = stiffness;
+	this->stiffness.at(index) = 1.0 / (stiffness * bones.at(index).getLength());
 }
 
 float ChainModel::getBoneStiffness(unsigned int index) const {
@@ -103,6 +104,27 @@ void ChainModel::updateMatrices(glm::mat4& currentMat, unsigned int i) const {
 
 glm::vec3 ChainModel::costFun(const glm::vec3& goal) const {
 	return goal - getEndEfectorPos();
+}
+
+ChainModel& ChainModel::operator=(const ChainModel& otherChain) {
+
+	if (this != &otherChain) {
+		clear();
+
+		maxY = otherChain.maxY;
+		maxZ = otherChain.maxZ;
+		minY = otherChain.minY;
+		minZ = otherChain.minZ;
+		maximumRadius = 0;
+
+		for (unsigned int i = 0; i < otherChain.joints.size(); i++) {
+			addBone(otherChain.getBoneLength(i));
+			setJointAngles(i, otherChain.getJointZAngle(i),
+					otherChain.getJointYAngle(i));
+			stiffness.at(i) = otherChain.stiffness.at(i);
+		}
+	}
+	return *this;
 }
 
 double ChainModel::getMaxY() const {
