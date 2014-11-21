@@ -130,7 +130,7 @@ Differential-based techniques utilise an iterative approach that requires multip
 %------------------------------------------------
 
 \section{Procedure}
-In this section we discuss our approach to solving the kinematics problem. We started by considering the two-dimensional situation where a planar object with a predetermined number of links is reaching towards a point in the plane. Our first attempt at a solution was to use forward kinematics where at each time-step we calculated the subsequent position using the current state and the desired position of the end-point. Our discussion starts with our Matlab implementation as we wanted to ensure that the method works as desired before exporting it to the OpenGL framework. In the meantime, we started working on the basic structure in OpenGL, for instance we drew the necessary primitives, such as triangles, squares and lines in two-dimensions, and proceeded by including some appropriate data structures and some primitive user interface. \\
+In this section we discuss our approach to solving the kinematics problem. We started with a simplified case, by considering the two-dimensional situation where a planar object with a predetermined number of links is reaching towards a point in the plane. Our first attempt at a solution was to use forward kinematics where at each time-step we calculated the subsequent position using the current state and the desired position of the end-point. Our discussion starts with our Matlab implementation as we wanted to ensure that the method works as desired before exporting it to the OpenGL framework. In the meantime, we started working on the basic structure in OpenGL, for instance we drew the necessary primitives, such as triangles, squares and lines in two-dimensions, and proceeded by including some appropriate data structures and some primitive user interface. \\
 
 The next step was to apply inverse kinematics in the case of our two-dimensional problem. We chose to use the Inverse Jacobian technique and implemented the method with both full inverse of the Jacobian matrix as well as the pseudoinverse. The motion of the object was displayed graphically, and we altered the number of limbs in order to test the performance of our method. At this stage the method still had a number of shortcomings even though it was restricted to motion in a plane. Firstly, the motion was not stable when the object was reaching towards a point that was outside the circular region. Secondly, the method favoured the movement of certain limbs without us explicitly specifying the constraints. We also improved the OpenGL user interface by adding mouse capture, and added chain class with bones and joints. In both Matlab and OpenGL the system is described using relative angles, i.e. starting at the origin, each subsequent angle is defined in the coordinate system of the previous one (picture???). \\
 
@@ -269,8 +269,9 @@ lowerbound & \text{if } x < lowerbound\\
 upperbound & \text{if } x > upperbound\\
 \params + J^{-1}\Delta \vect{E} & \text{otherwise}
 \end{array} \right.
-\end{equation}
 \label{eq:constraint}
+\end{equation}
+
 \end{enumerate}
 
 \subsubsection{Scaling considerations}
@@ -432,9 +433,11 @@ One of the objectives was to have controllable slow in and slow out motion at th
   
 \section{Conclusion}
 
-\begin{enumerate}
-\item What has been achieved? Refer to requirements and goals.
-\end{enumerate}
+We have used the method of inverse kinematics to create a three-dimensional linkage that moves towards a specified goal position. The location of the goal in three-dimensional space can be adjusted by the user through keyboard input, and it's position can be changed mid-way through the simulation so that the linkage reacts accordingly. Although the rendering and lighting of the linkage is relatively simplistic in it's current implementation, it does effectively display the three-dimensional nature of the dynamic model. The inclusion of the tracer that describes the path of the end-effector is an effective addition, which emphasises the movement of the linkage and provides a visually pleasing result. \\
+
+A number of parameters have been included that enable the user to control the physical properties of the linkage. The parameters must be hard set within the source code, prior to the simulation, but ideally we would prefer to set them in run-time through the use of a gui. For example, the rate at which the joints move can be altered so that certain joints appear to be more flexible than others. Constraints on the joints can be included by specifying the maximum and minimum allowable angles for the whole chain. In addition, the speed of the linkage can be tuned to provide a more organic behaviour; so that the linkage accelerates at the start of its motion and decelerates towards the end. \\
+
+We provide a real-time OpenGL implementation of the inverse kinematics problem for an arbitrary number of joints, which runs smoothly, and solves for any target position within the range of the linkage. However, the system can suffer from oscillations when the target point is just inside the boundary. The system is also slower to solve when the target point is placed in certain positions, for example if it is placed at a location incident with the chain when the chain is fully stretched.
 
 \subsection{Future Work}
 

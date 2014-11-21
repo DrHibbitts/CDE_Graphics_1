@@ -1,20 +1,10 @@
-\begin{thebibliography}{10}
-
-\bibitem{Watt92}
-M.~Watt A.~Watt.
-\newblock Advanced animation and rendering techniques.
-\newblock 1992.
+\begin{thebibliography}{1}
 
 \bibitem{Buss09}
-Samuel~R. Buss.
+S.R. Buss.
 \newblock {\em Introduction to Inverse Kinematics with Jacobian Transpose,
   Pseudoinverse and Damped Least Squares methods}, 2009 (accessed October,
   2014).
-
-\bibitem{Kwan00}
-K.~Hyeong-Seok C.~Kwang-Jin.
-\newblock On-line motion retargetting.
-\newblock pages 223--235, 2000.
 
 \bibitem{Chin96}
 K.W. Chin.
@@ -26,42 +16,27 @@ J.~Craig.
 \newblock {\em Introduction to Robotics: Mechanics and Control}.
 \newblock Addison-Wesley, 1955.
 
-\bibitem{Eber01}
-D.~H. Eberly.
-\newblock 3d game engine design.
-\newblock 2001.
-
 \bibitem{Fedor2003}
-Martin Fedor.
+M.~Fedor.
 \newblock Application of inverse kinematics for skeleton manipulation in
   real-time.
 \newblock In {\em Proceeding of Spring Conference on Computer Graphics 2003},
   pages 201--210. Slovak University of Technology in Bratislava, 2003.
 
-\bibitem{Zhao94}
-N.~I.~Badler J.~Zhao.
-\newblock Inverse kinematics positioning using nonlinear programming for highly
-  articulated figures.
-\newblock pages 313--336, 1994.
-
-\bibitem{Wang91}
-C.~Chen L.~Wang.
-\newblock A combined optimisation method for solving the inverse kinematics
-  problem of mechanical manipulators.
-\newblock pages p.489--499, 1991.
+\bibitem{Kwan00}
+C.~Kwang-Jin and K.~Hyeong-Seok.
+\newblock On-line motion retargetting.
+\newblock {\em The Journal of Visualization and Computer Animation}, pages
+  223--235, 2000.
 
 \bibitem{Madd04}
-M.~Meredith and S.C.Maddock.
+M.~Meredith and S.~C. Maddock.
 \newblock Real-time inverse kinematics: The return of the jacobian.
-\newblock 2004.
-
-\bibitem{Paul88}
-G.~E.~Mayer R.~P.~Paul, B.~Shimano.
-\newblock Kinematic control equations for simple manipulators.
-\newblock 1988.
+\newblock {\em Department of Computer Science Research Memorandum CS-04-06},
+  2004.
 
 \bibitem{Welman1993}
-Chris Welman.
+C.~Welman.
 \newblock Inverse kinematics and geometric constraints for articulated figure
   manipulation.
 \newblock Master's thesis, Simon Fraser University, September 1993.
