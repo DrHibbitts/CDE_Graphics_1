@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2014.9.29)  21 NOV 2014 17:03
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2014.9.29)  21 NOV 2014 19:20
 entering extended mode
 **ReportAG.tex
 
@@ -676,11 +676,7 @@ Class scrartcl Warning: Usage of package `fancyhdr' together
 \f@ncyO@orf=\skip139
 )
 ("C:\Users\Richard\Desktop\CDE\Semester 1\Computer Animation\CDE_Graphics_1\Lat
-ex\ReportAG.aux"
-
-LaTeX Warning: Label `fig:scaling' multiply defined.
-
-)
+ex\ReportAG.aux")
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 70.
 LaTeX Font Info:    ... okay on input line 70.
 LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 70.
@@ -766,12 +762,12 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 
 
 {C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}]
-<chain3Dexamplev2.png, id=8, 769.87625pt x 503.8825pt>
+<chain3Dexamplev2.png, id=8, 685.56125pt x 279.0425pt>
 File: chain3Dexamplev2.png Graphic file (type png)
 
 <use chain3Dexamplev2.png>
 Package pdftex.def Info: chain3Dexamplev2.png used on input line 91.
-(pdftex.def)             Requested size: 307.94504pt x 201.54942pt.
+(pdftex.def)             Requested size: 274.21964pt x 111.615pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 96--97
 
@@ -810,12 +806,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 135--136
 
  []
 
-
+[3]
 Underfull \hbox (badness 10000) in paragraph at lines 137--138
 
  []
 
-[3]
+
 Underfull \hbox (badness 10000) in paragraph at lines 139--140
 
  []
@@ -826,185 +822,164 @@ Underfull \hbox (badness 10000) in paragraph at lines 141--142
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 143--144
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 145--146
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 151--152
+Underfull \hbox (badness 10000) in paragraph at lines 147--148
 
  []
 
 <chainMatlab.png, id=23, 418.66759pt x 314.00069pt>
 File: chainMatlab.png Graphic file (type png)
  <use chainMatlab.png>
-Package pdftex.def Info: chainMatlab.png used on input line 155.
+Package pdftex.def Info: chainMatlab.png used on input line 151.
 (pdftex.def)             Requested size: 251.20248pt x 188.40186pt.
 
-[4] [5 <C:/Users/Richard/Desktop/CDE/Semester 1/Computer Animation/CDE_Graphics
-_1/Latex/chainMatlab.png (PNG copy)>] [6]
-Underfull \hbox (badness 10000) in paragraph at lines 285--286
+[4 <C:/Users/Richard/Desktop/CDE/Semester 1/Computer Animation/CDE_Graphics_1/L
+atex/chainMatlab.png (PNG copy)>] [5]
+Underfull \hbox (badness 10000) in paragraph at lines 281--282
+
+ []
+
+[6]
+Underfull \hbox (badness 10000) in paragraph at lines 287--288
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 291--292
+Underfull \hbox (badness 10000) in paragraph at lines 289--290
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 293--294
-
- []
-
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 302.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 298.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\base\omscmr.fd"
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 302.
- [7]
-Underfull \hbox (badness 10000) in paragraph at lines 307--308
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 298.
+
+Underfull \hbox (badness 10000) in paragraph at lines 303--304
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 310--311
-
- []
-
-LaTeX Font Info:    Try loading font information for OMS+cmss on input line 318
-.
-LaTeX Font Info:    No file OMScmss.fd. on input line 318.
-
-LaTeX Font Warning: Font shape `OMS/cmss/m/n' undefined
-(Font)              using `OMS/cmsy/m/n' instead
-(Font)              for symbol `textasteriskcentered' on input line 318.
-
-LaTeX Font Info:    Try loading font information for T1+cmtt on input line 319.
-
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\t1cmtt.fd"
-File: t1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
-)
-Underfull \hbox (badness 10000) in paragraph at lines 324--325
+Underfull \hbox (badness 10000) in paragraph at lines 306--307
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 328--331
+Underfull \hbox (badness 10000) in paragraph at lines 324--327
+
+ []
+
+[7]
+Underfull \hbox (badness 10000) in paragraph at lines 365--367
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 369--370
+Underfull \hbox (badness 10000) in paragraph at lines 368--369
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 371--372
+Underfull \hbox (badness 10000) in paragraph at lines 370--371
 
  []
 
-[8]
-Underfull \hbox (badness 10000) in paragraph at lines 373--374
-
- []
-
-<chain2Dv2.png, id=53, 781.92125pt x 398.48875pt>
+<chain2Dv2.png, id=48, 781.92125pt x 398.48875pt>
 File: chain2Dv2.png Graphic file (type png)
  <use chain2Dv2.png>
-Package pdftex.def Info: chain2Dv2.png used on input line 377.
+Package pdftex.def Info: chain2Dv2.png used on input line 374.
 (pdftex.def)             Requested size: 312.76295pt x 159.39267pt.
 
+Underfull \hbox (badness 10000) in paragraph at lines 379--380
+
+ []
+
+[8 <C:/Users/Richard/Desktop/CDE/Semester 1/Computer Animation/CDE_Graphics_1/L
+atex/chain2Dv2.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 382--383
 
  []
 
+<threadDiagram.pdf, id=53, 1023.00278pt x 612.82706pt>
+File: threadDiagram.pdf Graphic file (type pdf)
+ <use threadDiagram.pdf>
+Package pdftex.def Info: threadDiagram.pdf used on input line 386.
+(pdftex.def)             Requested size: 409.19386pt x 245.12648pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 401--402
+Underfull \hbox (badness 10000) in paragraph at lines 396--397
+
+ []
+
+LaTeX Font Info:    Try loading font information for OMS+cmss on input line 400
+.
+LaTeX Font Info:    No file OMScmss.fd. on input line 400.
+
+LaTeX Font Warning: Font shape `OMS/cmss/m/n' undefined
+(Font)              using `OMS/cmsy/m/n' instead
+(Font)              for symbol `textasteriskcentered' on input line 400.
+
+<SpeedDiagram.pdf, id=54, 796.67719pt x 256.07481pt>
+File: SpeedDiagram.pdf Graphic file (type pdf)
+ <use SpeedDiagram.pdf>
+Package pdftex.def Info: SpeedDiagram.pdf used on input line 408.
+(pdftex.def)             Requested size: 398.33762pt x 128.03708pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 417--418
 
  []
 
 [9 <C:/Users/Richard/Desktop/CDE/Semester 1/Computer Animation/CDE_Graphics_1/L
-atex/chain2Dv2.png>] <threadDiagram.pdf, id=58, 1023.00278pt x 612.82706pt>
-File: threadDiagram.pdf Graphic file (type pdf)
-
-<use threadDiagram.pdf>
-Package pdftex.def Info: threadDiagram.pdf used on input line 405.
-(pdftex.def)             Requested size: 409.19386pt x 245.12648pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 415--416
-
- []
-
-[10 <C:/Users/Richard/Desktop/CDE/Semester 1/Computer Animation/CDE_Graphics_1/
-Latex/threadDiagram.pdf>] <SpeedDiagram.pdf, id=70, 796.67719pt x 256.07481pt>
-File: SpeedDiagram.pdf Graphic file (type pdf)
-
-<use SpeedDiagram.pdf>
-Package pdftex.def Info: SpeedDiagram.pdf used on input line 427.
-(pdftex.def)             Requested size: 398.33762pt x 128.03708pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 436--437
+atex/threadDiagram.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 419--420
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 438--439
-
- []
-
-[11 <C:/Users/Richard/Desktop/CDE/Semester 1/Computer Animation/CDE_Graphics_1/
-Latex/SpeedDiagram.pdf>]
 ("C:\Users\Richard\Desktop\CDE\Semester 1\Computer Animation\CDE_Graphics_1\Lat
-ex\ReportAG.bbl") [12]
+ex\ReportAG.bbl" [10 <C:/Users/Richard/Desktop/CDE/Semester 1/Computer Animatio
+n/CDE_Graphics_1/Latex/SpeedDiagram.pdf>]) [11]
 ("C:\Users\Richard\Desktop\CDE\Semester 1\Computer Animation\CDE_Graphics_1\Lat
 ex\ReportAG.aux")
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-
-LaTeX Warning: There were multiply-defined labels.
-
  ) 
 Here is how much of TeX's memory you used:
- 15454 strings out of 493921
- 267482 string characters out of 3147276
- 489137 words of memory out of 3000000
- 18531 multiletter control sequences out of 15000+200000
- 28989 words of font info for 73 fonts, out of 3000000 for 9000
+ 15351 strings out of 493921
+ 265641 string characters out of 3147276
+ 477082 words of memory out of 3000000
+ 18432 multiletter control sequences out of 15000+200000
+ 28676 words of font info for 72 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 48i,12n,58p,10418b,1391s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 48i,12n,58p,10418b,1330s stack positions out of 5000i,500n,10000p,200000b,50000s
  <C:\Users\Richard\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi60
 0\ecti1095.pk> <C:\Users\Richard\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknap
-pen\ec\dpi600\ectt1000.pk> <C:\Users\Richard\AppData\Local\MiKTeX\2.9\fonts\pk\
-ljfour\jknappen\ec\dpi600\ecss1000.pk> <C:\Users\Richard\AppData\Local\MiKTeX\2
-.9\fonts\pk\ljfour\jknappen\ec\dpi600\eccc1200.pk> <C:\Users\Richard\AppData\Lo
-cal\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\eccc1440.pk> <C:\Users\Richar
-d\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1095.pk> <C:\
-Users\Richard\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1
-440.pk> <C:\Users\Richard\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\
-dpi600\ecrm2488.pk> <C:\Users\Richard\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\
-jknappen\ec\dpi600\eccc1095.pk><C:/Program Files/MiKTeX 2.9/fonts/type1/public/
-amsfonts/cm/cmbx10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts
-/cm/cmex10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi
-10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C
-:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Program
- Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Program Files/
-MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.
-9/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Program Files/MiKTeX 2.9/fonts/ty
-pe1/public/amsfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public
-/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfont
-s/cm/cmsy8.pfb>
-Output written on ReportAG.pdf (13 pages, 317769 bytes).
+pen\ec\dpi600\ecss1000.pk> <C:\Users\Richard\AppData\Local\MiKTeX\2.9\fonts\pk\
+ljfour\jknappen\ec\dpi600\eccc1200.pk> <C:\Users\Richard\AppData\Local\MiKTeX\2
+.9\fonts\pk\ljfour\jknappen\ec\dpi600\eccc1440.pk> <C:\Users\Richard\AppData\Lo
+cal\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1095.pk> <C:\Users\Richar
+d\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1440.pk> <C:\
+Users\Richard\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm2
+488.pk> <C:\Users\Richard\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\
+dpi600\eccc1095.pk><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/
+cmbx10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.p
+fb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/P
+rogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Program Fi
+les/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Program Files/MiKTe
+X 2.9/fonts/type1/public/amsfonts/cm/cmmib10.pfb><C:/Program Files/MiKTeX 2.9/f
+onts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type
+1/public/amsfonts/cm/cmr6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/a
+msfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm
+/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.p
+fb>
+Output written on ReportAG.pdf (12 pages, 303270 bytes).
 PDF statistics:
- 517 PDF objects out of 1000 (max. 8388607)
+ 450 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  26 words of extra memory for PDF output out of 10000 (max. 10000000)
 
