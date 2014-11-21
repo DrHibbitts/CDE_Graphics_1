@@ -20,7 +20,7 @@
 }
 \usepackage{mdframed}
 \usepackage{graphicx}
-
+\usepackage{svg}
 \usepackage{caption}
 
 \usepackage{sectsty} % Allows customizing section commands
@@ -119,11 +119,11 @@ To investigate whether to model and thereby vary the flexibility of the rods.
 \section{Related Work}
 The subject of inverse kinematics has been much researched over the past 60 years. Initially, it was primarily used in the robotics industry, for example for the control of robotic arms, particularly in car manufacturing, and the problem was first formulated in mechanical engineering literature \cite{Crai55}. But it has since been adopted by the computer graphics community as a means for animating a character's pose and movement through the control of an underlying moveable skeleton. An animator will often adjoin a three-dimensional deformable model of a character to an articulated skeleton structure, with defined bones and joints with certain physical constraints, which can be moved interactively into the desired positions. This process is known as 'rigging' in animation. The issue that inverse kinematics attempts to solve is to find the set of joint configurations that produce a plausible skeleton or linkage configuration based upon a desired end-effector position. For example, in character animation, the end-effector may be the position of a hand or foot, and we want to know the required joint angles of the arm or leg which allow the end-effector to be in this position, whilst remaining physically plausible for the character. \\
 
-There are a number of well-established methods of approaching the inverse kinematics problem which can be divided into four main categories of solver: geometrical/analytical algorithms, cyclic coordinate descent (CCD), differential algorithms, and hybrid methods which combine together various aspects of the first three techniques \cite{Madd04}. Geometrical and analytical algorithms, such as by \cite{Kwan00}, \cite{Chin96}, and \cite{Paul88} tend to be very quick because the inverse kinematics problem is essentially reduced to a single mathematical equation that only needs to be evaluated in a single step to produce a result. However, such methods have limitations, particularly for linkages with a large number of links, and so in these situations it is impractical to reduce the problem to a single-step mathematical equation. This means that in the field of character animation, geometrical/analytical techniques are less useful, but for a project such as this, where we are dealing with only a few links and a single end-effector, this could perhaps be an appropriate method. \\
+There are a number of well-established methods of approaching the inverse kinematics problem which can be divided into four main categories of solver: geometrical/analytical algorithms, cyclic coordinate descent (CCD), differential algorithms, and hybrid methods which combine together various aspects of the first three techniques \cite{Madd04}. Geometrical and analytical algorithms, such as by \cite{Kwan00}, \cite{Chin96} tend to be very quick because the inverse kinematics problem is essentially reduced to a single mathematical equation that only needs to be evaluated in a single step to produce a result. However, such methods have limitations, particularly for linkages with a large number of links, and so in these situations it is impractical to reduce the problem to a single-step mathematical equation. This means that in the field of character animation, geometrical/analytical techniques are less useful, but for a project such as this, where we are dealing with only a few links and a single end-effector, this could perhaps be an appropriate method. \\
 
-Another approach is cyclic coordinate descent (CCD), which uses a greedy algorithm to solve for each joint in turn, and repeats this process until a satisfactory solution is found. Solvers based on this method include those by \cite{Eber01} and \cite{Wang91}. Although this method is relatively simple and fast, it suffers from inaccuracies. Another issue with this technique is that the joint angles are updated one at a time, which has the undesirable and unrealistic result of earlier joints moving much more than later links in the linkage. \\
+Another approach is cyclic coordinate descent (CCD), which uses a greedy algorithm to solve for each joint in turn, and repeats this process until a satisfactory solution is found. Solvers based on this method include those by ... Although this method is relatively simple and fast, it suffers from inaccuracies. Another issue with this technique is that the joint angles are updated one at a time, which has the undesirable and unrealistic result of earlier joints moving much more than later links in the linkage. \\
 
-Differential-based techniques utilise an iterative approach that requires multiple step to reach a solution, such as those by \cite{Watt92} and \cite{Zhao94}. Most inverse kinematics systems tend to use the Jacobian inverse method, despite the fact that this method suffers from singularity problems. The reason these techniques remain in widespread use is due to their relative ease of implementation and speed for real-time applications. Since all joint angles are updated in a single step, the linkage movements are dissipated over all the links, which results in a more realistic and pleasing movement. \\
+Differential-based techniques utilise an iterative approach that requires multiple step to reach a solution, such as those by ... Most inverse kinematics systems tend to use the Jacobian inverse method, despite the fact that this method suffers from singularity problems. The reason these techniques remain in widespread use is due to their relative ease of implementation and speed for real-time applications. Since all joint angles are updated in a single step, the linkage movements are dissipated over all the links, which results in a more realistic and pleasing movement. \\
 
 
 
@@ -274,6 +274,8 @@ Although Welman's proposed scaling matrix is currently a constant gain matrix, i
 
 
 \subsection{ OpenGL}
+
+% 
 Our software was built on top of OpenGL version 4.3 so we can adopt the shaders introduced after 3.3 version, which uses a flexible pipeline. The following libraries are employed: 
 \begin{itemize}
 \item GLFW for window managing, 
@@ -284,7 +286,7 @@ Our software was built on top of OpenGL version 4.3 so we can adopt the shaders 
 The C++11 standard is used as it introduces better default thread and mutex libraries as well as other improvements. \\
 
 
-First, we consider all the necessary conversions that let us display the three-dimensional world on a two-dimensional screen surface. Initially we have the \(z\) value set to zero, and hence worked in a two-dimensional space. In our world model each object has it's own model transformation matrix M. We also have a camera matrix that defines the camera position and orientation. Lastly, a projection matrix describes the mapping of a pinhole camera which plots the three-dimensional world onto a two-dimensional screen. For every object in the scene, pixel/screen coordinates \([u, v, 1]\) are defined by multiplying the vertices of each object by the Model-View-Projection (MVP) transformation matrix which gives the position of each pixel on the screen, i.e. transformed vertex = MVP *  object vertex. \\
+First, we consider all the necessary conversions that let us display the three-dimensional world on a two-dimensional screen surface. Initially we have the \(z\) value set to zero, and hence worked in a two-dimensional space. In our world model each object has it's own model transformation matrix M. We also have a camera matrix that defines the camera position and orientation. Lastly, a projection matrix describes the mapping of a pinhole camera which plots the three-dimensional world onto a two-dimensional screen. For every object in the scene, pixel/screen coordinates \([u, v, 1]\) are defined by multiplying the vertices of each object by the Model-View-Projection (MVP) transformation matrix which gives the position of each pixel on the screen, i.e. transformed vertex = M \(\times\) V \(\times\) P \(\times\) object vertex. \\
 
 
 \lstset{
@@ -300,25 +302,27 @@ glm::mat4 MVP = viewProjection * modelMat;
 
 In the first version of our software, we would create all the OpenGL buffers for each object on each frame and destroy them at the end of each frame, which was inefficient. The problem was fixed by preallocating buffer objects (that store unformatted memory on the graphics processing unit (GPU)) for each object at the start of the simulation, and then binding the framework to allocated storage (setting as the active), rendering and unbinding. \\
 
-Next, we set up the necessary objects for rendering. We create a vertex object class that encapsulated the buffer objects used by OpenGL. The vertex specification is performed using the Vertex Array Object (VAO), and each vertex object has its own VAO attribute. For the two-dimensional model we adopt a simple shader program without lighting and we specify the colour directly. The actual implementation uses a vertex buffer object (VBO) for vertices so that each object has only the vertices listed sequentially in the corresponding buffer, and we have a colour buffer (CBO) of an identical size that contains the corresponding colours. The element buffer object (EBO) contains indices to a given vertex; it allows us to avoid replication of vertices and draw more efficiently. In particular, to define any rectangle (quad) that is a combination of two triangles, we only need to specify four vertices instead of using all six. \\
+% Next, we set up the necessary objects for rendering. We create a vertex object class that encapsulated the buffer objects used by OpenGL. The vertex specification is performed using the Vertex Array Object (VAO), and each vertex object has its own VAO attribute. For the two-dimensional model we adopt a simple shader program without lighting and we specify the colour directly. The actual implementation uses a vertex buffer object (VBO) for vertices so that each object has only the vertices listed sequentially in the corresponding buffer, and we have a colour buffer (CBO) of an identical size that contains the corresponding colours. The element buffer object (EBO) contains indices to a given vertex; it allows us to avoid replication of vertices and draw more efficiently. In particular, to define any rectangle (quad) that is a combination of two triangles, we only need to specify four vertices instead of using all six. \\
 
-The initial implementation consisted of lines, squares and triangles, and an orthographic projection was used to represent the objects in two dimensions. To gain insight into the performance of our model, we included a frames per second counter which indicates how fast the scene is being rendered. In order to draw an objects, we implemented a \texttt{Drawable} class. All the objects that need to be displayed have to implement an interface defined by the \texttt{Drawable} class and possess a function called \texttt{draw}. The window draws drawable objects and does not distinguish between them. The line, square and triangle are all subclass of the VertexObject class which itself is a subclass of \texttt{Drawable}. At this point we added the chain of rectangles and lines where lines represented bones and rectangles were joints. A \(4 \times 4\) rotation and translation matrices were introduced, so for each joint and at each time step the following calculation is performed:  \(\prod_{i=0}^I R_i T_i\) where \(R_i\) stands for the rotation of the joint and \(T_i\) corresponds to the translation of each bone. \\
+The initial implementation consisted of lines, squares and triangles, and an orthographic projection was used to represent the objects in two dimensions. 
+% To gain insight into the performance of our model, we included a frames per second counter which indicates how fast the scene is being rendered. In order to draw an objects, we implemented a \texttt{Drawable} class. All the objects that need to be displayed have to implement an interface defined by the \texttt{Drawable} class and possess a function called \texttt{draw}. The window draws drawable objects and does not distinguish between them. The line, square and triangle are all subclass of the VertexObject class which itself is a subclass of \texttt{Drawable}. 
+At this point we added the chain of rectangles and lines where lines represented bones and rectangles were joints. A \(4 \times 4\) rotation and translation matrices were introduced, so for each joint and at each time step the following calculation is performed:  \(\prod_{i=0}^I R_i T_i\) where \(R_i\) stands for the rotation of the joint and \(T_i\) corresponds to the translation of each bone. \\
 
-\begin{lstlisting}[float,caption=Drawable Class., label={lst:drawable}]
-class VertexObject: public Drawable {
-	<...>
-protected:
-	//Model matrix
-	glm::mat4 modelMat;
-	//Model vertex related data
-	std::vector<glm::vec3> vertices, normals, colors;
-	std::vector<unsigned int> indices;
-	glm::vec3 centroid;
-
-	//Common object and buffers needed for OpenGL rendering
-	GLuint vao, vbo, nbo, ebo, cbo;
-};
-\end{lstlisting}
+%\begin{lstlisting}[float,caption=Drawable Class., label={lst:drawable}]
+%class VertexObject: public Drawable {
+%	<...>
+%protected:
+%	//Model matrix
+%	glm::mat4 modelMat;
+%	//Model vertex related data
+%	std::vector<glm::vec3> vertices, normals, colors;
+%	std::vector<unsigned int> indices;
+%	glm::vec3 centroid;
+%
+%	//Common object and buffers needed for OpenGL rendering
+%	GLuint vao, vbo, nbo, ebo, cbo;
+%};
+%\end{lstlisting}
 
 
 \begin{lstlisting}[float,caption=Common draw call for all VertexObjects., label={lst:draw}]
@@ -341,11 +345,11 @@ void VertexObject::draw(Renderer& renderer) const {
 }
 \end{lstlisting}
 
-In order to achieve a fluent and efficient rendering, we made the simulation process independent of rendering. Simulation and rendering are performed on two different threads, and have to access a shared resource concurrently. The synchronisation of these two processes is encapsulated in simulation controller class which uses a mutual exclusion lock variable. The rendering process has access to all the chain data while the simulation only uses the angles and lengths (taken from the copy of the chain) to perform the numerical calculations which advance the motion in time. The simulation runs almost continuously, it stops only to allow the renderer to look up the angle values each time it finishes rendering. This synchronisation mechanism allows the simulation and the rendering to perform their respective tasks as quickly as possible without any data corruption. \\
+In order to achieve a fluid and efficient rendering, we made the simulation process independent of rendering. Simulation and rendering are performed on two different threads, and have to access a shared resource concurrently. The synchronisation of these two processes is encapsulated in simulation controller class which uses a mutual exclusion lock variable. The rendering process has access to all the chain data while the simulation only uses the angles and lengths (taken from the copy of the chain) to perform the numerical calculations which advance the motion in time. The simulation runs almost continuously, it stops only to allow the renderer to look up the angle values each time it finishes rendering. This synchronisation mechanism controls the access to the data shared between the simulation and rendering threads. \\
 
 For visual appeal, we draw a trail that follows the chain tip. A circular array is used for efficient rendering; a fixed buffer is allocated on the GPU at the beginning of the simulation and we are tracking the movement of the tip of the chain. Each time the tip moves a sufficient (predetermined) amount, we record the current position and include it in the circular array. Once we run out of space, we return to the start of the array and replace the first value with the new one. Then the rendering is performed sequentially with all remaining values unchanged until we again reach the end of the array. This allows us to make only small uploads of data to he GPU. \\
 
-At this stage we added the simulation code originally developed in Matlab to our the two-dimensional model, see Figure~\ref{fig:2Dpicture}. To allow user input, we draw a triangle which could be moved using the mouse, and was used to mark the goal position. The mouse position was transformed using an inverse orthogonal projection. \\
+At this stage we added the simulation code originally developed in Matlab to our the two-dimensional model, see Figure~\ref{fig:2Dpicture}. Instead of calculating the pseudo-inverse and the error, only the transpose of the Jacobian is calculated. To allow user input, we draw a triangle which could be moved using the mouse, and was used to mark the goal position. The mouse position was transformed using an inverse orthogonal projection. \\
 
 \begin{figure}[h]
 \centering
@@ -354,7 +358,7 @@ At this stage we added the simulation code originally developed in Matlab to our
 \label{fig:2Dpicture}
 \end{figure}
 
-One of the problems we faced had to do with the simulation thread accessing the rendering state, causing the software to fail if the frame rate was high (???) The problem was solved by allowing the simulation to access only the simulation data. Here we also used data encapsulation; a new class, called ChainModel, was created that only had the simulation data. The Chain class is a subclass of the ChainModel and with added attributes and methods for rendering purposes. The same applies to bone and joint classes. \\
+One of the problems we faced had to do with the simulation thread accessing the rendering state, causing the software to fail if the frame rate was too high. The problem was solved by allowing the simulation to access only the simulation data. Here we also used data encapsulation; a new class, called ChainModel, was created that only had the simulation data. The Chain class is a subclass of the ChainModel and with added attributes and methods for rendering purposes. The same applies to bone and joint classes. \\
 
 \begin{lstlisting}[float,caption=Simulation controller thread synchronisation., label={lst:synchronisation}]		
 void SimulationController::executeSimulationLoop() {
@@ -375,11 +379,12 @@ void SimulationController::updateChain() {
 
 The simulation thread is either simulating or waiting for a new goal. It also checks when it's close to the goal and it stops at a given threshold, so the loop that updates the Jacobian matrix is not called though the simulation thread is still running. The user can input a new goal position at any time, as the simulation loop will then solve for the new goal using the current chain state.\\
 
-Our final improvement involved adapting the simulation and the display to work in a three-dimensional case, see Figure~\ref{fig:3Dpicture}. We construct the chain using rectangular parallelepipeds, while the shaders implemented a Gouraud shading algorithm. First, we added normal vectors to each vertex of every object; they point outwards from every vertices that is on the surface of the object, and for the vertices which are on the edges we use the mean of the neighbouring planar normals. Local illumination model combines the ambient, diffuse and specular light to give the colour intensities of the reflections, and the final shading is achieved by interpolating the vertices and normals. \\
+Our final improvement involved adapting the simulation and the display to work in a three-dimensional case, see Figure~\ref{fig:3Dpicture}. We construct the chain using rectangular parallelepipeds, while the shaders implemented a Gouraud shading algorithm. 
+% First, we added normal vectors to each vertex of every object; they point outwards from every vertices that is on the surface of the object, and for the vertices which are on the edges we use the mean of the neighbouring planar normals. Local illumination model combines the ambient, diffuse and specular light to give the colour intensities of the reflections, and the final shading is achieved by interpolating the vertices and normals. \\
 
-In addition, we included keyboard input control. In the final version the user is able to control the camera angle by moving the mouse, and change the distance from the camera to the scene using the keyboard. In particular, we use the mouse to change the angle of the camera with respect to the \texttt{lookAtVector} and use the keyboard to move the camera position in a direction related to the \texttt{lookAtVector}, forward, backwards or side movements. The goal is moved using the camera position update (while right-clicking), where we update the position in the direction of the camera \texttt{lookAtVector}.\\
+% In addition, we included keyboard input control. In the final version the user is able to control the camera angle by moving the mouse, and change the distance from the camera to the scene using the keyboard. In particular, we use the mouse to change the angle of the camera with respect to the \texttt{lookAtVector} and use the keyboard to move the camera position in a direction related to the \texttt{lookAtVector}, forward, backwards or side movements. The goal is moved using the camera position update (while right-clicking), where we update the position in the direction of the camera \texttt{lookAtVector}.\\
 
-At this stage the model was displayed in three dimensions but was still confined to moving in the plane. We added a second rotation angle resulting in a rotation with respect to the \(z\)-axis followed by a rotation with respect to the \(y\)-axis, i.e. \( \mathbf{R}_z \mathbf{R}_y \mathbf{T}\). The resulting solver is fully three-dimensional. \\
+At this stage the model was displayed in three dimensions but was still confined to moving in the plane. We added a second rotation angle resulting in a rotation with respect to the \(z\)-axis followed by a rotation with respect to the \(y\)-axis, i.e. \( \mathbf{R}_z \times \mathbf{R}_y \times \mathbf{T}\). The resulting solver is fully three-dimensional. \\
 
 
 \begin{lstlisting}[float,caption=Update total transformation with current joint rotation and translation., label={lst:transformation}]
@@ -388,8 +393,15 @@ currentMat = currentMat * glm::rotate(joints[i].getZRotAngle(), zAxis)
 		* glm::translate(glm::vec3(bones[i].getLength(), 0, 0));
 \end{lstlisting}
 
+One of the objectives was to have controllable slow in and slow out motion at the start and end of each simulation. This was achieved by normaloising the total change in the change of the tip position. The change was scaled linearly, see Figure~\ref{fig:scaling}. \\
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.5]{SpeedDiagram}
+\caption{Final two dimensional simulation with the trace and a triangle showing the goal position.}
+\label{fig:scaling}
+\end{figure}
 
-Finally, a maximum number of simulation steps was specified to ensure that the simulation was not wasting central processing unit (CPU) in case the goal was unreachable. Also, while the model is waiting for a new goal, the simulation thread is stopped, and once a point goal is added, it goes back to simulating. We had to artificially increase the time in the simulation (now it performs a simulation step and then waits for 20 ms), because otherwise the time step had to be decreased to \(10^{-6}\) which resulted in order to achieved a normal motion. Sleep time makes the computational load smaller on the CPU (i.e. we achieve the same accuracy with a lesser load on the CPU). 
+% Finally, a maximum number of simulation steps was specified to ensure that the simulation was not wasting central processing unit (CPU) cycles  in case the goal was unreachable. Also, while the model is waiting for a new goal, the simulation thread is stopped, and once a point goal is added, it goes back to simulating. We had to artificially increase the time in the simulation (now it performs a simulation step and then waits for 20 ms), because otherwise the time step had to be decreased to \(10^{-6}\) which resulted in order to achieved a normal motion. Sleep time makes the computational load smaller on the CPU (i.e. we achieve the same accuracy with a lesser load on the CPU). 
   
 \subsection{Discussion}
 The following properties are to be explored.\\
