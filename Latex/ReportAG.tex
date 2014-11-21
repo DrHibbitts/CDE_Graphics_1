@@ -123,7 +123,7 @@ There are a number of well-established methods of approaching the inverse kinema
 
 Another approach is cyclic coordinate descent (CCD), which uses a greedy algorithm to solve for each joint in turn, and repeats this process until a satisfactory solution is found. Solvers based on this method include those by ... Although this method is relatively simple and fast, it suffers from inaccuracies. Another issue with this technique is that the joint angles are updated one at a time, which has the undesirable and unrealistic result of earlier joints moving much more than later links in the linkage. \\
 
-Differential-based techniques utilise an iterative approach that requires multiple step to reach a solution, such as those by ... Most inverse kinematics systems tend to use the Jacobian inverse method, despite the fact that this method suffers from singularity problems. The reason these techniques remain in widespread use is due to their relative ease of implementation and speed for real-time applications. Since all joint angles are updated in a single step, the linkage movements are dissipated over all the links, which results in a more realistic and pleasing movement. \\
+Differential-based techniques utilise an iterative approach that requires multiple step to reach a solution, such as those by ... Most inverse kinematics systems tend to use the Jacobian inverse method, despite the fact that this method suffers from singularity problems. The reason these techniques remain in widespread use is due to their relative ease of implementation and speed for real-time applications. Since all joint angles are updated in a single step, the linkage movements are dissipated over all the links, which results in a more realistic and pleasing movement. 
 
 
 
@@ -144,9 +144,7 @@ At this stage the Matlab and the OpenGL implementations were still independent, 
 
 Naturally, the next step was to transform the model to the three-dimensional space. We first adapted the graphical framework to three dimensions, i.e. we could rotate the camera, and place a target anywhere in the space, however the object and the motion were still confined to a plane. \\
 
-Let us now consider the implementation in both Matlab and OpenGL in more detail. The following two sections give a detailed account of the issues encountered during the implementation process, the solution methods we employed and the explanation of why we chose to use the particular approaches. \\
-
-Final architecture/design of the solution in a diagram???
+Let us now consider the implementation in both Matlab and OpenGL in more detail. The following two sections give a detailed account of the issues encountered during the implementation process, the solution methods we employed and the explanation of why we chose to use the particular approaches.
 
 \subsection{Matlab}
 
@@ -273,7 +271,6 @@ upperbound & \text{if } x > upperbound\\
 \end{array} \right.
 \end{equation}
 \label{eq:constraint}
-
 \end{enumerate}
 
 \subsubsection{Scaling considerations}
@@ -433,38 +430,15 @@ One of the objectives was to have controllable slow in and slow out motion at th
 
 % Finally, a maximum number of simulation steps was specified to ensure that the simulation was not wasting central processing unit (CPU) cycles  in case the goal was unreachable. Also, while the model is waiting for a new goal, the simulation thread is stopped, and once a point goal is added, it goes back to simulating. We had to artificially increase the time in the simulation (now it performs a simulation step and then waits for 20 ms), because otherwise the time step had to be decreased to \(10^{-6}\) which resulted in order to achieved a normal motion. Sleep time makes the computational load smaller on the CPU (i.e. we achieve the same accuracy with a lesser load on the CPU). 
   
-\subsection{Discussion}
-The following properties are to be explored.\\
-
-1. Some way of indicating where the remote end of the linkage should move to in 3-space.\\
-We have explored this already, see procedures section.\\
-
-2. A way to change the physical properties such as rate at which the joints can change and the slow-out and slow-in of the movement of the end of the linkage as it leaves it current position and approaches the target position respectively.\\
-We explored the possibilities in matlab, and, if time permits, we would implement it in c++.\\
-
-
-3. Whether to model and thereby vary the flexibility of the rods.
-We explored the possibilities in matlab, and, if time permits, we would implement it in c++.\\
-
-
-%------------------------------------------------
-
-\subsection{Conclusion}
+\section{Conclusion}
 
 \begin{enumerate}
 \item What has been achieved? Refer to requirements and goals.
 \end{enumerate}
 
 \subsection{Future Work}
-\begin{enumerate}
-\item What the final thing would look like if we had more time to work on it?
 
-\begin{itemize}
-	\item Load 3D mesh objects and textures instead of parallelepiped...
-	\item Add a better shading model
-	\item Add a GUI
-\end{itemize}
-\end{enumerate}
+A number of directions remain for future work. We would like to experiment with different shading models to achieve higher realism. Another area of future work is to include a graphical user interface to give the user direct control of the simulation  parameters, such as the stiffness, and the slow in and slow out motion. It would be interesting to explore other non-linear optimisation methods, such as Newton's method which incorporates the higher order derivatives. In addition,  alternative ways of implementing the constraints could be tested, for instance the method of Lagrange multipliers. Finally, we are interested in loading three-dimensional mesh objects and textures to replace the geometric shapes used in the current version. The number of end effectors could be increased to give the object more character and charm. 
 
 %----------------------------------------------------------------------------------------
 \nocite{Fedor2003}
