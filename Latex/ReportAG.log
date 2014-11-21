@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2014.9.29)  21 NOV 2014 09:51
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2014.9.29)  21 NOV 2014 12:10
 entering extended mode
 **ReportAG.tex
 
@@ -319,6 +319,10 @@ File: listings.cfg 2014/09/06 1.5e listings configuration
 ))
 Package: listings 2014/09/06 1.5e (Carsten Heinz)
 
+("C:\Program Files\MiKTeX 2.9\tex\latex\url\url.sty"
+\Urlmuskip=\muskip11
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
 ("C:\Program Files\MiKTeX 2.9\tex\latex\listings\lstlang1.sty"
 File: lstlang1.sty 2014/09/06 1.5e listings language file
 )
@@ -399,12 +403,12 @@ L3 Module: l3skip 2014/08/23 v5354 L3 Dimensions and skips
 \l_tmpb_skip=\skip61
 \g_tmpa_skip=\skip62
 \g_tmpb_skip=\skip63
-\c_zero_muskip=\muskip11
-\c_max_muskip=\muskip12
-\l_tmpa_muskip=\muskip13
-\l_tmpb_muskip=\muskip14
-\g_tmpa_muskip=\muskip15
-\g_tmpb_muskip=\muskip16
+\c_zero_muskip=\muskip12
+\c_max_muskip=\muskip13
+\l_tmpa_muskip=\muskip14
+\l_tmpb_muskip=\muskip15
+\g_tmpa_muskip=\muskip16
+\g_tmpb_muskip=\muskip17
 L3 Module: l3keys 2014/08/23 v5354 L3 Key-value interfaces
 \g__keyval_level_int=\count130
 \l_keys_choice_int=\count131
@@ -658,7 +662,7 @@ Class scrartcl Warning: Usage of package `fancyhdr' together
 (scrartcl)              I'd suggest to use 
 (scrartcl)              package `scrpage2' or `scrlayer-scrpage'.
 (scrartcl)              Nevertheless, using requested
-(scrartcl)              package `fancyhdr' on input line 30.
+(scrartcl)              package `fancyhdr' on input line 31.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\fancyhdr\fancyhdr.sty"
 \fancy@headwidth=\skip131
@@ -673,18 +677,18 @@ Class scrartcl Warning: Usage of package `fancyhdr' together
 )
 ("C:\Users\Richard\Desktop\CDE\Semester 1\Computer Animation\CDE_Graphics_1\Lat
 ex\ReportAG.aux")
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 70.
-LaTeX Font Info:    ... okay on input line 70.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 70.
-LaTeX Font Info:    ... okay on input line 70.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 70.
-LaTeX Font Info:    ... okay on input line 70.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 70.
-LaTeX Font Info:    ... okay on input line 70.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 70.
-LaTeX Font Info:    ... okay on input line 70.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 70.
-LaTeX Font Info:    ... okay on input line 70.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 71.
+LaTeX Font Info:    ... okay on input line 71.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 71.
+LaTeX Font Info:    ... okay on input line 71.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 71.
+LaTeX Font Info:    ... okay on input line 71.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 71.
+LaTeX Font Info:    ... okay on input line 71.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 71.
+LaTeX Font Info:    ... okay on input line 71.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 71.
+LaTeX Font Info:    ... okay on input line 71.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -738,16 +742,16 @@ LaTeX Font Info:    ... okay on input line 70.
 \AtBeginShipoutBox=\box52
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Font Info:    Try loading font information for T1+cmss on input line 76.
+LaTeX Font Info:    Try loading font information for T1+cmss on input line 77.
  ("C:\Program Files\MiKTeX 2.9\tex\latex\base\t1cmss.fd"
 File: t1cmss.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    Try loading font information for U+msa on input line 76.
+LaTeX Font Info:    Try loading font information for U+msa on input line 77.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 76.
+LaTeX Font Info:    Try loading font information for U+msb on input line 77.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -758,202 +762,213 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 
 
 {C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}]
-<chain3Dexample.png, id=8, 1027.84pt x 798.985pt>
-File: chain3Dexample.png Graphic file (type png)
- <use chain3Dexample.png>
-Package pdftex.def Info: chain3Dexample.png used on input line 91.
-(pdftex.def)             Requested size: 411.12872pt x 319.58833pt.
+<chain3Dexamplev2.png, id=8, 769.87625pt x 503.8825pt>
+File: chain3Dexamplev2.png Graphic file (type png)
 
-Underfull \hbox (badness 10000) in paragraph at lines 96--97
+<use chain3Dexamplev2.png>
+Package pdftex.def Info: chain3Dexamplev2.png used on input line 92.
+(pdftex.def)             Requested size: 307.94504pt x 201.54942pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 97--98
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 99--100
 
  []
 
 [1
 
  <C:/Users/Richard/Desktop/CDE/Semester 1/Computer Animation/CDE_Graphics_1/Lat
-ex/chain3Dexample.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 98--99
+ex/chain3Dexamplev2.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 121--122
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 120--121
+Underfull \hbox (badness 10000) in paragraph at lines 123--124
 
  []
 
 [2]
-Underfull \hbox (badness 10000) in paragraph at lines 122--123
+Underfull \hbox (badness 10000) in paragraph at lines 125--126
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 124--125
+Underfull \hbox (badness 10000) in paragraph at lines 127--128
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 126--127
+Underfull \hbox (badness 10000) in paragraph at lines 134--135
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 133--134
+Underfull \hbox (badness 10000) in paragraph at lines 136--137
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 135--136
+Underfull \hbox (badness 10000) in paragraph at lines 138--139
 
  []
 
 [3]
-Underfull \hbox (badness 10000) in paragraph at lines 137--138
+Underfull \hbox (badness 10000) in paragraph at lines 140--141
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 139--140
+Underfull \hbox (badness 10000) in paragraph at lines 142--143
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 141--142
+Underfull \hbox (badness 10000) in paragraph at lines 144--145
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 143--144
+Underfull \hbox (badness 10000) in paragraph at lines 146--147
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 145--146
+Underfull \hbox (badness 10000) in paragraph at lines 148--149
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 147--148
+Underfull \hbox (badness 10000) in paragraph at lines 154--155
 
  []
 
-[4]
-Underfull \hbox (badness 10000) in paragraph at lines 198--199
+<chainMatlab.png, id=23, 418.66759pt x 314.00069pt>
+File: chainMatlab.png Graphic file (type png)
+ <use chainMatlab.png>
+Package pdftex.def Info: chainMatlab.png used on input line 158.
+(pdftex.def)             Requested size: 251.20248pt x 188.40186pt.
+
+[4] [5 <C:/Users/Richard/Desktop/CDE/Semester 1/Computer Animation/CDE_Graphics
+_1/Latex/chainMatlab.png (PNG copy)>] [6]
+Underfull \hbox (badness 10000) in paragraph at lines 283--284
 
  []
 
-[5]
-Underfull \hbox (badness 10000) in paragraph at lines 269--270
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 293.
 
- []
-
-[6]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 279.
-
- ("C:\Program Files\MiKTeX 2.9\tex\latex\base\omscmr.fd"
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\omscmr.fd"
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 279.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 293.
 
-Underfull \hbox (badness 10000) in paragraph at lines 284--285
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 287--288
+Underfull \hbox (badness 10000) in paragraph at lines 298--299
 
  []
 
-LaTeX Font Info:    Try loading font information for OMS+cmss on input line 295
-.
-LaTeX Font Info:    No file OMScmss.fd. on input line 295.
 
-LaTeX Font Warning: Font shape `OMS/cmss/m/n' undefined
-(Font)              using `OMS/cmsy/m/n' instead
-(Font)              for symbol `textasteriskcentered' on input line 295.
-
-LaTeX Font Info:    Try loading font information for T1+cmtt on input line 296.
-
-("C:\Program Files\MiKTeX 2.9\tex\latex\base\t1cmtt.fd"
-File: t1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
-)
 Underfull \hbox (badness 10000) in paragraph at lines 301--302
 
  []
 
+LaTeX Font Info:    Try loading font information for OMS+cmss on input line 309
+.
+LaTeX Font Info:    No file OMScmss.fd. on input line 309.
 
-Underfull \hbox (badness 10000) in paragraph at lines 303--304
+LaTeX Font Warning: Font shape `OMS/cmss/m/n' undefined
+(Font)              using `OMS/cmsy/m/n' instead
+(Font)              for symbol `textasteriskcentered' on input line 309.
+
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 310.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\t1cmtt.fd"
+File: t1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+Underfull \hbox (badness 10000) in paragraph at lines 315--316
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 305--306
+Underfull \hbox (badness 10000) in paragraph at lines 317--318
 
  []
 
 [7]
-Underfull \hbox (badness 10000) in paragraph at lines 344--345
+Underfull \hbox (badness 10000) in paragraph at lines 319--320
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 358--359
 
  []
 
 [8]
-Underfull \hbox (badness 10000) in paragraph at lines 346--347
+Underfull \hbox (badness 10000) in paragraph at lines 360--361
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 348--349
+Underfull \hbox (badness 10000) in paragraph at lines 362--363
 
  []
 
-<chain2Dv2.png, id=53, 1027.84pt x 798.985pt>
+<chain2Dv2.png, id=54, 781.92125pt x 398.48875pt>
 File: chain2Dv2.png Graphic file (type png)
  <use chain2Dv2.png>
-Package pdftex.def Info: chain2Dv2.png used on input line 352.
-(pdftex.def)             Requested size: 411.12872pt x 319.58833pt.
+Package pdftex.def Info: chain2Dv2.png used on input line 366.
+(pdftex.def)             Requested size: 312.76295pt x 159.39267pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 357--358
 
- []
+LaTeX Warning: `h' float specifier changed to `ht'.
 
-[9 <C:/Users/Richard/Desktop/CDE/Semester 1/Computer Animation/CDE_Graphics_1/L
-atex/chain2Dv2.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 376--377
+
+Underfull \hbox (badness 10000) in paragraph at lines 371--372
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 378--379
+Underfull \hbox (badness 10000) in paragraph at lines 390--391
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 380--381
+Underfull \hbox (badness 10000) in paragraph at lines 392--393
+
+ []
+
+[9]
+Underfull \hbox (badness 10000) in paragraph at lines 394--395
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 382--383
+Underfull \hbox (badness 10000) in paragraph at lines 396--397
 
  []
 
-[10]
-Underfull \hbox (badness 10000) in paragraph at lines 395--396
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 397--399
+[10 <C:/Users/Richard/Desktop/CDE/Semester 1/Computer Animation/CDE_Graphics_1/
+Latex/chain2Dv2.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 409--410
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 400--402
+Underfull \hbox (badness 10000) in paragraph at lines 411--413
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 404--406
+Underfull \hbox (badness 10000) in paragraph at lines 414--416
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 418--420
 
  []
 
@@ -967,10 +982,10 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 15393 strings out of 493921
- 266545 string characters out of 3147276
- 488985 words of memory out of 3000000
- 18476 multiletter control sequences out of 15000+200000
+ 15477 strings out of 493921
+ 267626 string characters out of 3147276
+ 495108 words of memory out of 3000000
+ 18555 multiletter control sequences out of 15000+200000
  29303 words of font info for 74 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
  48i,12n,58p,10418b,1391s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -996,9 +1011,9 @@ es/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Program Files/MiKTeX
 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/
 type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/pu
 blic/amsfonts/cm/cmsy8.pfb>
-Output written on ReportAG.pdf (13 pages, 309710 bytes).
+Output written on ReportAG.pdf (13 pages, 300771 bytes).
 PDF statistics:
- 501 PDF objects out of 1000 (max. 8388607)
+ 511 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 11 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 16 words of extra memory for PDF output out of 10000 (max. 10000000)
 

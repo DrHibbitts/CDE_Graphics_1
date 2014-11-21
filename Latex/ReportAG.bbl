@@ -5,6 +5,12 @@ M.~Watt A.~Watt.
 \newblock Advanced animation and rendering techniques.
 \newblock 1992.
 
+\bibitem{Buss09}
+Samuel~R. Buss.
+\newblock {\em Introduction to Inverse Kinematics with Jacobian Transpose,
+  Pseudoinverse and Damped Least Squares methods}, 2009 (accessed October,
+  2014).
+
 \bibitem{Kwan00}
 K.~Hyeong-Seok C.~Kwang-Jin.
 \newblock On-line motion retargetting.

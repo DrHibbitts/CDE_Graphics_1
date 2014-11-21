@@ -11,6 +11,7 @@
 \usepackage[margin=2.5cm]{geometry}
 \usepackage{xcolor}
 \usepackage{listings}
+\usepackage{url}
 \lstset{language=C++,
                 basicstyle=\ttfamily,
                 keywordstyle=\color{blue}\ttfamily,
@@ -150,21 +151,30 @@ Final architecture/design of the solution in a diagram???
 
 \subsection{Matlab}
 
-We define the degrees of freedom of the system by a vector of angles $\params = [\theta_1, \theta_2...\theta_N]^T$, where each element in the vector is the relative angle in degrees from one joint to the next, for $N$ joints. All angles are measured positively in the anticlockwise direction and the first angle in the vector $\theta_1$ is measured from the positive horizontal axis. The end effector position in 3D space is denoted by the vector 
-$\vect{E} = [E_x, E_y, E_z]^T$. Using forward kinematics, we can compute the end effector position from the given joint angles:
+We began by implementing a simplified two-dimensional linkage system in Matlab, as shown in \ref{fig:Matlabpicture}. This enabled us to simulate the motion of the linkage and experiment with different techniques before porting the final version of the code to OpenGL. \\
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.6]{chainMatlab}
+\caption{Two-dimensional Matlab implementation.}
+\label{fig:Matlabpicture}
+\end{figure}
+
+We define the degrees of freedom of the system by a vector of angles $\params = [\theta_1, \theta_2...\theta_N]^T$, where each element in the vector is the relative angle in degrees from one joint to the next, for $N$ joints. All angles are measured positively in the anticlockwise direction and the first angle in the vector $\theta_1$ is measured from the positive horizontal axis. The end-effector position in 3D space is denoted by the vector 
+$\vect{E} = [E_x, E_y, E_z]^T$. Using forward kinematics, we can compute the end-effector position from the given joint angles:
 
 \begin{equation}
 \vect{E} = f(\params)
 \end{equation}
 
-The goal of the inverse kinematics problem is to compute the vector of joint angles $\params$ given a desired end effector position
+The goal of the inverse kinematics problem is to compute the vector of joint angles $\params$ given a desired end-effector position
 
 \begin{equation}
 \params = f^{-1}(\vect{E})
 \end{equation}
 
 However this is difficult to solve because the equations are usually nonlinear and multiple possible solutions can often exist, or sometimes maybe no solutions. It is also challenging to solve analytically for more complex linkages with large numbers of links, so to solve this iteratively, we can employ the Jacobian method. First we define the Jacobian matrix as the matrix of partial derivatives
-
+\vspace{1mm}
 \begin{equation}
 J = \left[
 \begin{array}{cccc}
@@ -177,16 +187,22 @@ J = \left[
 \right]
 \end{equation}
 
-There are a number of ways to compute the Jacobian, and one common way of evaluating it is to use the cross product of the axis of rotation (which for a 2D system is simply the z-axis out of screen) with the vector from the joint position to the target end effector position. Therefore each column in the Jacobian, corresponding to the $i$th joint in the linkage, is given by
+Where the Jacobian relates a small change in angle to a small change in the position of the end-effector
+\vspace{1mm}
+\begin{equation}
+\partial \vect{E} \approx J(\params) \partial \params
+\end{equation}
+
+There are a number of ways to compute the Jacobian, and one common way of evaluating it is to use the cross product of the axis of rotation (which for a 2D system is simply the z-axis out of screen) with the vector from the joint position to the target end-effector position \cite{Buss09}. Therefore each column in the Jacobian, corresponding to the $i$th joint in the linkage, is given by
 
 \begin{equation}
 \frac{\dn{\vect{E}}}{\dn{\theta_i}} = \vect{v}_i \times (\vect{E} - \vect{P}_i)
 \end{equation}
 
-Where $\vect{v}_i$ is the axis of rotation for the $i$th joint, and $\vect{P}_i$ is the position of the joint. However, in our implementation, we opt for a simple central difference approximation to the partial derivatives, which we found actually worked much better because it offered a more stable solution
+Where $\vect{v}_i$ is the axis of rotation for the $i$th joint, and $\vect{P}_i$ is the position of the joint. This is implemented in the function calcJacobian.m. However, in our final implementation, we opt for a simple central difference approximation to the partial derivatives, which we found actually worked much better because it offered a more stable solution
 
 \begin{equation}
-\frac{\dn{f}}{\dn{x}} \approx \frac{f(x+\delta) - f(x-\delta)}{2\delta} 
+\frac{\dn{f}}{\dn{\theta_i}} \approx \frac{f(\theta_i+\delta) - f(\theta_i-\delta)}{2\delta} 
 \end{equation}
  
 Inverting the Jacobian matrix is an expensive operation. Since the matrix is often not square, the pseudo inverse can be implemented
@@ -195,25 +211,23 @@ Inverting the Jacobian matrix is an expensive operation. Since the matrix is oft
 J^+ = (J^TJ)^{-1}J^T
 \end{equation}
 
-However, another approach is to simply take the transpose of the Jacobian matrix. Although this method is less accurate than taking the inverse, the main great advantage of this method is that the problem of matrix singularities is avoided, since no matrix inversion is required. Taking the transpose is also much faster to compute than taking the inverse, so it is also advantageous for real-time interactive applications such as this. \\
-
-Once we have the inverse or transpose of the Jacobian, we can compute the required change in the angles
+However, another approach is to simply take the transpose of the Jacobian matrix. Although this method is less accurate than taking the inverse, the main great advantage of this method is that the problem of matrix singularities is avoided, since no matrix inversion is required. Taking the transpose is also much faster to compute than taking the inverse, so it is also advantageous for real-time interactive applications such as this. Once we have the inverse or transpose of the Jacobian, we can compute the required change in the angles
 
 \begin{equation}
-\partial \params = J^{-1} \partial E
+\partial \params \approx J^{-1} \partial \vect{E}
 \end{equation}
 
 And then we perform a simple Euler integration to obtain the joint angles at the next time step $\Delta t$
-
+\vspace{1mm}
 \begin{equation}
 \params^{t+\Delta t} = \params^t + \Delta t \partial \params
 \end{equation}
 
-We must ensure the time step is sufficiently small to avoid numerical integration errors. The complete Jacobian inverse/transpose algorithm is summarised below:
+We must ensure the time step is sufficiently small to avoid numerical integration errors. The Euler method is also not the most stable of techniques, so perhaps Verlet or Runge-Kutta integration methods would be better. The complete Jacobian inverse/transpose algorithm implemented in Matlab is summarised below:
 
 \begin{enumerate}
 \item
-Calculate the difference between the goal position and the position of the end effector
+Calculate the difference between the goal position and the position of the end-effector
 
 \begin{equation}
 \Delta E = G - E
