@@ -310,18 +310,18 @@ The C++11 standard is used as it introduces better default thread and mutex libr
 First, we consider all the necessary conversions that let us display the three-dimensional world on a two-dimensional screen surface. Initially we have the \(z\) value set to zero, and hence worked in a two-dimensional space. In our world model each object has it's own model transformation matrix M. We also have a camera matrix that defines the camera position and orientation. Lastly, a projection matrix describes the mapping of a pinhole camera which plots the three-dimensional world onto a two-dimensional screen. For every object in the scene, pixel/screen coordinates \([u, v, 1]\) are defined by multiplying the vertices of each object by the Model-View-Projection (MVP) transformation matrix which gives the position of each pixel on the screen, i.e. transformed vertex = M \(\times\) V \(\times\) P \(\times\) object vertex. \\
 
 
-\lstset{
-  frame=top,frame=bottom,
-  basicstyle=\small\normalfont\sffamily,
-  }
-\begin{lstlisting}[float,caption=Renderer MVP calculation, label={lst:renderer}]
-viewProjection = projection * view;
-//Calculate Model View Projection matrix
-glm::mat4 MVP = viewProjection * modelMat;
-\end{lstlisting}
+%\lstset{
+%  frame=top,frame=bottom,
+%  basicstyle=\small\normalfont\sffamily,
+%  }
+%\begin{lstlisting}[float,caption=Renderer MVP calculation, label={lst:renderer}]
+%viewProjection = projection * view;
+%//Calculate Model View Projection matrix
+%glm::mat4 MVP = viewProjection * modelMat;
+%\end{lstlisting}
 
 
-In the first version of our software, we would create all the OpenGL buffers for each object on each frame and destroy them at the end of each frame, which was inefficient. The problem was fixed by preallocating buffer objects (that store unformatted memory on the graphics processing unit (GPU)) for each object at the start of the simulation, and then binding the framework to allocated storage (setting as the active), rendering and unbinding. \\
+%In the first version of our software, we would create all the OpenGL buffers for each object on each frame and destroy them at the end of each frame, which was inefficient. The problem was fixed by preallocating buffer objects (that store unformatted memory on the graphics processing unit (GPU)) for each object at the start of the simulation, and then binding the framework to allocated storage (setting as the active), rendering and unbinding. \\
 
 % Next, we set up the necessary objects for rendering. We create a vertex object class that encapsulated the buffer objects used by OpenGL. The vertex specification is performed using the Vertex Array Object (VAO), and each vertex object has its own VAO attribute. For the two-dimensional model we adopt a simple shader program without lighting and we specify the colour directly. The actual implementation uses a vertex buffer object (VBO) for vertices so that each object has only the vertices listed sequentially in the corresponding buffer, and we have a colour buffer (CBO) of an identical size that contains the corresponding colours. The element buffer object (EBO) contains indices to a given vertex; it allows us to avoid replication of vertices and draw more efficiently. In particular, to define any rectangle (quad) that is a combination of two triangles, we only need to specify four vertices instead of using all six. \\
 
@@ -346,27 +346,27 @@ At this point we added the chain of rectangles and lines where lines represented
 %\end{lstlisting}
 
 
-\begin{lstlisting}[float,caption=Common draw call for all VertexObjects., label={lst:draw}]
-void VertexObject::draw(Renderer& renderer) const {
-	// Bind VAO and Buffers as the active ones.
-	glBindVertexArray(vao);
+%\begin{lstlisting}[float,caption=Common draw call for all VertexObjects., label={lst:draw}]
+%void VertexObject::draw(Renderer& renderer) const {
+%	// Bind VAO and Buffers as the active ones.
+%	glBindVertexArray(vao);
+%
+%	//Enable vertex buffer
+%	glEnableVertexAttribArray(0);
+%	glBindBuffer( GL_ARRAY_BUFFER, vbo);
+%	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*) 0);
+%	
+%	//Enable the other buffers 
+%	<...>
+%		
+%	//Draw count objects of mode type
+%	glDrawElements(primitivePar.getMode(), primitivePar.getCount(),
+%	GL_UNSIGNED_INT, (void*) 0);
+%	
+%}
+%\end{lstlisting}
 
-	//Enable vertex buffer
-	glEnableVertexAttribArray(0);
-	glBindBuffer( GL_ARRAY_BUFFER, vbo);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*) 0);
-	
-	//Enable the other buffers 
-	<...>
-		
-	//Draw count objects of mode type
-	glDrawElements(primitivePar.getMode(), primitivePar.getCount(),
-	GL_UNSIGNED_INT, (void*) 0);
-	
-}
-\end{lstlisting}
-
-In order to achieve a fluid and efficient rendering, we made the simulation process independent of rendering. Simulation and rendering are performed on two different threads, and have to access a shared resource concurrently. The synchronisation of these two processes is encapsulated in simulation controller class which uses a mutual exclusion lock variable. The rendering process has access to all the chain data while the simulation only uses the angles and lengths (taken from the copy of the chain) to perform the numerical calculations which advance the motion in time. The simulation runs almost continuously, it stops only to allow the renderer to look up the angle values each time it finishes rendering. This synchronisation mechanism controls the access to the data shared between the simulation and rendering threads. \\
+In order to achieve a fluid and efficient rendering, we made the simulation process independent of rendering. Simulation and rendering are performed on two different threads, and have to access a shared resource concurrently. The synchronisation of these two processes is encapsulated in simulation controller class which uses three mutual exclusion lock variables. The rendering process has access to all the chain data while the simulation only uses the angles and lengths (taken from the copy of the chain) to perform the numerical calculations which advance the motion in time. \\
 
 For visual appeal, we draw a trail that follows the chain tip. A circular array is used for efficient rendering; a fixed buffer is allocated on the GPU at the beginning of the simulation and we are tracking the movement of the tip of the chain. Each time the tip moves a sufficient (predetermined) amount, we record the current position and include it in the circular array. Once we run out of space, we return to the start of the array and replace the first value with the new one. Then the rendering is performed sequentially with all remaining values unchanged until we again reach the end of the array. This allows us to make only small uploads of data to he GPU. \\
 
@@ -379,24 +379,7 @@ At this stage we added the simulation code originally developed in Matlab to our
 \label{fig:2Dpicture}
 \end{figure}
 
-One of the problems we faced had to do with the simulation thread accessing the rendering state, causing the software to fail if the frame rate was too high. The problem was solved by allowing the simulation to access only the simulation data. Here we also used data encapsulation; a new class, called ChainModel, was created that only had the simulation data. The Chain class is a subclass of the ChainModel and with added attributes and methods for rendering purposes. The same applies to bone and joint classes. \\
-
-\begin{lstlisting}[float,caption=Simulation controller thread synchronisation., label={lst:synchronisation}]		
-void SimulationController::executeSimulationLoop() {
-	while (simulating) {
-		lock.lock();
-		simSolver.solveForStep(goal, stepSize);
-		lock.unlock();
-		std::this_thread::sleep_for(sleepTime);
-	}
-}
-
-void SimulationController::updateChain() {
-	lock.lock();
-	simSolver.updateChain();
-	lock.unlock();
-}
-\end{lstlisting}
+One of the problems we faced had to do with the simulation thread accessing the rendering state, causing the software to fail if the frame rate was too high. The problem was solved by allowing the simulation to access only the simulation data. Here we also used data encapsulation; a new class, called ChainModel, was created that only had the simulation data. The Chain class is a subclass of the ChainModel and with added attributes and methods for rendering purposes. The same applies to bone and joint classes. See Figure~\ref{fig:treadhDiagram}  \\
 
 The simulation thread is either simulating or waiting for a new goal. It also checks when it's close to the goal and it stops at a given threshold, so the loop that updates the Jacobian matrix is not called though the simulation thread is still running. The user can input a new goal position at any time, as the simulation loop will then solve for the new goal using the current chain state.\\
 
@@ -404,7 +387,7 @@ The simulation thread is either simulating or waiting for a new goal. It also ch
 \centering
 \includegraphics[scale=0.4]{threadDiagram}
 \caption{Diagram showing the data communication among the simulation and the rendering thread.}
-\label{fig:scaling}
+\label{fig:treadhDiagram}
 \end{figure}
 
 Our final improvement involved adapting the simulation and the display to work in a three-dimensional case, see Figure~\ref{fig:3Dpicture}. We construct the chain using rectangular parallelepipeds, while the shaders implemented a Gouraud shading algorithm. 
@@ -412,7 +395,7 @@ Our final improvement involved adapting the simulation and the display to work i
 
 % In addition, we included keyboard input control. In the final version the user is able to control the camera angle by moving the mouse, and change the distance from the camera to the scene using the keyboard. In particular, we use the mouse to change the angle of the camera with respect to the \texttt{lookAtVector} and use the keyboard to move the camera position in a direction related to the \texttt{lookAtVector}, forward, backwards or side movements. The goal is moved using the camera position update (while right-clicking), where we update the position in the direction of the camera \texttt{lookAtVector}.\\
 
-At this stage the model was displayed in three dimensions but was still confined to moving in the plane. We added a second rotation angle resulting in a rotation with respect to the \(z\)-axis followed by a rotation with respect to the \(y\)-axis, i.e. \( \mathbf{R}_z \times \mathbf{R}_y \times \mathbf{T}\). The resulting solver is fully three-dimensional. \\
+At this stage the model was displayed in three dimensions but was still confined to moving in the plane. We added a second rotation angle resulting in a rotation with respect to the \(z\)-axis followed by a rotation with respect to the \(y\)-axis as shown in Listing~\ref{lst:transformation}, i.e. \( \mathbf{R}_z \times \mathbf{R}_y \times \mathbf{T}\). The resulting solver is fully three-dimensional. \\
 
 
 \begin{lstlisting}[float,caption=Update total transformation with current joint rotation and translation., label={lst:transformation}]
