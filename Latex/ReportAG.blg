@@ -3,6 +3,11 @@ The style file: plain.bst
 Database file #1: ReportAG.bib
 Warning--entry type for "Chin96" isn't style-file defined
 --line 37 of file ReportAG.bib
+Warning--empty journal in Watt92
 Warning--empty journal in Kwan00
+Warning--empty journal in Eber01
+Warning--empty journal in Zhao94
+Warning--empty journal in Wang91
 Warning--empty journal in Madd04
-(There were 3 warnings)
+Warning--empty journal in Paul88
+(There were 8 warnings)

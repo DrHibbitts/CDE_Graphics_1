@@ -1,4 +1,9 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
+
+\bibitem{Watt92}
+M.~Watt A.~Watt.
+\newblock Advanced animation and rendering techniques.
+\newblock 1992.
 
 \bibitem{Kwan00}
 K.~Hyeong-Seok C.~Kwang-Jin.
@@ -15,6 +20,11 @@ J.~Craig.
 \newblock {\em Introduction to Robotics: Mechanics and Control}.
 \newblock Addison-Wesley, 1955.
 
+\bibitem{Eber01}
+D.~H. Eberly.
+\newblock 3d game engine design.
+\newblock 2001.
+
 \bibitem{Fedor2003}
 Martin Fedor.
 \newblock Application of inverse kinematics for skeleton manipulation in
@@ -22,10 +32,27 @@ Martin Fedor.
 \newblock In {\em Proceeding of Spring Conference on Computer Graphics 2003},
   pages 201--210. Slovak University of Technology in Bratislava, 2003.
 
+\bibitem{Zhao94}
+N.~I.~Badler J.~Zhao.
+\newblock Inverse kinematics positioning using nonlinear programming for highly
+  articulated figures.
+\newblock pages 313--336, 1994.
+
+\bibitem{Wang91}
+C.~Chen L.~Wang.
+\newblock A combined optimisation method for solving the inverse kinematics
+  problem of mechanical manipulators.
+\newblock pages p.489--499, 1991.
+
 \bibitem{Madd04}
 M.~Meredith and S.C.Maddock.
 \newblock Real-time inverse kinematics: The return of the jacobian.
 \newblock 2004.
+
+\bibitem{Paul88}
+G.~E.~Mayer R.~P.~Paul, B.~Shimano.
+\newblock Kinematic control equations for simple manipulators.
+\newblock 1988.
 
 \bibitem{Welman1993}
 Chris Welman.

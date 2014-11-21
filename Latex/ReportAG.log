@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2014.9.29)  21 NOV 2014 00:12
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2014.9.29)  21 NOV 2014 09:51
 entering extended mode
 **ReportAG.tex
 
@@ -967,13 +967,13 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 15388 strings out of 493921
- 266505 string characters out of 3147276
- 489963 words of memory out of 3000000
- 18471 multiletter control sequences out of 15000+200000
+ 15393 strings out of 493921
+ 266545 string characters out of 3147276
+ 488985 words of memory out of 3000000
+ 18476 multiletter control sequences out of 15000+200000
  29303 words of font info for 74 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 48i,11n,58p,10418b,1391s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 48i,12n,58p,10418b,1391s stack positions out of 5000i,500n,10000p,200000b,50000s
  <C:\Users\Richard\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi60
 0\ecti1095.pk> <C:\Users\Richard\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknap
 pen\ec\dpi600\ectt1095.pk> <C:\Users\Richard\AppData\Local\MiKTeX\2.9\fonts\pk\
@@ -996,9 +996,9 @@ es/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Program Files/MiKTeX
 2.9/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.9/fonts/
 type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/pu
 blic/amsfonts/cm/cmsy8.pfb>
-Output written on ReportAG.pdf (13 pages, 308976 bytes).
+Output written on ReportAG.pdf (13 pages, 309710 bytes).
 PDF statistics:
- 500 PDF objects out of 1000 (max. 8388607)
+ 501 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  11 words of extra memory for PDF output out of 10000 (max. 10000000)
 
