@@ -1,5 +1,15 @@
 \begin{thebibliography}{1}
 
+\bibitem{Kwan00}
+K.~Hyeong-Seok C.~Kwang-Jin.
+\newblock On-line motion retargetting.
+\newblock pages 223--235, 2000.
+
+\bibitem{Chin96}
+K.W. Chin.
+\newblock Closed-form and generalized inverse kinematic solutions for animating
+  the human articulated structure, 1996.
+
 \bibitem{Crai55}
 J.~Craig.
 \newblock {\em Introduction to Robotics: Mechanics and Control}.
@@ -11,6 +21,11 @@ Martin Fedor.
   real-time.
 \newblock In {\em Proceeding of Spring Conference on Computer Graphics 2003},
   pages 201--210. Slovak University of Technology in Bratislava, 2003.
+
+\bibitem{Madd04}
+M.~Meredith and S.C.Maddock.
+\newblock Real-time inverse kinematics: The return of the jacobian.
+\newblock 2004.
 
 \bibitem{Welman1993}
 Chris Welman.
